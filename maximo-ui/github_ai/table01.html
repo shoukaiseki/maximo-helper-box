@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .fold-title {
+            background: #f4f8fb;
+            border: 1px solid #d4d9e2;
+            border-bottom: none;
+            padding: 4px 0 4px 12px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #1362bb;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .fold-arrow {
+            display: inline-block;
+            font-size: 13px;
+            margin-right: 6px;
+            transition:transform 0.2s;
+        }
+        .fold-arrow.open {
+            transform: rotate(90deg);
+        }
+        .my-table-wrap {
+            max-width: 920px;
+            border-radius: 4px;
+            box-shadow: 0 0 2px #eee;
+            overflow: hidden;
+            border: 1px solid #d4d9e2;
+            border-top: none;
+            margin-bottom: 30px;
+        }
+        .my-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+        .my-table th,
+        .my-table td {
+            border: 1px solid #e5e8f3;
+            padding: 9px 14px;
+            /* 背景色和对齐 */
+        }
+        .my-table th {
+            background: #f6f9fc;
+            font-weight: bold;
+            text-align: center;
+            color: #222;
+            white-space: nowrap;
+        }
+        .my-table td {
+            text-align: right;
+            color: #222;
+        }
+        .my-table td:first-child,
+        .my-table th:first-child {
+            text-align: center;
+        }
+        .my-table tr:not(:last-child) td {
+            border-bottom: 1px solid #e5e8f3;
+        }
+    </style>
+</head>
+<body>
+<div class="fold-title" onclick="toggleTable()">
+    <span class="fold-arrow open" id="arrow">&#9654;</span>年度数据
+</div>
+<div class="my-table-wrap" id="table-wrap" style="display:block;">
+    <table class="my-table">
+        <thead>
+        <tr>
+            <th>年份</th>
+            <th>销售额(百万元)</th>
+            <th>生产能力(万件)</th>
+            <th>不良率 (ppm)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>2022年</td>
+            <td>850.00</td>
+            <td>6,500</td>
+            <td>850</td>
+        </tr>
+        <tr>
+            <td>2023年</td>
+            <td>1,020.00</td>
+            <td>7,200</td>
+            <td>650</td>
+        </tr>
+        <tr>
+            <td>2024年</td>
+            <td>1,280.00</td>
+            <td>8,100</td>
+            <td>500</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function toggleTable() {
+        var wrap = document.getElementById('table-wrap');
+        var arrow = document.getElementById('arrow');
+        if (wrap.style.display === "none") {
+            wrap.style.display = "block";
+            arrow.classList.add("open");
+        } else {
+            wrap.style.display = "none";
+            arrow.classList.remove("open");
+        }
+    }
+</script>
+</body>
+</html>

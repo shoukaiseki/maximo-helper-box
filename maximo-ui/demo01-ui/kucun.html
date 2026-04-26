@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>库存管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f9f9fc;
+            color: #333;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e2e6;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #2d3748;
+            font-weight: bold;
+        }
+        .header .info {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .mx-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e2e6;
+            margin-bottom: 20px;
+        }
+        .mx-tab {
+            padding: 12px 28px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            background: #eceef5;
+            margin-right: 3px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        .mx-tab.active {
+            background: #fff;
+            border-bottom: 2px solid #2076d3;
+            color: #2076d3;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #e1e6ec;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 18px;
+            padding-left: 10px;
+            border-left: 4px solid #2076d3;
+        }
+        .table-box {
+            overflow-x: auto;
+            border-radius: 6px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: #fff;
+        }
+        thead {
+            background: #f2f7fc;
+        }
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #e3e6f0;
+            white-space: nowrap;
+            text-align: center;
+        }
+        th {
+            font-weight: bold;
+            color: #475569;
+            background: #f2f7fc;
+        }
+        tbody tr:hover {
+            background: #f2f2fa;
+        }
+        .mx-form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .mx-form-field {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 300px;
+        }
+        .mx-form-field.full-width {
+            flex: 100%;
+        }
+        .mx-form-label {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+            margin-right: 10px;
+            color: #333;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .mx-form-input {
+            border: 1px solid #d0d4e6;
+            border-radius: 3px;
+            padding: 6px 8px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 200px;
+            background: #fff;
+            color: #333;
+        }
+        .mx-form-input:focus {
+            border-color: #2076d3;
+            outline: none;
+        }
+        .stock-item-card {
+            background: #fff;
+            border: 1px solid #e3e6f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s;
+        }
+        .stock-item-card:hover {
+            box-shadow: 0 2px 8px rgba(32,118,211,0.15);
+        }
+        .stock-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .stock-code {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2076d3;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .stock-code:hover {
+            color: #1457a8;
+        }
+        .stock-name-cn {
+            font-size: 15px;
+            color: #2d3748;
+            font-weight: 500;
+        }
+        .stock-item-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .stock-field {
+            display: flex;
+            flex-direction: column;
+        }
+        .stock-field-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .stock-field-value {
+            font-size: 14px;
+            color: #222;
+            font-weight: 500;
+        }
+        .note {
+            font-size: 13px;
+            color: #ef4444;
+            margin-top: 12px;
+            line-height: 1.6;
+            padding: 10px;
+            background: #fef2f2;
+            border-radius: 6px;
+            border-left: 3px solid #ef4444;
+        }
+        .btn {
+            padding: 8px 18px;
+            background: #2076d3;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1457a8;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .fold-title {
+            background: #f4f8fb;
+            border: 1px solid #d4d9e2;
+            border-bottom: none;
+            padding: 8px 0 8px 16px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #1362bb;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .fold-arrow {
+            display: inline-block;
+            font-size: 13px;
+            margin-right: 6px;
+            transition: transform 0.2s;
+        }
+        .fold-arrow.open {
+            transform: rotate(90deg);
+        }
+        .my-table-wrap {
+            border-radius: 4px;
+            box-shadow: 0 0 2px #eee;
+            overflow: hidden;
+            border: 1px solid #d4d9e2;
+            border-top: none;
+            margin-bottom: 20px;
+        }
+        .my-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+        .my-table th,
+        .my-table td {
+            border: 1px solid #e5e8f3;
+            padding: 9px 14px;
+        }
+        .my-table th {
+            background: #f6f9fc;
+            font-weight: bold;
+            text-align: center;
+            color: #222;
+            white-space: nowrap;
+        }
+        .my-table td {
+            text-align: left;
+            color: #222;
+        }
+        .my-table td:first-child,
+        .my-table th:first-child {
+            text-align: center;
+        }
+        /* 批次余量表金额列右对齐 */
+        #batch-table-1 .my-table td:nth-child(2),
+        #batch-table-1 .my-table td:nth-child(3),
+        #batch-table-1 .my-table td:nth-child(4) {
+            text-align: right;
+        }
+        /* 入库记录金额列右对齐 */
+        #in-table .my-table td:nth-child(4),
+        #in-table .my-table td:nth-child(5),
+        #in-table .my-table td:nth-child(6) {
+            text-align: right;
+        }
+        /* 出库记录金额列右对齐 */
+        #out-table .my-table td:nth-child(3),
+        #out-table .my-table td:nth-child(4),
+        #out-table .my-table td:nth-child(5),
+        #out-table .my-table td:nth-child(6),
+        #out-table .my-table td:nth-child(7),
+        #out-table .my-table td:nth-child(8) {
+            text-align: right;
+        }
+        .my-table tr:not(:last-child) td {
+            border-bottom: 1px solid #e5e8f3;
+        }
+        /* 新增：链接样式 */
+        .stock-code-link {
+            color: #2076d3;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .stock-code-link:hover {
+            color: #1457a8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>库存管理</h1>
+        <div class="info">库存统计表 | 先进先出 FIFO | 金额单位：人民币</div>
+    </div>
+
+    <div class="mx-tabs">
+        <div class="mx-tab active" onclick="switchTab('stock')">库存</div>
+        <div class="mx-tab" onclick="switchTab('in')">入库记录</div>
+        <div class="mx-tab" onclick="switchTab('out')">出库记录</div>
+    </div>
+
+    <div id="stock" class="page active">
+        <div class="section">
+            <div class="card">
+                <div id="stock-table" style="display:block;">
+                    <!-- Maximo风格表单 -->
+                    <div class="mx-form-row">
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">商品编号</label>
+                            <input class="mx-form-input " type="text" value="8970337010"  readonly>
+                        </div>
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">中文名称</label>
+                            <input class="mx-form-input" type="text" value="离合器拨叉" readonly>
+                        </div>
+                    </div>
+                    <div class="mx-form-row">
+                        <div class="mx-form-field full-width">
+                            <label class="mx-form-label">英文名称</label>
+                            <input class="mx-form-input" type="text" value="FORK ASM;SHIFT CLUTC" readonly>
+                        </div>
+                    </div>
+                    <div class="mx-form-row">
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">库存数量</label>
+                            <input class="mx-form-input" type="text" value="1900" readonly>
+                        </div>
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">库存金额CNY</label>
+                            <input class="mx-form-input" type="text" value="74694.15" readonly>
+                        </div>
+                    </div>
+                    <div class="mx-form-row">
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">供应商</label>
+                            <input class="mx-form-input" type="text" value="ISZJ" readonly>
+                        </div>
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">大项目</label>
+                            <input class="mx-form-input" type="text" value="QCD" readonly>
+                        </div>
+                    </div>
+                    <div class="mx-form-row">
+                        <div class="mx-form-field">
+                        </div>
+                        <div class="mx-form-field">
+                            <label class="mx-form-label">发放单位</label>
+                            <input class="mx-form-input" type="text" value="个" readonly>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 2px solid #e0e2e6; margin: 20px 0;"></div>
+
+                    <!-- 批次余量子表 -->
+                    <div class="fold-title" onclick="toggleTable('batch-table-1', 'batch-arrow-1')" style="margin-bottom: 10px;">
+                        <span class="fold-arrow open" id="batch-arrow-1">&#9654;</span>批次余量
+                    </div>
+                    <div class="my-table-wrap" id="batch-table-1" style="display:block;">
+                        <table class="my-table">
+                            <thead>
+                            <tr>
+                                <th>当前余量</th>
+                                <th>库存金额 CNY</th>
+                                <th>库存单价 CNY</th>
+                                <th>采购价格 CNY</th>
+                                <th>批次号</th>
+                                <th>采购发票号</th>
+                                <th>供应商</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>800</td>
+                                <td>34512.00</td>
+                                <td>43.14</td>
+                                <td>43.14</td>
+                                <td>BATCH20221201</td>
+                                <td>INV202212001</td>
+                                <td>ISZJ</td>
+                            </tr>
+                            <tr>
+                                <td>1100</td>
+                                <td>50919.00</td>
+                                <td>46.29</td>
+                                <td>46.29</td>
+                                <td>BATCH20230101</td>
+                                <td>INV202301015</td>
+                                <td>ISZJ</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 入库记录（保持不变） -->
+    <div id="in" class="page">
+        <div class="section">
+            <div class="card">
+                <div class="fold-title" onclick="toggleTable('in-table', 'in-arrow')">
+                    <span class="fold-arrow open" id="in-arrow">&#9654;</span>入库记录
+                </div>
+                <div class="my-table-wrap" id="in-table" style="display:block;">
+                    <table class="my-table">
+                        <thead>
+                        <tr>
+                            <th>商品编号</th>
+                            <th>商品名称</th>
+                            <th>商品编号</th>
+                            <th>数量</th>
+                            <th>单价 CNY</th>
+                            <th>入库金额 CNY</th>
+                            <th>关税 CNY</th>
+                            <th>物流费 CNY</th>
+                            <th>采购金额 CNY</th>
+                            <th>采购币种</th>
+                            <th>采购金额(币种)</th>
+                            <th>供应商</th>
+                            <th>采购发票号</th>
+                            <th>项目</th>
+                            <th>入库时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>8970337010</td>
+                            <td>325</td>
+                            <td>43.14</td>
+                            <td>14021.29</td>
+                            <td>0.00</td>
+                            <td>280.43</td>
+                            <td>14301.72</td>
+                            <td>JPY</td>
+                            <td>333421.00</td>
+                            <td>ISZJ</td>
+                            <td>INV202212001</td>
+                            <td>QCD</td>
+                            <td>12/31/22 8:30 AM</td>
+                        </tr>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>8970337010</td>
+                            <td>1125</td>
+                            <td>46.29</td>
+                            <td>52078.10</td>
+                            <td>0.00</td>
+                            <td>1041.56</td>
+                            <td>53119.66</td>
+                            <td>JPY</td>
+                            <td>1240000.00</td>
+                            <td>ISZJ</td>
+                            <td>INV202302015</td>
+                            <td>QCD</td>
+                            <td>2/14/23 11:20 AM</td>
+                        </tr>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>8970337010</td>
+                            <td>450</td>
+                            <td>46.29</td>
+                            <td>20830.50</td>
+                            <td>0.00</td>
+                            <td>416.61</td>
+                            <td>21247.11</td>
+                            <td>CNY</td>
+                            <td>21247.11</td>
+                            <td>ISZJ</td>
+                            <td>INV202305020</td>
+                            <td>QCD</td>
+                            <td>5/20/23 3:45 PM</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #ff0000;">
+                    开发备注：物流费、关税展示入库单行时填写的是的金额（根据供应商送货单录入系统时填写在入库单行中）
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出库记录（保持不变） -->
+    <div id="out" class="page">
+        <div class="section">
+            <div class="card">
+                <div class="fold-title" onclick="toggleTable('out-table', 'out-arrow')">
+                    <span class="fold-arrow open" id="out-arrow">&#9654;</span>出库记录
+                </div>
+                <div class="my-table-wrap" id="out-table" style="display:block;">
+                    <table class="my-table">
+                        <thead>
+                        <tr>
+                            <th>库存编号</th>
+                            <th>商品</th>
+                            <th>数量</th>
+                            <th>销售单价 CNY(含税)</th>
+                            <th>销售金额 CNY</th>
+                            <th>出库单价 CNY</th>
+                            <th>出库金额 CNY</th>
+                            <th>粗利 CNY</th>
+                            <th>项目</th>
+                            <th>出库时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>325</td>
+                            <td>69.08</td>
+                            <td>22451.00</td>
+                            <td>43.14</td>
+                            <td>14021.29</td>
+                            <td>5846.85</td>
+                            <td>QCD</td>
+                            <td>2023/2/15 10:30 AM</td>
+                        </tr>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>800</td>
+                            <td>69.08</td>
+                            <td>55264.00</td>
+                            <td>46.29</td>
+                            <td>37032.00</td>
+                            <td>13678.50</td>
+                            <td>QCD</td>
+                            <td>2023/6/20 2:15 PM</td>
+                        </tr>
+                        <tr>
+                            <td>8970337010</td>
+                            <td>离合器拨叉</td>
+                            <td>250</td>
+                            <td>69.08</td>
+                            <td>17270.00</td>
+                            <td>46.29</td>
+                            <td>11572.50</td>
+                            <td>4275.75</td>
+                            <td>QCD</td>
+                            <td>2023/8/10 9:45 AM</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #ff0000;">
+                    开发备注：销售金额根据销售单行填写的含税不含税单价*出库时候的数量进行计算
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(id) {
+        // 隐藏所有页面
+        var pages = document.querySelectorAll('.page');
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove('active');
+        }
+
+        // 移除所有tab的active状态
+        var tabs = document.querySelectorAll('.mx-tab');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+
+        // 显示目标页面
+        var targetPage = document.getElementById(id);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+
+        // 激活对应的tab - 通过onclick属性匹配
+        for (var i = 0; i < tabs.length; i++) {
+            var onclickAttr = tabs[i].getAttribute('onclick');
+            if (onclickAttr && onclickAttr.indexOf("'" + id + "'") !== -1) {
+                tabs[i].classList.add('active');
+            }
+        }
+    }
+
+    function toggleTable(tableId, arrowId) {
+        var wrap = document.getElementById(tableId);
+        var arrow = document.getElementById(arrowId);
+        if (wrap.style.display === "none") {
+            wrap.style.display = "block";
+            arrow.classList.add("open");
+        } else {
+            wrap.style.display = "none";
+            arrow.classList.remove("open");
+        }
+    }
+
+    // 新增：打开库存详情页
+    function openStockDetail(code) {
+        // 新窗口打开详情页，也可改为当前窗口跳转（window.location.href）
+        window.open(`stock-detail.html?code=${code}`, '_blank');
+    }
+</script>
+</body>
+</html>

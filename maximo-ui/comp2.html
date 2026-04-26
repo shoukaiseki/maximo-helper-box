@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Maximo 9 组件演示（补充）</title>
+  <style>
+    body         { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; background: #f9f9fc; margin: 30px;}
+    .section      { margin-bottom: 40px;}
+    .section-title{ font-size:20px; font-weight:bold; margin:10px 0 18px;}
+    .mx-label     { display:inline-block; width:100px; text-align:right; margin-right:10px; color:#333;}
+    .mx-input, .mx-select, .mx-textarea { border:1px solid #d0d4e6; border-radius:3px; padding:6px 8px; min-width:220px; font-size:14px; margin-bottom:10px;}
+    .mx-input:focus, .mx-select:focus, .mx-textarea:focus { border-color:#2076d3; outline: none;}
+    .mx-textarea   { height:60px; width:350px; resize:vertical;}
+    .mx-combobox   { position: relative; display: inline-block; }
+    .mx-partinput  { display:flex; align-items:center; gap:8px;}
+    .mx-partinput input { min-width: 75px;}
+    /* 选项卡 */
+    .mx-tabs       { display:flex; border-bottom:2px solid #e0e2e6;}
+    .mx-tab        { padding:10px 24px; cursor:pointer; border-radius:8px 8px 0 0; background:#eceef5; margin-right:2px;}
+    .mx-tab.active { background:#fff; border-bottom:2px solid #2076d3; color:#2076d3;}
+    .mx-tab-content{ background:#fff; border:1px solid #e0e2e6; padding:18px 10px 10px 20px; margin-top:-1px;}
+    /* 列表框 */
+    .mx-listbox    { border: 1px solid #d0d4e6; border-radius: 3px; padding: 0; width: 260px; background:#fff;}
+    .mx-listbox option { padding: 6px 10px;}
+    /* 兼容下拉箭头样式 */
+    .mx-select, select.mx-listbox { appearance: none; -webkit-appearance: none; background: url("data:image/svg+xml;charset=UTF-8,<svg height='20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 8l5 5 5-5z' fill='%232076d3'/></svg>") no-repeat right 10px center/16px 16px; }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <div class="section-title">1. 单行文本框</div>
+    <label class="mx-label" for="assetnum">资产编号</label>
+    <input class="mx-input" id="assetnum" type="text" placeholder="请输入资产编号"><br>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. 多行文本框</div>
+    <label class="mx-label" for="description">资产描述</label>
+    <textarea class="mx-textarea" id="description" placeholder="请输入详细描述"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. 多部分文本框 (如区间字段)</div>
+    <label class="mx-label">温度范围</label>
+    <div class="mx-partinput">
+      <input class="mx-input" type="text" placeholder="最低温度">
+      <span>~</span>
+      <input class="mx-input" type="text" placeholder="最高温度">
+      <span>°C</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. 组合框（下拉选择 ComboBox）</div>
+    <label class="mx-label" for="location">资产位置</label>
+    <select class="mx-select" id="location">
+      <option value="">请选择位置</option>
+      <option value="warehouse">仓库</option>
+      <option value="plant">工厂</option>
+      <option value="office">办公区</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. 选项卡组（Tab Group）</div>
+    <div class="mx-tabs">
+      <div class="mx-tab active" onclick="showTab(0)">资产信息</div>
+      <div class="mx-tab" onclick="showTab(1)">维修信息</div>
+      <div class="mx-tab" onclick="showTab(2)">历史记录</div>
+    </div>
+    <div id="tab-contents">
+      <div class="mx-tab-content" style="display:block;">
+        这里显示资产信息内容。
+      </div>
+      <div class="mx-tab-content" style="display:none;">
+        这里显示维修信息内容。
+      </div>
+      <div class="mx-tab-content" style="display:none;">
+        这里显示历史记录内容。
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. 列表框 ListBox（支持多选）</div>
+    <label class="mx-label" for="equipment-list">可选设备</label>
+    <select id="equipment-list" class="mx-listbox" size="5" multiple>
+      <option value="motors">电机</option>
+      <option value="pump">水泵</option>
+      <option value="valve">阀门</option>
+      <option value="sensor">传感器</option>
+      <option value="conveyor">输送机</option>
+    </select>
+  </div>
+
+  <script>
+    // tabs 切换脚本
+    function showTab(idx) {
+      var tabs = document.querySelectorAll('.mx-tab');
+      var conts = document.querySelectorAll('.mx-tab-content');
+      tabs.forEach((tab,i)=>tab.classList.toggle('active',i===idx));
+      conts.forEach((c,i)=>c.style.display=i===idx?'block':'none');
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Maximo 9 表格查询过滤演示</title>
+    <style>
+        body { font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif; background: #f7f8fa; margin: 32px;}
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            background: #f9fafc;
+            padding: 18px 24px 12px 24px;
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #d6d9e3;
+            border-bottom: none;
+            box-shadow: 0 1.5px 4px #e9eef4;
+            gap: 28px;
+            max-width: 1000px;
+        }
+        .mx-label     { display: inline-block; width: 80px; text-align: right; margin-right: 12px; color: #222; }
+        .mx-input, .mx-select {
+            border:1px solid #d0d4e6; border-radius:3px;
+            padding:5px 10px; font-size:15px;
+            min-width:120px; background: #fafbff;
+        }
+        .mx-input:focus, .mx-select:focus { border-color: #2076d3; outline: none;}
+        .mx-button   { padding: 6px 24px; border: none; border-radius: 3px; font-size: 15px; cursor:pointer; margin-left:22px;}
+        .mx-primary  { background: #2076d3; color: #fff;}
+        .mx-primary:hover { background: #1457a8;}
+        .table-wrap {
+            max-width: 1000px;
+            overflow: hidden;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 1.5px 5px #ebeefa;
+            border: 1px solid #d6d9e3;
+            border-top: none;
+            margin-bottom: 30px;
+            background: #fff;
+        }
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+        .mx-table th, .mx-table td {
+            border: 1px solid #e5e8f3;
+            padding: 9px 14px;
+        }
+        .mx-table th {
+            background: #f2f7fc;
+            font-weight: bold;
+            text-align: center;
+            color: #222;
+            white-space: nowrap;
+        }
+        .mx-table td {
+            text-align: right;
+            color: #222;
+            background: #fff;
+        }
+        .mx-table td:first-child,
+        .mx-table th:first-child {
+            text-align: center;
+        }
+        .mx-table tr:not(:last-child) td {
+            border-bottom: 1px solid #e5e8f3;
+        }
+        /* 响应式 */
+        @media (max-width: 700px){
+            .filter-bar, .table-wrap { max-width: 99vw; }
+            .mx-label { width: 60px; }
+        }
+    </style>
+</head>
+<body>
+<div class="filter-bar">
+    <label class="mx-label" for="q-assetnum">资产编号</label>
+    <input class="mx-input" id="q-assetnum" placeholder="如 1001">
+    <label class="mx-label" for="q-status">状态</label>
+    <select class="mx-select" id="q-status">
+        <option value="">全部</option>
+        <option value="启用">启用</option>
+        <option value="停用">停用</option>
+    </select>
+    <label class="mx-label" for="q-name">名称</label>
+    <input class="mx-input" id="q-name" placeholder="资产名称">
+    <button class="mx-button mx-primary" onclick="doFilter()">查询</button>
+    <button class="mx-button" onclick="resetFilter()">重置</button>
+</div>
+<div class="table-wrap">
+    <table class="mx-table" id="demo-table">
+        <thead>
+        <tr>
+            <th>资产编号</th>
+            <th>资产名称</th>
+            <th>资产状态</th>
+            <th>类别</th>
+            <th>购入日期</th>
+            <th>价值(万元)</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="demo-tbody">
+        <tr>
+            <td>1001</td>
+            <td>锅炉泵</td>
+            <td>启用</td>
+            <td>动力设备</td>
+            <td>2022-07-01</td>
+            <td>24.50</td>
+            <td><button class="mx-button mx-secondary">详情</button></td>
+        </tr>
+        <tr>
+            <td>1002</td>
+            <td>空调机组</td>
+            <td>停用</td>
+            <td>环境设备</td>
+            <td>2021-12-17</td>
+            <td>42.00</td>
+            <td><button class="mx-button mx-secondary">详情</button></td>
+        </tr>
+        <tr>
+            <td>1003</td>
+            <td>水泵组1号</td>
+            <td>启用</td>
+            <td>流体设备</td>
+            <td>2020-08-11</td>
+            <td>9.50</td>
+            <td><button class="mx-button mx-secondary">详情</button></td>
+        </tr>
+        <tr>
+            <td>1004</td>
+            <td>高压变频柜</td>
+            <td>启用</td>
+            <td>电气设备</td>
+            <td>2023-03-05</td>
+            <td>31.20</td>
+            <td><button class="mx-button mx-secondary">详情</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    // 原始数据
+    const assetData = [
+        { id:"1001", name:"锅炉泵",  status:"启用",   cat:"动力设备",  date:"2022-07-01", value:"24.50" },
+        { id:"1002", name:"空调机组",status:"停用",   cat:"环境设备",  date:"2021-12-17", value:"42.00" },
+        { id:"1003", name:"水泵组1号",status:"启用", cat:"流体设备",  date:"2020-08-11", value:"9.50"  },
+        { id:"1004", name:"高压变频柜",status:"启用",cat:"电气设备",  date:"2023-03-05", value:"31.20" }
+    ];
+    function doFilter() {
+        const asetnum = document.getElementById('q-assetnum').value.trim();
+        const status  = document.getElementById('q-status').value;
+        const name    = document.getElementById('q-name').value.trim();
+        const data = assetData.filter(row => {
+            let flag = true;
+            if (asetnum && !row.id.includes(asetnum)) flag = false;
+            if (status && row.status !== status) flag = false;
+            if (name && !row.name.includes(name)) flag = false;
+            return flag;
+        });
+        renderTable(data);
+    }
+    function resetFilter() {
+        document.getElementById('q-assetnum').value = "";
+        document.getElementById('q-status').value = "";
+        document.getElementById('q-name').value = "";
+        renderTable(assetData);
+    }
+    function renderTable(data) {
+        let tbody = document.getElementById('demo-tbody');
+        if(!data.length) {
+            tbody.innerHTML = '<tr><td colspan="7" style="color:#888;text-align:center;">无匹配数据</td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.map(r => `
+      <tr>
+        <td>${r.id}</td>
+        <td>${r.name}</td>
+        <td>${r.status}</td>
+        <td>${r.cat}</td>
+        <td>${r.date}</td>
+        <td>${r.value}</td>
+        <td><button class="mx-button mx-secondary">详情</button></td>
+      </tr>
+    `).join('');
+    }
+</script>
+</body>
+</html>

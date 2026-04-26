@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>库存管理</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+  background: #f9f9fc;
+  color: #333;
+  padding: 30px;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e2e6;
+}
+.header h1 {
+  font-size: 24px;
+  color: #2d3748;
+  font-weight: bold;
+}
+.header .info {
+  font-size: 14px;
+  color: #64748b;
+}
+.mx-tabs {
+  display: flex;
+  border-bottom: 2px solid #e0e2e6;
+  margin-bottom: 20px;
+}
+.mx-tab {
+  padding: 12px 28px;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  background: #eceef5;
+  margin-right: 3px;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+.mx-tab.active {
+  background: #fff;
+  border-bottom: 2px solid #2076d3;
+  color: #2076d3;
+  font-weight: bold;
+}
+.section {
+  margin-bottom: 30px;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #e1e6ec;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 18px;
+  padding-left: 10px;
+  border-left: 4px solid #2076d3;
+}
+.table-box {
+  overflow-x: auto;
+  border-radius: 6px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+}
+thead {
+  background: #f2f7fc;
+}
+th, td {
+  padding: 10px 12px;
+  border: 1px solid #e3e6f0;
+  white-space: nowrap;
+  text-align: center;
+}
+th {
+  font-weight: bold;
+  color: #475569;
+  background: #f2f7fc;
+}
+tbody tr:hover {
+  background: #f2f2fa;
+}
+.note {
+  font-size: 13px;
+  color: #ef4444;
+  margin-top: 12px;
+  line-height: 1.6;
+  padding: 10px;
+  background: #fef2f2;
+  border-radius: 6px;
+  border-left: 3px solid #ef4444;
+}
+.btn {
+  padding: 8px 18px;
+  background: #2076d3;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: #1457a8;
+}
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+}
+.fold-title {
+  background: #f4f8fb;
+  border: 1px solid #d4d9e2;
+  border-bottom: none;
+  padding: 8px 0 8px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #1362bb;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.fold-arrow {
+  display: inline-block;
+  font-size: 13px;
+  margin-right: 6px;
+  transition: transform 0.2s;
+}
+.fold-arrow.open {
+  transform: rotate(90deg);
+}
+.my-table-wrap {
+  border-radius: 4px;
+  box-shadow: 0 0 2px #eee;
+  overflow: hidden;
+  border: 1px solid #d4d9e2;
+  border-top: none;
+  margin-bottom: 20px;
+}
+.my-table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+}
+.my-table th,
+.my-table td {
+  border: 1px solid #e5e8f3;
+  padding: 9px 14px;
+}
+.my-table th {
+  background: #f6f9fc;
+  font-weight: bold;
+  text-align: center;
+  color: #222;
+  white-space: nowrap;
+}
+.my-table td {
+  text-align: right;
+  color: #222;
+}
+.my-table td:first-child,
+.my-table th:first-child {
+  text-align: center;
+}
+.my-table tr:not(:last-child) td {
+  border-bottom: 1px solid #e5e8f3;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>库存管理</h1>
+    <div class="info">库存统计表 | 先进先出 FIFO | 金额单位：人民币</div>
+  </div>
+
+  <div class="mx-tabs">
+    <div class="mx-tab active" onclick="switchTab('stock')">库存</div>
+    <div class="mx-tab" onclick="switchTab('in')">入库记录</div>
+    <div class="mx-tab" onclick="switchTab('out')">出库记录</div>
+  </div>
+
+  <!-- 库存（合并：商品主数据 + 库存余额） -->
+  <div id="stock" class="page active">
+    <div class="section">
+      <div class="card">
+        <div class="fold-title" onclick="toggleTable('stock-table', 'stock-arrow')">
+          <span class="fold-arrow open" id="stock-arrow">&#9654;</span>库存明细（实时数据）
+        </div>
+        <div class="my-table-wrap" id="stock-table" style="display:block;">
+          <table class="my-table">
+            <thead>
+              <tr>
+                <th>商品编号</th>
+                <th>中文名称</th>
+                <th>英文名称</th>
+                <th>库存数量</th>
+                <th>库存金额（元）</th>
+                <th>供应商</th>
+                <th>项目</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>8970337010</td>
+                <td>离合器拨叉</td>
+                <td>FORK ASM;SHIFT CLUTC</td>
+                <td>1900</td>
+                <td>74694.15</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>8973166020</td>
+                <td>离合器分离轴承</td>
+                <td>RELEASE BEARING</td>
+                <td>1908</td>
+                <td>175025.12</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>8973600540</td>
+                <td>尼龙管卡扣</td>
+                <td>RETAINER;FRT BRK HOS</td>
+                <td>4000</td>
+                <td>2901.31</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>8981904150</td>
+                <td>空挡开关</td>
+                <td>SWITCH;NEUTRAL(N-SW)</td>
+                <td>1460</td>
+                <td>56952.64</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>8981904170</td>
+                <td>倒车开关70</td>
+                <td>SWITCH;REVERS(R-SW)</td>
+                <td>1520</td>
+                <td>61373.61</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>8970350631</td>
+                <td>气刹尼龙管</td>
+                <td>HOSE ASM;FRT BRAKE</td>
+                <td>9900</td>
+                <td>154625.17</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>5097070311</td>
+                <td>扎带</td>
+                <td>CLIP;BAND,HARNESS</td>
+                <td>1100</td>
+                <td>386.36</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          注意：<br>
+          1. 金额单位：人民币（RMB）<br>
+          2. 出库前确认库存余额，遵循先进先出原则<br>
+          3. 数据修改请先告知财务科
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 入库记录 -->
+  <div id="in" class="page">
+    <div class="section">
+      <div class="card">
+        <div class="fold-title" onclick="toggleTable('in-table', 'in-arrow')">
+          <span class="fold-arrow open" id="in-arrow">&#9654;</span>入库记录
+        </div>
+        <div class="my-table-wrap" id="in-table" style="display:block;">
+          <table class="my-table">
+            <thead>
+              <tr>
+                <th>月</th>
+                <th>库存编号</th>
+                <th>日期</th>
+                <th>商品名称</th>
+                <th>商品编号</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>入库金额</th>
+                <th>供应商</th>
+                <th>项目</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2212</td>
+                <td>221231离合器拨叉</td>
+                <td>12/31/22</td>
+                <td>离合器拨叉</td>
+                <td>8970337010</td>
+                <td>325</td>
+                <td>43.14</td>
+                <td>14021.29</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>2302</td>
+                <td>230214离合器拨叉</td>
+                <td>2/14/23</td>
+                <td>离合器拨叉</td>
+                <td>8970337010</td>
+                <td>1125</td>
+                <td>46.29</td>
+                <td>52078.10</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>2601</td>
+                <td>260112气刹尼龙管</td>
+                <td>1/12/26</td>
+                <td>气刹尼龙管</td>
+                <td>8970350631</td>
+                <td>9900</td>
+                <td>15.62</td>
+                <td>154625.17</td>
+                <td>ISZJ</td>
+                <td>QCD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 出库记录 -->
+  <div id="out" class="page">
+    <div class="section">
+      <div class="card">
+        <div class="fold-title" onclick="toggleTable('out-table', 'out-arrow')">
+          <span class="fold-arrow open" id="out-arrow">&#9654;</span>出库记录
+        </div>
+        <div class="my-table-wrap" id="out-table" style="display:block;">
+          <table class="my-table">
+            <thead>
+              <tr>
+                <th>月</th>
+                <th>库存编号</th>
+                <th>商品</th>
+                <th>数量</th>
+                <th>销售单价</th>
+                <th>销售金额</th>
+                <th>出库单价</th>
+                <th>出库金额</th>
+                <th>粗利</th>
+                <th>项目</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2302</td>
+                <td>221231离合器拨叉</td>
+                <td>离合器拨叉</td>
+                <td>325</td>
+                <td>69.08</td>
+                <td>22451.00</td>
+                <td>43.14</td>
+                <td>14021.29</td>
+                <td>5846.85</td>
+                <td>QCD</td>
+              </tr>
+              <tr>
+                <td>2601</td>
+                <td>260112离合器分离轴承</td>
+                <td>离合器分离轴承</td>
+                <td>1908</td>
+                <td>155.96</td>
+                <td>297571.68</td>
+                <td>91.73</td>
+                <td>175025.12</td>
+                <td>88312.65</td>
+                <td>QCD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(id) {
+  // 隐藏所有页面
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // 移除所有tab的active状态
+  document.querySelectorAll('.mx-tab').forEach(t => t.classList.remove('active'));
+  // 显示目标页面
+  document.getElementById(id).classList.add('active');
+  // 激活对应的tab
+  const tabs = document.querySelectorAll('.mx-tab');
+  tabs.forEach((tab, index) => {
+    const tabIds = ['stock', 'in', 'out'];
+    if (tabIds[index] === id) {
+      tab.classList.add('active');
+    }
+  });
+}
+
+function toggleTable(tableId, arrowId) {
+  var wrap = document.getElementById(tableId);
+  var arrow = document.getElementById(arrowId);
+  if (wrap.style.display === "none") {
+    wrap.style.display = "block";
+    arrow.classList.add("open");
+  } else {
+    wrap.style.display = "none";
+    arrow.classList.remove("open");
+  }
+}
+</script>
+</body>
+</html>

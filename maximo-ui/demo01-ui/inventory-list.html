@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>库存明细列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f9f9fc;
+            color: #333;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e2e6;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #2d3748;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #e1e6ec;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .fold-title {
+            background: #f4f8fb;
+            border: 1px solid #d4d9e2;
+            border-bottom: none;
+            padding: 8px 0 8px 16px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #1362bb;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .fold-arrow {
+            display: inline-block;
+            font-size: 13px;
+            margin-right: 6px;
+            transition: transform 0.2s;
+        }
+        .fold-arrow.open {
+            transform: rotate(90deg);
+        }
+        .my-table-wrap {
+            border-radius: 4px;
+            box-shadow: 0 0 2px #eee;
+            overflow: hidden;
+            border: 1px solid #d4d9e2;
+            border-top: none;
+            margin-bottom: 20px;
+        }
+        .my-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+        .my-table th,
+        .my-table td {
+            border: 1px solid #e5e8f3;
+            padding: 9px 14px;
+        }
+        .my-table th {
+            background: #f6f9fc;
+            font-weight: bold;
+            text-align: center;
+            color: #222;
+            white-space: nowrap;
+        }
+        .my-table td {
+            text-align: left;
+            color: #222;
+        }
+        .my-table td:first-child,
+        .my-table th:first-child {
+            text-align: center;
+        }
+        /* 金额列右对齐 */
+        .my-table td:nth-child(4),
+        .my-table td:nth-child(5) {
+            text-align: right;
+        }
+        .my-table tr:not(:last-child) td {
+            border-bottom: 1px solid #e5e8f3;
+        }
+        .stock-code-link {
+            color: #2076d3;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .stock-code-link:hover {
+            color: #1457a8;
+        }
+        .note {
+            font-size: 13px;
+            color: #ef4444;
+            margin-top: 12px;
+            line-height: 1.6;
+            padding: 10px;
+            background: #fef2f2;
+            border-radius: 6px;
+            border-left: 3px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>库存明细列表</h1>
+    </div>
+
+    <div class="section">
+        <div class="card">
+            <div class="fold-title" onclick="toggleTable('stock-table', 'stock-arrow')">
+                <span class="fold-arrow open" id="stock-arrow">&#9654;</span>库存明细（实时数据）
+            </div>
+            <div class="my-table-wrap" id="stock-table" style="display:block;">
+                <table class="my-table">
+                    <thead>
+                    <tr>
+                        <th>商品编号</th>
+                        <th>中文名称</th>
+                        <th>英文名称</th>
+                        <th>库存数量</th>
+                        <th>库存金额 CNY</th>
+                        <th>供应商</th>
+                        <th>大项目</th>
+                        <th>采购发票号</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8970337010')">8970337010</span></td>
+                        <td>离合器拨叉</td>
+                        <td>FORK ASM;SHIFT CLUTC</td>
+                        <td>1900</td>
+                        <td>74694.15</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202212001</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8973166020')">8973166020</span></td>
+                        <td>离合器分离轴承</td>
+                        <td>RELEASE BEARING</td>
+                        <td>1908</td>
+                        <td>175025.12</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202301015</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8973600540')">8973600540</span></td>
+                        <td>尼龙管卡扣</td>
+                        <td>RETAINER;FRT BRK HOS</td>
+                        <td>4000</td>
+                        <td>2901.31</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202303022</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8981904150')">8981904150</span></td>
+                        <td>空挡开关</td>
+                        <td>SWITCH;NEUTRAL(N-SW)</td>
+                        <td>1460</td>
+                        <td>56952.64</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202305008</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8981904170')">8981904170</span></td>
+                        <td>倒车开关70</td>
+                        <td>SWITCH;REVERS(R-SW)</td>
+                        <td>1520</td>
+                        <td>61373.61</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202306012</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('8970350631')">8970350631</span></td>
+                        <td>气刹尼龙管</td>
+                        <td>HOSE ASM;FRT BRAKE</td>
+                        <td>9900</td>
+                        <td>154625.17</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202601005</td>
+                    </tr>
+                    <tr>
+                        <td><span class="stock-code-link" onclick="openStockDetail('5097070311')">5097070311</span></td>
+                        <td>扎带</td>
+                        <td>CLIP;BAND,HARNESS</td>
+                        <td>1100</td>
+                        <td>386.36</td>
+                        <td>ISZJ</td>
+                        <td>QCD</td>
+                        <td>INV202308019</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleTable(tableId, arrowId) {
+    var wrap = document.getElementById(tableId);
+    var arrow = document.getElementById(arrowId);
+    if (wrap.style.display === "none") {
+        wrap.style.display = "block";
+        arrow.classList.add("open");
+    } else {
+        wrap.style.display = "none";
+        arrow.classList.remove("open");
+    }
+}
+
+function openStockDetail(stockCode) {
+    alert('查看商品编号 ' + stockCode + ' 的详细库存信息');
+    // 这里可以跳转到详情页面或打开对话框
+    // window.location.href = 'inventory-detail.html?code=' + stockCode;
+}
+</script>
+</body>
+</html>
