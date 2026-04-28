@@ -1,0 +1,1 @@
+E:/ai_repository/text/maximo/maximo自动化脚本.md

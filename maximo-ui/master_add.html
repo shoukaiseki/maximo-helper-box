@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表 - Master Entry</title>
+    <style>
+        /* IBM Plex Sans 字体 */
+        @font-face {
+            font-family: 'MaximoBase';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'MaximoBase-Bold';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff") format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            color: #161616;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+
+        .table-section {
+            width: 600px;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            width: 500px;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 20px;
+            color: #161616;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0F62FE;
+        }
+
+        .section-title {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 18px 0;
+            color: #161616;
+        }
+
+        .mx-label {
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+            margin-right: 10px;
+            color: #464646;
+            font-size: 13px;
+        }
+
+        .mx-input, .mx-select {
+            border: 0px;
+            border-bottom: 1px solid #8D8D8D;
+            border-radius: 0px;
+            padding: 8px 16px;
+            width: 240px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #000000;
+            background-color: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            font-family: 'MaximoBase', Arial, sans-serif;
+        }
+
+        .mx-input:focus, .mx-select:focus {
+            border-bottom-color: #0F62FE;
+            outline: 2px solid #0F62FE;
+            outline-offset: -2px;
+        }
+
+        .mx-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: url("data:image/svg+xml;charset=UTF-8,<svg height='20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 8l5 5 5-5z' fill='%230F62FE'/></svg>") no-repeat right 10px center/16px 16px;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        /* 表格样式 */
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+
+        .mx-table th, .mx-table td {
+            text-align: left;
+            border: 0px;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .mx-table th {
+            background: #E0E0E0;
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-weight: bold;
+            color: #444444;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .mx-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        .mx-table tr:hover {
+            background: #f4f4f4;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .table-section, .form-section {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧表格区域 -->
+
+        <!-- 右侧录入表单区域 -->
+        <div class="form-section">
+            <div class="section-title">零件录入</div>
+
+            <div class="form-row">
+                <label class="mx-label" for="itemName">零件名称</label>
+                <input class="mx-input" id="itemName" type="text" placeholder="请输入商品名称" value="离合器拨叉">
+            </div>
+
+            <div class="form-row">
+                <label class="mx-label" for="englishName">英文名称</label>
+                <input class="mx-input" id="englishName" type="text" placeholder="Please enter English name" value="FORK ASM;SHIFT CLUTC">
+            </div>
+
+            <div class="form-row">
+                <label class="mx-label" for="itemNumber">商品编号</label>
+                <input class="mx-input" id="itemNumber" type="text" placeholder="e.g.: 8970337010" value="8970337010">
+            </div>
+
+            <div class="form-row">
+                <label class="mx-label" for="category">分类</label>
+                <input class="mx-input" id="category" type="text" placeholder="e.g.: 8970337010" value="制动系统">
+<!--                <select class="mx-select" id="category">-->
+<!--                    <option value="">Please select category</option>-->
+<!--                    <option value="传动系统" selected>传动系统</option>-->
+<!--                    <option value="制动系统">制动系统</option>-->
+<!--                    <option value="电气系统">电气系统</option>-->
+<!--                    <option value="通用配件">通用配件</option>-->
+<!--                    <option value="管道配件">管道配件</option>-->
+<!--                    <option value="密封件">密封件</option>-->
+<!--                </select>-->
+            </div>
+
+            <div class="form-row">
+                <label class="mx-label" for="unit">单位</label>
+                <input class="mx-input" id="unit" type="text" placeholder="请输入单位" value="个">
+            </div>
+
+            <div class="form-row">
+                <label class="mx-label" for="status">状态</label>
+                <select class="mx-select" id="status">
+                    <option value="">Please select status</option>
+                    <option value="启用" selected>启用</option>
+                    <option value="停用">停用</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

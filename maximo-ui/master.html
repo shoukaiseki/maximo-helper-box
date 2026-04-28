@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表 - Master</title>
+    <style>
+        /* IBM Plex Sans 字体 */
+        @font-face {
+            font-family: 'MaximoBase';
+            src: url("maximo-ui/isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff2") format("woff2"),
+                 url("maximo-ui/isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'MaximoBase-Bold';
+            src: url("maximo-ui/isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
+                 url("maximo-ui/isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff") format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            color: #161616;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 20px;
+            color: #161616;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0F62FE;
+        }
+
+        /* 表格样式 */
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mx-table th, .mx-table td {
+            text-align: left;
+            border: 0px;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .mx-table th {
+            background: #E0E0E0;
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-weight: bold;
+            color: #444444;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .mx-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        .mx-table tr:hover {
+            background: #f4f4f4;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>零件列表</h1>
+
+        <table class="mx-table">
+            <thead>
+                <tr>
+                    <th>零件名称</th>
+                    <th>英文名称</th>
+                    <th>零件编号</th>
+                    <th>分类</th>
+                    <th>单位</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>离合器拨叉</td>
+                    <td>FORK ASM;SHIFT CLUTC</td>
+                    <td>8970337010</td>
+                    <td>传动系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>离合器分离轴承</td>
+                    <td>RELEASE BEARING</td>
+                    <td>8973166020</td>
+                    <td>传动系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>尼龙管卡扣</td>
+                    <td>RETAINER;FRT BRK HOS</td>
+                    <td>8973600540</td>
+                    <td>制动系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>空挡开关</td>
+                    <td>SWITCH;NEUTRAL(N-SW)</td>
+                    <td>8981904150</td>
+                    <td>电气系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>倒车开关70</td>
+                    <td>SWITCH;REVERS(R-SW)</td>
+                    <td>8981904170</td>
+                    <td>电气系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>气刹尼龙管</td>
+                    <td>HOSE ASM;FRT BRAKE</td>
+                    <td>8970350631</td>
+                    <td>制动系统</td>
+                    <td>根</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>倒车开关30</td>
+                    <td>SWITCH;REVERS(R-SW)</td>
+                    <td>8981809730</td>
+                    <td>电气系统</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>扎带</td>
+                    <td>CLIP; BAND, HARNESS</td>
+                    <td>5097070311</td>
+                    <td>通用配件</td>
+                    <td>条</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>接头</td>
+                    <td>JOINT</td>
+                    <td>7552216230</td>
+                    <td>管道配件</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>密封圈</td>
+                    <td>PACKING;JOINT</td>
+                    <td>7551847310</td>
+                    <td>密封件</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+                <tr>
+                    <td>卡箍</td>
+                    <td>CLAMP</td>
+                    <td>7326191000</td>
+                    <td>通用配件</td>
+                    <td>个</td>
+                    <td>启用</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
