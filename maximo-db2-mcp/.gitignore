@@ -41,3 +41,8 @@ nbdist/
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
+
+######################################################################
+# Sensitive Configuration
+app-db.yml
+src/main/resources/app-db.yml

@@ -54,6 +54,6 @@ echo [2/2] Starting application...
 echo ========================================
 echo.
 
-%JAVA_HOME%/bin/java -jar target\maximo-db2-mcp.jar
+%JAVA_HOME%/bin/java -jar target\maximo-db2-mcp-1.0.0.jar
 
 pause

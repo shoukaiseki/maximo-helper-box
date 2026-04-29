@@ -1,0 +1,15 @@
+# ===================================================
+# DB2 数据源配置 - Maximo 数据库
+# 请根据实际情况修改以下配置
+
+# ===================================================
+maximo.db:
+  jdbcUrl: "jdbc:db2://127.0.0.1:50000/MAXIMO"
+  driverClassName: "com.ibm.db2.jcc.DB2Driver"
+  username: "localhost"
+  password: "123456"
+  maximumPoolSize: 10
+  minimumIdle: 2
+  connectionTimeout: 30000
+  idleTimeout: 600000
+  maxLifetime: 1800000

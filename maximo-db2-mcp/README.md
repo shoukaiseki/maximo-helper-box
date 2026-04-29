@@ -12,7 +12,7 @@
 | `queryMaxattributes` | 查询 Maximo 字段定义 | MAXATTRIBUTE |
 | `queryMaxrelationships` | 查询 Maximo 关联关系 | MAXRELATIONSHIP |
 | `queryAppXml` | 查询应用注册信息 | MAXAPPS |
-| `queryAppSpecificsXml` | 查询应用 XML 配置内容 | APPSPECIFICS |
+| `queryAppSpecificsXml` | 查询应用 XML 配置内容 | MAXPRESENTATION |
 | `queryBySql` | 通用只读 SQL 查询 | 自定义 |
 | `getDatabaseOverview` | 获取数据库概览统计 | 多表聚合 |
 
@@ -28,7 +28,7 @@
 
 ### 环境要求
 
-- JDK 17+
+- JDK 8+
 - Maven 3.6+
 - IBM DB2 数据库（Maximo 系统）
 
@@ -41,14 +41,31 @@ cd maximo-db2-mcp
 
 ### 2. 修改配置
 
-编辑 `app.yml`，修改 DB2 数据库连接信息：
+本项目采用**敏感信息分离管理**策略：
 
-```yaml
-maximo.db:
-  jdbcUrl: "jdbc:db2://<host>:<port>/<database>"
-  username: "<your-username>"
-  password: "<your-password>"
-```
+- **app.yml** - 公共配置（端口、日志等），可提交到 Git
+- **app-db.yml** - 敏感配置（数据库密码等），已被 `.gitignore` 忽略
+
+**步骤：**
+
+1. 复制配置模板：
+   ```bash
+   cp src/main/resources/app-db.example.yml src/main/resources/app-db.yml
+   ```
+   （如果不存在示例文件，直接创建 `app-db.yml`）
+
+2. 编辑 `src/main/resources/app-db.yml`，配置数据库连接信息：
+   ```yaml
+   maximo.db:
+     jdbcUrl: "jdbc:db2://<host>:<port>/<database>"
+     driverClassName: "com.ibm.db2.jcc.DB2Driver"
+     username: "<your-username>"
+     password: "<your-password>"
+     maximumPoolSize: 10
+     minimumIdle: 2
+   ```
+
+3. `app.yml` 已通过 `solon.include: app-db.yml` 自动引入数据库配置，无需修改。
 
 ### 3. 打包构建
 
@@ -62,9 +79,15 @@ mvn clean package -DskipTests
 java -jar target/maximo-db2-mcp.jar
 ```
 
-服务默认监听 `8080` 端口，MCP 端点路径为 `/mcp`。
+服务默认监听 `8081` 端口，MCP 端点路径为 `/mcp`。
 
-### 5. 在 MCP 客户端中配置
+### 5. MCP 连接信息
+
+服务启动后，可通过以下地址访问：
+
+- **MCP 端点**: `http://localhost:8081/mcp`
+- **传输协议**: SSE (Server-Sent Events)
+- **服务类型**: STREAMABLE
 
 #### Claude Desktop 配置示例
 
@@ -74,7 +97,7 @@ java -jar target/maximo-db2-mcp.jar
 {
   "mcpServers": {
     "maximo-db2": {
-      "url": "http://localhost:8080/mcp",
+      "url": "http://localhost:8081/mcp",
       "type": "sse"
     }
   }
@@ -157,9 +180,16 @@ java -jar target/maximo-db2-mcp.jar
 ```
 maximo-db2-mcp/
 ├── pom.xml                              # Maven 构建配置
-├── app.yml                              # 应用配置（含数据源）
+├── app.yml                              # 公共配置（端口、日志等）
+├── app-db.yml                          # 敏感配置（数据库密码，已忽略）
+├── .gitignore                           # Git 忽略规则
+├── run-solon.bat                        # Windows 启动脚本
+├── README.md                            # 项目说明文档
 ├── src/
 │   └── main/
+│       ├── resources/
+│       │   ├── app.yml                  # 主配置文件
+│       │   └── app-db.yml              # 敏感配置文件（不提交）
 │       └── java/
 │           └── com/
 │               └── maximo/
@@ -170,6 +200,28 @@ maximo-db2-mcp/
 │                       └── server/
 │                           └── MaximoMcpServer.java # MCP 服务端点
 ```
+
+## 配置文件管理
+
+### 敏感信息保护
+
+为防止数据库密码等敏感信息泄露到 Git 仓库，项目采用以下策略：
+
+1. **配置分离**
+   - `app.yml` - 公共配置，可安全提交
+   - `app-db.yml` - 敏感配置，已加入 `.gitignore`
+
+2. **工作原理**
+   ```yaml
+   # app.yml 中声明引入敏感配置
+   solon.include: app-db.yml
+   ```
+   Solon 启动时会自动合并两个配置文件。
+
+3. **团队协作**
+   - 每个开发者需要在本地创建自己的 `app-db.yml`
+   - 可以创建 `app-db.example.yml` 作为模板供团队使用
+   - 确保不要将真实的数据库密码提交到版本控制系统
 
 ## 常见问题
 
