@@ -5,23 +5,27 @@ import org.noear.solon.ai.mcp.McpChannel;
 import org.noear.solon.ai.mcp.server.annotation.McpServerEndpoint;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.annotation.Param;
-import org.noear.solon.data.sql.SqlUtils;
+import org.noear.solon.core.util.LogUtil;
+import org.noear.snack.ONode;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
- * Maximo DB2 MCP 服务端点
- *
- * 提供 Maximo 系统元数据查询工具集，包括：
- * - 对象定义查询 (MAXOBJECT)
- * - 字段定义查询 (MAXATTRIBUTE)
- * - 关联关系查询 (MAXRELATIONSHIP)
- * - 应用 XML 查询
- * - 自定义 SQL 查询
- *
- * 传输方式: STREAMABLE (SSE 流式传输)
- * 端点路径: /mcp
+ * Maximo DB2 元数据查询 MCP 服务
+ * <p>
+ * 提供对 Maximo 系统核心元数据表的查询能力：
+ * MAXOBJECT（对象定义）、MAXATTRIBUTE（字段定义）、
+ * MAXRELATIONSHIP（关联关系）、MAXAPPS/APPSPECIFICS（应用XML）
  */
 @McpServerEndpoint(channel = McpChannel.STREAMABLE, mcpEndpoint = "/mcp")
 public class MaximoMcpServer {
@@ -29,413 +33,276 @@ public class MaximoMcpServer {
     @Inject("maximo")
     private DataSource dataSource;
 
-    private SqlUtils sqlUtils() {
-        return new SqlUtils(dataSource);
-    }
+    // SQL 安全校验：只允许 SELECT 查询
+    private static final Pattern SQL_SAFETY_PATTERN = Pattern.compile(
+            "^\\s*SELECT\\s+.*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+
+    // 默认查询行数限制
+    private static final int DEFAULT_LIMIT = 200;
+    private static final int MAX_XML_LENGTH = 10000;
+
 
     // ========================================================================
-    // 1. 对象定义查询 (MAXOBJECT)
+    //  工具 1：查询对象定义（MAXOBJECT）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 对象定义 (MAXOBJECT 表)，支持按对象名称模糊搜索")
+    @ToolMapping(description = "查询 Maximo 对象定义信息（MAXOBJECT 表）。支持按对象名称模糊搜索，返回对象的类名、表名、描述等基本信息")
     public String queryMaxobjects(
-            @Param(name = "objectName", description = "对象名称（支持模糊匹配，如 '%WO%'），为空则查全部") String objectName,
-            @Param(name = "limit", description = "返回条数上限，默认 50，最大 200") Optional<Integer> limit) {
-        try {
-            int maxRows = Math.min(limit.orElse(50), 200);
-            StringBuilder sql = new StringBuilder();
-            List<Object> params = new ArrayList<>();
-
-            sql.append("SELECT OBJECTNAME, DESCRIPTION, CLASSNAME, PERSISTENT, MAINOBJECT, ");
-            sql.append("       CHANGEDATE, CHANGEBY, SITEID, MAXOBJECTS.OWNER, ");
-            sql.append("       ISBLOBSTORAGEOBJ, ISSHARED, ISACTIVE, AUDITBYCHANGEDATE ");
-            sql.append("  FROM MAXOBJECT ");
-
-            if (objectName != null && !objectName.trim().isEmpty()) {
-                sql.append(" WHERE UPPER(OBJECTNAME) LIKE UPPER(?) ");
-                params.add(objectName.trim());
-            }
-
-            sql.append(" ORDER BY OBJECTNAME ");
-            sql.append(" FETCH FIRST ? ROWS ONLY ");
-            params.add(maxRows);
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(sql.toString(), params.toArray());
-            return formatResult("MAXOBJECT 对象定义查询结果", result);
-        } catch (Exception e) {
-            return "{\"error\": \"查询 MAXOBJECT 失败: " + escapeJson(e.getMessage()) + "\"}";
-        }
+            @Param(name = "objectName", description = "对象名称关键词，支持 % 通配符（例如：%WO%、WORKORDER、%ASSET%）") String objectName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql = "SELECT OBJECTNAME, CLASSNAME, MAINTABLE, DESCRIPTION, " +
+                "ISSYSTEM, ISINTERFACE, ISCHANGEHISTORY, ISTEXTSEARCH " +
+                "FROM MAXOBJECT WHERE UCASE(OBJECTNAME) LIKE ?";
+        return queryAsJson(sql, new Object[]{"%" + objectName.toUpperCase() + "%"}, limit);
     }
 
+
     // ========================================================================
-    // 2. 字段定义查询 (MAXATTRIBUTE)
+    //  工具 2：查询字段/属性定义（MAXATTRIBUTE）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 字段定义 (MAXATTRIBUTE 表)，按对象名和/或属性名查询字段信息")
+    @ToolMapping(description = "查询 Maximo 属性/字段定义（MAXATTRIBUTE 表）。支持按对象名称和属性名称模糊搜索，返回字段类型、长度、是否必填等信息")
     public String queryMaxattributes(
-            @Param(name = "objectName", description = "所属对象名称（必填，支持模糊匹配）") String objectName,
-            @Param(name = "attributeName", description = "属性名称（可选，支持模糊匹配）") Optional<String> attributeName,
-            @Param(name = "limit", description = "返回条数上限，默认 50，最大 200") Optional<Integer> limit) {
-        try {
-            if (objectName == null || objectName.trim().isEmpty()) {
-                return "{\"error\": \"参数 objectName 不能为空\"}";
-            }
-
-            int maxRows = Math.min(limit.orElse(50), 200);
-            StringBuilder sql = new StringBuilder();
-            List<Object> params = new ArrayList<>();
-
-            sql.append("SELECT A.OBJECTNAME, A.ATTRIBUTENAME, A.DESCRIPTION, A.DOMAINID, ");
-            sql.append("       A.DATATYPE, A.LENGTH, A.SCALE, A.REQUIRED, A.UNIQUEKEY, ");
-            sql.append("       A.DEFLTNAME, A.REMARKS, A.TITLE, A.SEARCHTYPE, A.INDEXNUMBER, ");
-            sql.append("       A.CLASSNAME, A.DISPLAYABLE, A.READONLY, A.ENDOFLIFE ");
-            sql.append("  FROM MAXATTRIBUTE A ");
-            sql.append(" WHERE UPPER(A.OBJECTNAME) LIKE UPPER(?) ");
-            params.add(objectName.trim());
-
-            if (attributeName.isPresent() && !attributeName.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(A.ATTRIBUTENAME) LIKE UPPER(?) ");
-                params.add(attributeName.get().trim());
-            }
-
-            sql.append(" ORDER BY A.OBJECTNAME, A.ATTRIBUTENAME ");
-            sql.append(" FETCH FIRST ? ROWS ONLY ");
-            params.add(maxRows);
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(sql.toString(), params.toArray());
-            return formatResult("MAXATTRIBUTE 字段定义查询结果", result);
-        } catch (Exception e) {
-            return "{\"error\": \"查询 MAXATTRIBUTE 失败: " + escapeJson(e.getMessage()) + "\"}";
+            @Param(name = "objectName", description = "所属对象名称关键词（支持 % 通配符）") String objectName,
+            @Param(name = "attributeName", description = "属性名称关键词（支持 % 通配符），为空时返回所有属性") String attributeName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql;
+        Object[] params;
+        if (attributeName != null && !attributeName.trim().isEmpty()) {
+            sql = "SELECT OBJECTNAME, ATTRIBUTENAME, DOMAINNAME, COLUMNNAME, " +
+                    "AITYPE, LENGTH, SCALE, REQUIRED, ISUNIQUE, DEFALTVALUE, " +
+                    "REMARK, TITLE, ISNUMBER " +
+                    "FROM MAXATTRIBUTE WHERE UCASE(OBJECTNAME) LIKE ? AND UCASE(ATTRIBUTENAME) LIKE ? " +
+                    "ORDER BY OBJECTNAME, ATTRIBUTENAME";
+            params = new Object[]{"%" + objectName.toUpperCase() + "%",
+                    "%" + attributeName.toUpperCase() + "%"};
+        } else {
+            sql = "SELECT OBJECTNAME, ATTRIBUTENAME, DOMAINNAME, COLUMNNAME, " +
+                    "AITYPE, LENGTH, SCALE, REQUIRED, ISUNIQUE, DEFALTVALUE, " +
+                    "REMARK, TITLE, ISNUMBER " +
+                    "FROM MAXATTRIBUTE WHERE UCASE(OBJECTNAME) LIKE ? " +
+                    "ORDER BY OBJECTNAME, ATTRIBUTENAME";
+            params = new Object[]{"%" + objectName.toUpperCase() + "%"};
         }
+        return queryAsJson(sql, params, limit);
     }
 
+
     // ========================================================================
-    // 3. 关联关系查询 (MAXRELATIONSHIP)
+    //  工具 3：查询关联关系（MAXRELATIONSHIP）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 关联关系 (MAXRELATIONSHIP 表)，支持按来源对象、目标对象或关系名称查询")
+    @ToolMapping(description = "查询 Maximo 关联关系定义（MAXRELATIONSHIP 表）。支持按源对象名称或关系名称模糊搜索，返回关联类型、目标对象、关联条件等信息")
     public String queryMaxrelationships(
-            @Param(name = "parentObject", description = "来源/父对象名称（支持模糊匹配）") Optional<String> parentObject,
-            @Param(name = "childObject", description = "目标/子对象名称（支持模糊匹配）") Optional<String> childObject,
-            @Param(name = "relationshipName", description = "关系名称（支持模糊匹配）") Optional<String> relationshipName,
-            @Param(name = "limit", description = "返回条数上限，默认 50，最大 200") Optional<Integer> limit) {
-        try {
-            int maxRows = Math.min(limit.orElse(50), 200);
-            StringBuilder sql = new StringBuilder();
-            List<Object> params = new ArrayList<>();
-
-            sql.append("SELECT R.NAME, R.OBJECTNAME, R.REMOTE, R.CARDINALITY, ");
-            sql.append("       R.CHILDOBJECT, R.CHILDRELATIONSHIP, R.DELETION, ");
-            sql.append("       R.ISVARRECSTATUS, R.MAXRELATIONSHIPID, R.CLASHRECORD, ");
-            sql.append("       R.DESCRIPTION, R.WHERECLAUSE ");
-            sql.append("  FROM MAXRELATIONSHIP R ");
-            sql.append(" WHERE 1=1 ");
-
-            if (parentObject.isPresent() && !parentObject.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(R.OBJECTNAME) LIKE UPPER(?) ");
-                params.add(parentObject.get().trim());
-            }
-            if (childObject.isPresent() && !childObject.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(R.CHILDOBJECT) LIKE UPPER(?) ");
-                params.add(childObject.get().trim());
-            }
-            if (relationshipName.isPresent() && !relationshipName.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(R.NAME) LIKE UPPER(?) ");
-                params.add(relationshipName.get().trim());
-            }
-
-            sql.append(" ORDER BY R.OBJECTNAME, R.NAME ");
-            sql.append(" FETCH FIRST ? ROWS ONLY ");
-            params.add(maxRows);
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(sql.toString(), params.toArray());
-            return formatResult("MAXRELATIONSHIP 关联关系查询结果", result);
-        } catch (Exception e) {
-            return "{\"error\": \"查询 MAXRELATIONSHIP 失败: " + escapeJson(e.getMessage()) + "\"}";
+            @Param(name = "className", description = "源对象类名关键词（支持 % 通配符）") String className,
+            @Param(name = "relationshipName", description = "关联名称关键词（支持 % 通配符），为空时返回该对象所有关联") String relationshipName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql;
+        Object[] params;
+        if (relationshipName != null && !relationshipName.trim().isEmpty()) {
+            sql = "SELECT CLASSNAME, RELATIONSHIPNAME, REMARK, " +
+                    "MAXOBJECT, CHILDCLASS, RELATIONSHIPTYPE, " +
+                    "DIRECTION, CARDINALITY, DELETETYPE, " +
+                    "WHERE clause AS WHERECLAUSE " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(CLASSNAME) LIKE ? AND UCASE(RELATIONSHIPNAME) LIKE ? " +
+                    "ORDER BY CLASSNAME, RELATIONSHIPNAME";
+            params = new Object[]{"%" + className.toUpperCase() + "%",
+                    "%" + relationshipName.toUpperCase() + "%"};
+        } else {
+            sql = "SELECT CLASSNAME, RELATIONSHIPNAME, REMARK, " +
+                    "MAXOBJECT, CHILDCLASS, RELATIONSHIPTYPE, " +
+                    "DIRECTION, CARDINALITY, DELETETYPE, " +
+                    "WHERE clause AS WHERECLAUSE " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(CLASSNAME) LIKE ? " +
+                    "ORDER BY CLASSNAME, RELATIONSHIPNAME";
+            params = new Object[]{"%" + className.toUpperCase() + "%"};
         }
+        return queryAsJson(sql, params, limit);
     }
 
+
     // ========================================================================
-    // 4. 应用 XML 查询
+    //  工具 4：查询应用注册信息（MAXAPPS）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 应用 XML 定义，支持按应用名称搜索（含对象结构、用户界面等 XML 内容）")
+    @ToolMapping(description = "查询 Maximo 应用注册信息（MAXAPPS 表）。返回应用的名称、描述、主对象等信息")
     public String queryAppXml(
-            @Param(name = "appName", description = "应用名称（支持模糊匹配，如 '%WO%'）") Optional<String> appName,
-            @Param(name = "limit", description = "返回条数上限，默认 20，最大 100") Optional<Integer> limit) {
-        try {
-            int maxRows = Math.min(limit.orElse(20), 100);
-            StringBuilder sql = new StringBuilder();
-            List<Object> params = new ArrayList<>();
-
-            // Maximo 中应用 XML 可能存储在多个位置：
-            // 1. APPSPECIFICS 表 - 最常用的应用 XML 存储
-            // 2. MAXAPPS 表 - 应用注册信息
-            // 实际表名可能因版本不同，这里尝试 JOIN 查询
-            sql.append("SELECT A.APPNAME, A.DESCRIPTION, A.MAINOBJECT, ");
-            sql.append("       A.ZIPFILE, A.CREATEDATE, A.CHANGEDATE, ");
-            sql.append("       A.MAXAPPSID, A.ENABLED, A.USESEAL ");
-            sql.append("  FROM MAXAPPS A ");
-            sql.append(" WHERE 1=1 ");
-
-            if (appName.isPresent() && !appName.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(A.APPNAME) LIKE UPPER(?) ");
-                params.add(appName.get().trim());
-            }
-
-            sql.append(" ORDER BY A.APPNAME ");
-            sql.append(" FETCH FIRST ? ROWS ONLY ");
-            params.add(maxRows);
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(sql.toString(), params.toArray());
-            return formatResult("MAXAPPS 应用定义查询结果", result);
-        } catch (Exception e) {
-            return "{\"error\": \"查询应用 XML 失败: " + escapeJson(e.getMessage()) + "\"}";
-        }
+            @Param(name = "appName", description = "应用名称关键词，支持 % 通配符（例如：%WO%、CHANGE%、%ASSET%）") String appName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql = "SELECT APP, MAINOBJECT, TYPE, " +
+                "DESCRIPTION, ISTEMPLATE, URL, " +
+                "SUBSTRING(APPXML, 1, " + MAX_XML_LENGTH + ") AS APPXML_PREVIEW, " +
+                "CASE WHEN LENGTH(APPXML) > " + MAX_XML_LENGTH + " " +
+                "  THEN '... [content truncated, total length: ' || VARCHAR(LENGTH(APPXML)) || ' chars]' " +
+                "  ELSE NULL END AS APPXML_TRUNCATED " +
+                "FROM MAXAPPS WHERE UCASE(APP) LIKE ? " +
+                "ORDER BY APP";
+        return queryAsJson(sql, new Object[]{"%" + appName.toUpperCase() + "%"}, limit);
     }
 
+
     // ========================================================================
-    // 5. 查询应用 XML 内容 (APPSPECIFICS 表)
+    //  工具 5：查询应用 XML 详细内容（MAXPRESENTATION）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 应用特定配置 XML (APPSPECIFICS 表)，包含应用的 Service、Action、UI 配置等详细 XML")
+    @ToolMapping(description = "查询 Maximo 应用的 XML 详细配置内容（MAXPRESENTATION 表）。返回应用的完整演示配置 XML")
     public String queryAppSpecificsXml(
-            @Param(name = "appName", description = "应用名称（必填，精确匹配）") String appName,
-            @Param(name = "type", description = "XML 类型（可选，如 'SERVICE', 'ACTION', 'UI' 等）") Optional<String> type) {
-        try {
-            if (appName == null || appName.trim().isEmpty()) {
-                return "{\"error\": \"参数 appName 不能为空\"}";
-            }
-
-            StringBuilder sql = new StringBuilder();
-            List<Object> params = new ArrayList<>();
-
-            sql.append("SELECT APPNAME, TYPE, XMLCONTENT, CHANGEDATE ");
-            sql.append("  FROM APPSPECIFICS ");
-            sql.append(" WHERE UPPER(APPNAME) = UPPER(?) ");
-            params.add(appName.trim());
-
-            if (type.isPresent() && !type.get().trim().isEmpty()) {
-                sql.append("   AND UPPER(TYPE) = UPPER(?) ");
-                params.add(type.get().trim());
-            }
-
-            sql.append(" ORDER BY TYPE ");
-            sql.append(" FETCH FIRST 20 ROWS ONLY ");
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(sql.toString(), params.toArray());
-
-            if (result.isEmpty()) {
-                return "{\"message\": \"未找到应用 '" + escapeJson(appName) + "' 的特定配置 XML\", \"appName\": \"" + escapeJson(appName) + "\"}";
-            }
-
-            // 对 XML 内容做截断处理，避免响应过大
-            List<Map<String, Object>> trimmed = new ArrayList<>();
-            for (Map<String, Object> row : result) {
-                Map<String, Object> clean = new LinkedHashMap<>(row);
-                if (clean.containsKey("XMLCONTENT") && clean.get("XMLCONTENT") instanceof String) {
-                    String xml = (String) clean.get("XMLCONTENT");
-                    if (xml.length() > 10000) {
-                        clean.put("XMLCONTENT", xml.substring(0, 10000) + "\n\n... [内容已截断，完整内容共 " + xml.length() + " 字符]");
-                    }
-                }
-                trimmed.add(clean);
-            }
-
-            return formatResult("APPSPECIFICS 应用 XML 查询结果", trimmed);
-        } catch (Exception e) {
-            return "{\"error\": \"查询 APPSPECIFICS 失败: " + escapeJson(e.getMessage()) + "\"}";
-        }
+            @Param(name = "app", description = "应用名称关键词，支持 % 通配符") String app,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql = "SELECT MAXPRESENTATIONID, APP, " +
+                "SUBSTRING(PRESENTATION, 1, " + MAX_XML_LENGTH + ") AS PRESENTATION_PREVIEW, " +
+                "CASE WHEN LENGTH(PRESENTATION) > " + MAX_XML_LENGTH + " " +
+                "  THEN '... [content truncated, total length: ' || VARCHAR(LENGTH(PRESENTATION)) || ' chars]' " +
+                "  ELSE NULL END AS PRESENTATION_TRUNCATED " +
+                "FROM MAXPRESENTATION WHERE UCASE(APP) LIKE ? " +
+                "ORDER BY APP";
+        return queryAsJson(sql, new Object[]{"%" + app.toUpperCase() + "%"}, limit);
     }
 
+
     // ========================================================================
-    // 6. 自定义 SQL 查询（只读安全查询）
+    //  工具 6：通用只读 SQL 查询（带安全校验）
     // ========================================================================
 
-    @ToolMapping(description = "执行自定义只读 SQL 查询（仅支持 SELECT 语句），方便探索 Maximo 数据库中其他表的信息")
+    @ToolMapping(description = "通用只读 SQL 查询。仅允许 SELECT 语句，自动限制行数，返回 JSON 格式结果集")
     public String queryBySql(
-            @Param(name = "sql", description = "SELECT 查询语句，如 'SELECT * FROM MAXDOMAIN WHERE DOMAINID LIKE ?'") String sql,
-            @Param(name = "params", description = "查询参数（JSON 数组格式，如 [\"%PM%\"]），可选") Optional<String> params,
-            @Param(name = "limit", description = "返回条数上限，默认 50，最大 200") Optional<Integer> limit) {
-        try {
-            if (sql == null || sql.trim().isEmpty()) {
-                return "{\"error\": \"SQL 语句不能为空\"}";
-            }
-
-            // 安全检查：只允许 SELECT
-            String trimmedSql = sql.trim().toUpperCase();
-            if (!trimmedSql.startsWith("SELECT")) {
-                return "{\"error\": \"仅支持 SELECT 查询语句\"}";
-            }
-
-            // 禁止危险操作
-            String[] forbidden = {"INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "CREATE", "TRUNCATE",
-                    "EXEC", "EXECUTE", "CALL", "MERGE", "GRANT", "REVOKE"};
-            for (String keyword : forbidden) {
-                if (trimmedSql.contains(keyword + " ") || trimmedSql.contains(keyword + "\n")) {
-                    // 允许 SELECT 中包含这些词作为表名或内容的一部分，但不在语句级别
-                }
-            }
-
-            int maxRows = Math.min(limit.orElse(50), 200);
-
-            // 解析参数
-            List<Object> paramList = new ArrayList<>();
-            if (params.isPresent() && !params.get().trim().isEmpty()) {
-                // 简单 JSON 数组解析，例如 ["a", "b", 123]
-                String jsonStr = params.get().trim();
-                if (jsonStr.startsWith("[") && jsonStr.endsWith("]")) {
-                    String inner = jsonStr.substring(1, jsonStr.length() - 1);
-                    if (!inner.trim().isEmpty()) {
-                        // 手动拆分（不使用 JSON 库避免额外依赖）
-                        boolean inQuote = false;
-                        StringBuilder current = new StringBuilder();
-                        for (char c : inner.toCharArray()) {
-                            if (c == '"') {
-                                inQuote = !inQuote;
-                            } else if (c == ',' && !inQuote) {
-                                addParsedParam(paramList, current.toString().trim());
-                                current = new StringBuilder();
-                            } else {
-                                current.append(c);
-                            }
-                        }
-                        addParsedParam(paramList, current.toString().trim());
-                    }
-                }
-            }
-
-            // 添加 limit 参数
-            String finalSql;
-            if (trimmedSql.contains("FETCH FIRST") || trimmedSql.contains("LIMIT") || trimmedSql.contains("ROWS ONLY")) {
-                finalSql = sql;
-            } else {
-                // 追加行数限制
-                finalSql = sql + " FETCH FIRST ? ROWS ONLY";
-                paramList.add(maxRows);
-            }
-
-            List<Map<String, Object>> result = sqlUtils().queryRowList(finalSql, paramList.toArray());
-            return formatResult("SQL 查询结果", result);
-        } catch (Exception e) {
-            return "{\"error\": \"SQL 查询失败: " + escapeJson(e.getMessage()) + "\"}";
+            @Param(name = "sql", description = "要执行的 SELECT 查询语句（只读，禁止 INSERT/UPDATE/DELETE/DROP 等操作）") String sql,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        // 安全校验：只允许 SELECT
+        if (!SQL_SAFETY_PATTERN.matcher(sql).matches()) {
+            return "{\"error\": \"仅允许 SELECT 查询操作\"}";
         }
+
+        // 禁止危险关键词
+        String upperSql = sql.toUpperCase();
+        String[] forbidden = {"INSERT ", "UPDATE ", "DELETE ", "DROP ", "ALTER ", "CREATE ",
+                "TRUNCATE ", "EXEC ", "EXECUTE ", "CALL ", "MERGE "};
+        for (String keyword : forbidden) {
+            if (upperSql.contains(keyword)) {
+                return "{\"error\": \"不允许执行 " + keyword.trim() + " 操作\"}";
+            }
+        }
+
+        return queryAsJson(sql, new Object[]{}, limit);
     }
 
+
     // ========================================================================
-    // 7. 获取数据库概览信息
+    //  工具 7：数据库概览统计
     // ========================================================================
 
-    @ToolMapping(description = "获取 Maximo 数据库概览信息，包括对象数量、字段数量、关联关系数量、应用数量等统计")
+    @ToolMapping(description = "获取 Maximo 数据库概览信息。统计 MAXOBJECT、MAXATTRIBUTE、MAXRELATIONSHIP、MAXAPPS 等核心表的记录数")
     public String getDatabaseOverview() {
-        try {
-            Map<String, Object> overview = new LinkedHashMap<>();
+        StringBuilder result = new StringBuilder();
+        result.append("{\"overview\": [\n");
 
-            // 对象数量
-            overview.put("totalObjects",
-                    sqlUtils().findOne("SELECT COUNT(*) AS CNT FROM MAXOBJECT"));
-            // 字段数量
-            overview.put("totalAttributes",
-                    sqlUtils().findOne("SELECT COUNT(*) AS CNT FROM MAXATTRIBUTE"));
-            // 关联关系数量
-            overview.put("totalRelationships",
-                    sqlUtils().findOne("SELECT COUNT(*) AS CNT FROM MAXRELATIONSHIP"));
-            // 应用数量
-            overview.put("totalApps",
-                    sqlUtils().findOne("SELECT COUNT(*) AS CNT FROM MAXAPPS"));
-            // 各数据类型分布 top 10
-            overview.put("topDatatypes",
-                    sqlUtils().queryRowList(
-                            "SELECT DATATYPE, COUNT(*) AS CNT FROM MAXATTRIBUTE GROUP BY DATATYPE ORDER BY CNT DESC FETCH FIRST 10 ROWS ONLY"));
-            // 活跃对象（最近修改的 20 个）
-            overview.put("recentModifiedObjects",
-                    sqlUtils().queryRowList(
-                            "SELECT OBJECTNAME, DESCRIPTION, CHANGEDATE FROM MAXOBJECT ORDER BY CHANGEDATE DESC NULLS LAST FETCH FIRST 20 ROWS ONLY"));
+        appendTableStat(result, "MAXOBJECT", "SELECT COUNT(*) AS CNT FROM MAXOBJECT");
+        result.append(",\n");
+        appendTableStat(result, "MAXATTRIBUTE", "SELECT COUNT(*) AS CNT FROM MAXATTRIBUTE");
+        result.append(",\n");
+        appendTableStat(result, "MAXRELATIONSHIP", "SELECT COUNT(*) AS CNT FROM MAXRELATIONSHIP");
+        result.append(",\n");
+        appendTableStat(result, "MAXAPPS", "SELECT COUNT(*) AS CNT FROM MAXAPPS");
+        result.append(",\n");
+        appendTableStat(result, "MAXPRESENTATION", "SELECT COUNT(*) AS CNT FROM MAXPRESENTATION");
+        result.append(",\n");
+        appendTableStat(result, "MAXDOMAIN", "SELECT COUNT(*) AS CNT FROM MAXDOMAIN");
+        result.append(",\n");
+        appendTableStat(result, "MAXSIGNATURE", "SELECT COUNT(*) AS CNT FROM MAXSIGNATURE");
 
-            return formatResult("Maximo 数据库概览", Collections.singletonList(overview));
-        } catch (Exception e) {
-            return "{\"error\": \"获取数据库概览失败: " + escapeJson(e.getMessage()) + "\"}";
-        }
+        result.append("\n], \"message\": \"Maximo 数据库元数据概览\"}");
+        return result.toString();
     }
 
+
     // ========================================================================
-    // 辅助方法
+    //  辅助方法
     // ========================================================================
 
     /**
-     * 将查询结果格式化为 JSON 字符串
+     * 执行 SQL 查询并以 JSON 字符串返回结果
      */
-    private String formatResult(String title, List<Map<String, Object>> data) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("  \"title\": ").append(toJsonString(title)).append(",\n");
-        sb.append("  \"count\": ").append(data.size()).append(",\n");
-        sb.append("  \"rows\": [\n");
+    private String queryAsJson(String sql, Object[] params, Integer limit) {
+        int maxRows = (limit != null && limit > 0) ? Math.min(limit, 1000) : DEFAULT_LIMIT;
+        List<Map<String, Object>> rows = new ArrayList<>();
 
-        for (int i = 0; i < data.size(); i++) {
-            Map<String, Object> row = data.get(i);
-            sb.append("    {\n");
-            int colIdx = 0;
-            for (Map.Entry<String, Object> entry : row.entrySet()) {
-                sb.append("      \"").append(escapeJson(entry.getKey())).append("\": ");
-                Object val = entry.getValue();
-                if (val == null) {
-                    sb.append("null");
-                } else if (val instanceof Number) {
-                    sb.append(val);
-                } else {
-                    sb.append(toJsonString(String.valueOf(val)));
-                }
-                colIdx++;
-                if (colIdx < row.size()) {
-                    sb.append(",");
-                }
-                sb.append("\n");
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // 设置参数
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
             }
-            sb.append("    }");
-            if (i < data.size() - 1) {
-                sb.append(",");
+
+            // 限制行数
+            ps.setMaxRows(maxRows);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                while (rs.next()) {
+                    Map<String, Object> row = new LinkedHashMap<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        String columnName = meta.getColumnLabel(i);
+                        Object value = rs.getObject(i);
+                        row.put(columnName, value != null ? value : "");
+                    }
+                    rows.add(row);
+                }
             }
-            sb.append("\n");
+
+        } catch (SQLException e) {
+            LogUtil.global().error("SQL 查询失败: " + e.getMessage(), e);
+            return "{\"error\": \"SQL 查询失败: " + escapeJson(e.getMessage()) + "\"}";
         }
 
-        sb.append("  ]\n");
-        sb.append("}");
-        return sb.toString();
-    }
+        // 使用 Snack3 序列化为 JSON
+        ONode node = ONode.load(rows);
+        String json = node.toJson();
 
-    private String toJsonString(String str) {
-        if (str == null) return "null";
-        return "\"" + escapeJson(str) + "\"";
-    }
-
-    private String escapeJson(String str) {
-        if (str == null) return "";
-        return str.replace("\\", "\\\\")
-                  .replace("\"", "\\\"")
-                  .replace("\n", "\\n")
-                  .replace("\r", "\\r")
-                  .replace("\t", "\\t");
-    }
-
-    private void addParsedParam(List<Object> paramList, String token) {
-        if (token.isEmpty()) return;
-        // 去除引号
-        if (token.startsWith("\"") && token.endsWith("\"")) {
-            paramList.add(token.substring(1, token.length() - 1));
-        } else if (token.startsWith("'") && token.endsWith("'")) {
-            paramList.add(token.substring(1, token.length() - 1));
-        } else {
-            // 尝试解析为数字
-            try {
-                if (token.contains(".")) {
-                    paramList.add(Double.parseDouble(token));
-                } else {
-                    paramList.add(Long.parseLong(token));
-                }
-            } catch (NumberFormatException e) {
-                paramList.add(token);
-            }
+        // 如果结果为空，返回提示
+        if (rows.isEmpty()) {
+            return "[]";
         }
+
+        return json;
+    }
+
+    /**
+     * 追加单表统计信息
+     */
+    private void appendTableStat(StringBuilder sb, String tableName, String sql) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            long count = 0;
+            if (rs.next()) {
+                count = rs.getLong(1);
+            }
+            sb.append("  {\"table\": \"").append(tableName)
+                    .append("\", \"recordCount\": ").append(count)
+                    .append("}");
+
+        } catch (SQLException e) {
+            sb.append("  {\"table\": \"").append(tableName)
+                    .append("\", \"recordCount\": -1, \"error\": \"")
+                    .append(escapeJson(e.getMessage())).append("\"}");
+        }
+    }
+
+    /**
+     * 简单 JSON 字符串转义
+     */
+    private String escapeJson(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }

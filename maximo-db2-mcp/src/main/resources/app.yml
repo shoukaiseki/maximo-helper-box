@@ -9,10 +9,10 @@ solon.app:
 # 请根据实际情况修改以下配置
 # ===================================================
 maximo.db:
-  jdbcUrl: "jdbc:db2://localhost:50000/MAXDB"
+  jdbcUrl: "jdbc:db2://192.168.24.235:50000/MAXIMO"
   driverClassName: "com.ibm.db2.jcc.DB2Driver"
-  username: "maximo"
-  password: "maximo"
+  username: "db2inst1"
+  password: "Passw0rd"
   maximumPoolSize: 10
   minimumIdle: 2
   connectionTimeout: 30000
