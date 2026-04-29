@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商评价模板 - SC SET</title>
+    <style>
+        /* IBM Plex Sans 字体 */
+        @font-face {
+            font-family: 'MaximoBase';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'MaximoBase-Bold';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff") format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            color: #161616;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 20px;
+            color: #161616;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0F62FE;
+        }
+
+        /* 表格样式 */
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+
+        .mx-table th, .mx-table td {
+            text-align: left;
+            border: 0px;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .mx-table th {
+            background: #E0E0E0;
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-weight: bold;
+            color: #444444;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .mx-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        .mx-table tr:hover {
+            background: #f4f4f4;
+        }
+
+        td[numeric] {
+            text-align: right;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>供应商评价模板列表</h1>
+
+        <table class="mx-table">
+            <thead>
+                <tr>
+                    <th>模板编号</th>
+                    <th>模板名称</th>
+                    <th>供应商类型</th>
+                    <th numeric>总分</th>
+                    <th numeric>合格分</th>
+                    <th>评价细则</th>
+                    <th>状态</th>
+                    <th>版本号</th>
+                    <th>生效日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SQA-001</td>
+                    <td>供应商评价模板</td>
+                    <td>零件/物流/服务</td>
+                    <td numeric>100</td>
+                    <td numeric>80</td>
+                    <td>细则.pdf</td>
+                    <td>已发布</td>
+                    <td>V1.0</td>
+                    <td>2026-04-01</td>
+                </tr>
+                <tr>
+                    <td>SQA-002</td>
+                    <td>供应商评价模板A</td>
+                    <td>零件</td>
+                    <td numeric>100</td>
+                    <td numeric>75</td>
+                    <td>细则A.pdf</td>
+                    <td>已发布</td>
+                    <td>V1.0</td>
+                    <td>2026-03-15</td>
+                </tr>
+                <tr>
+                    <td>SQA-003</td>
+                    <td>供应商评价模板B</td>
+                    <td>物流</td>
+                    <td numeric>100</td>
+                    <td numeric>85</td>
+                    <td>细则B.pdf</td>
+                    <td>草稿</td>
+                    <td>V1.0</td>
+                    <td>2026-05-01</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -12,7 +12,7 @@
             font-weight: 400;
             font-style: normal;
         }
-        
+
         @font-face {
             font-family: 'MaximoBase-Bold';
             src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
@@ -21,35 +21,35 @@
             font-style: normal;
         }
 
-        body         { 
-            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif; 
-            background: #f1f1f1; 
+        body         {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
             margin: 30px;
             color: #161616;
         }
         .section      { margin-bottom: 40px;}
-        .section-title{ 
+        .section-title{
             font-family: 'MaximoBase-Bold', Arial, sans-serif;
-            font-size: 18px; 
-            font-weight: bold; 
+            font-size: 18px;
+            font-weight: bold;
             margin: 10px 0 18px;
             color: #161616;
         }
-        .mx-label     { 
-            display:inline-block; 
-            width:100px; 
-            text-align:right; 
-            margin-right:10px; 
+        .mx-label     {
+            display:inline-block;
+            width:100px;
+            text-align:right;
+            margin-right:10px;
             color: #464646;
             font-size: 13px;
         }
-        .mx-input, .mx-select, .mx-textarea { 
+        .mx-input, .mx-select, .mx-textarea {
             border: 0px;
-            border-bottom: 1px solid #8D8D8D; 
+            border-bottom: 1px solid #8D8D8D;
             border-radius: 0px;
-            padding: 8px 16px; 
-            min-width:220px; 
-            font-size: 14px; 
+            padding: 8px 16px;
+            min-width:220px;
+            font-size: 14px;
             margin-bottom: 10px;
             font-family: 'MaximoBase', Arial, sans-serif;
             color: #000000;
@@ -60,58 +60,68 @@
             outline: 2px solid #0F62FE;
             outline-offset: -2px;
         }
-        .mx-textarea   { 
-            height: 60px; 
-            width: 350px; 
+        .mx-input:read-only, .mx-select:disabled, .mx-textarea:read-only {
+            background-color: #F4F4F4;
+            color: #666666;
+            cursor: not-allowed;
+        }
+        .required::before {
+            content: "*";
+            color: #DA1E28;
+            margin-right: 4px;
+        }
+        .mx-textarea   {
+            height: 60px;
+            width: 350px;
             resize: vertical;
             border: 1px solid #8D8D8D;
         }
         .mx-partinput  { display:flex; align-items:center; gap:8px;}
         .mx-partinput input { min-width: 75px;}
-        .mx-button   { 
-            padding: calc(0.875rem - 3px) 63px calc(0.875rem - 3px) 15px; 
-            border: 1px solid #0F62FE; 
-            border-radius: 0px; 
-            font-size: 14px; 
-            margin: 2px 16px 2px 0; 
-            cursor: pointer; 
+        .mx-button   {
+            padding: calc(0.875rem - 3px) 63px calc(0.875rem - 3px) 15px;
+            border: 1px solid #0F62FE;
+            border-radius: 0px;
+            font-size: 14px;
+            margin: 2px 16px 2px 0;
+            cursor: pointer;
             transition: all 0.2s;
             min-width: 70px;
             position: relative;
         }
-        .mx-primary  { 
-            background: #0F62FE; 
+        .mx-primary  {
+            background: #0F62FE;
             color: #ffffff;
             border-color: #0F62FE;
         }
-        .mx-primary:hover { 
+        .mx-primary:hover {
             background: #0353E9;
             border-color: #0353E9;
         }
-        .mx-secondary{ 
-            background: #ffffff; 
+        .mx-secondary{
+            background: #ffffff;
             color: #0F62FE;
             border-color: #0F62FE;
         }
-        .mx-secondary:hover { 
+        .mx-secondary:hover {
             background: #0F62FE;
             color: #ffffff;
         }
         .mx-radio input { margin-right: 6px;}
-        .mx-table      { 
-            border-collapse: collapse; 
-            width: 100%; 
-            background: #fff; 
+        .mx-table      {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .mx-table th, .mx-table td { 
-            text-align: left; 
+        .mx-table th, .mx-table td {
+            text-align: left;
             border: 0px;
             border-bottom: 1px solid #E0E0E0;
             padding: 10px 15px;
         }
-        .mx-table th   { 
-            background: #E0E0E0; 
+        .mx-table th   {
+            background: #E0E0E0;
             font-family: 'MaximoBase-Bold', Arial, sans-serif;
             font-weight: bold;
             color: #444444;
@@ -120,17 +130,17 @@
         .mx-table tr:nth-child(even) {
             background-color: #FAFAFA;
         }
-        .mx-table tr:hover    { 
+        .mx-table tr:hover    {
             background: #f4f4f4;
         }
         /* 选项卡 */
-        .mx-tabs       { 
-            display: flex; 
+        .mx-tabs       {
+            display: flex;
             border-bottom: 2px solid #E0E0E0;
         }
-        .mx-tab        { 
-            padding: 10px 24px; 
-            cursor: pointer; 
+        .mx-tab        {
+            padding: 10px 24px;
+            cursor: pointer;
             border-radius: 0px;
             background: #ffffff;
             margin-right: 2px;
@@ -140,27 +150,27 @@
             margin-bottom: -2px;
             transition: all 0.2s;
         }
-        .mx-tab.active { 
-            background: #ffffff; 
-            border-bottom: 2px solid #0F62FE; 
+        .mx-tab.active {
+            background: #ffffff;
+            border-bottom: 2px solid #0F62FE;
             color: #0F62FE;
             font-weight: 600;
         }
         .mx-tab:hover:not(.active) {
             background: #f4f4f4;
         }
-        .mx-tab-content{ 
-            background: #fff; 
+        .mx-tab-content{
+            background: #fff;
             border: 1px solid #E0E0E0;
             border-top: none;
-            padding: 18px 10px 10px 20px; 
+            padding: 18px 10px 10px 20px;
             margin-top: 0px;
         }
         /* 下拉箭头 */
-        .mx-select { 
-            appearance: none; 
-            -webkit-appearance: none; 
-            background: url("data:image/svg+xml;charset=UTF-8,<svg height='20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 8l5 5 5-5z' fill='%230F62FE'/></svg>") no-repeat right 10px center/16px 16px; 
+        .mx-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: url("data:image/svg+xml;charset=UTF-8,<svg height='20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 8l5 5 5-5z' fill='%230F62FE'/></svg>") no-repeat right 10px center/16px 16px;
         }
         /* 美化对话框 */
         #dialog-bg {
@@ -221,8 +231,8 @@
             line-height: 1.5;
             transition: color .18s;
         }
-        .mx-close:hover { 
-            color: #0F62FE; 
+        .mx-close:hover {
+            color: #0F62FE;
         }
     </style>
 </head>
@@ -298,8 +308,15 @@
 </div>
 <div class="section">
     <div class="section-title">5. 单行文本框</div>
+    <p style="color: #666; font-size: 13px; margin-bottom: 15px;">最常用的字段值显示组件, 用于显示字段值，可设置字段的标题和描述。</p>
     <label class="mx-label" for="assetnum">资产编号</label>
     <input class="mx-input" id="assetnum" type="text" placeholder="请输入资产编号"><br>
+    
+    <label class="mx-label required" for="assetnum2">资产编号(必填)</label>
+    <input class="mx-input" id="assetnum2" type="text" placeholder="请输入资产编号"><br>
+    
+    <label class="mx-label" for="assetnum3">资产编号(只读)</label>
+    <input class="mx-input" id="assetnum3" type="text" value="ASSET-001" readonly><br>
 </div>
 <div class="section">
     <div class="section-title">6. 多行文本框</div>
