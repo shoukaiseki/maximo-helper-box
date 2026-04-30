@@ -76,17 +76,44 @@
             align-items: center;
         }
 
-        .info-label {
+        .mx-label {
             font-weight: 600;
             color: #464646;
             font-size: 13px;
             width: 100px;
             flex-shrink: 0;
+            text-align: right;
+            margin-right: 10px;
         }
 
-        .info-value {
-            color: #161616;
-            font-size: 13px;
+        .mx-input, .mx-select {
+            border: 0px;
+            border-bottom: 1px solid #8D8D8D;
+            border-radius: 0px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #000000;
+            background-color: #ffffff;
+            font-family: 'MaximoBase', Arial, sans-serif;
+            width: 100%;
+        }
+
+        .mx-input:focus, .mx-select:focus {
+            border-bottom-color: #0F62FE;
+            outline: 2px solid #0F62FE;
+            outline-offset: -2px;
+        }
+
+        .mx-input:read-only, .mx-select:disabled {
+            background-color: #F4F4F4;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        .required::before {
+            content: "*";
+            color: #DA1E28;
+            margin-right: 4px;
         }
 
         /* 表格样式 */
@@ -160,48 +187,48 @@
         <div class="info-section">
             <div class="info-grid">
                 <div class="info-item">
-                    <span class="info-label">模板编号:</span>
-                    <span class="info-value">SQA-001</span>
+                    <label class="mx-label required" for="templateName">模板名称</label>
+                    <input class="mx-input" id="templateName" type="text" placeholder="请输入模板名称" value="供应商评价模板">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">模板名称:</span>
-                    <span class="info-value">供应商评价模板</span>
+                    <label class="mx-label required" for="supplierType">供应商类型</label>
+                    <input class="mx-input" id="supplierType" type="text" placeholder="请输入供应商类型" value="零件/物流/服务">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">供应商类型:</span>
-                    <span class="info-value">零件/物流/服务</span>
+                    <label class="mx-label" for="status">状态</label>
+                    <input class="mx-input" id="status" type="text" value="草稿" readonly>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">总分:</span>
-                    <span class="info-value">100</span>
+                    <label class="mx-label required" for="totalScore">总分</label>
+                    <input class="mx-input" id="totalScore" type="number" placeholder="请输入总分" value="100">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">合格分:</span>
-                    <span class="info-value">80</span>
+                    <label class="mx-label required" for="passScore">合格分</label>
+                    <input class="mx-input" id="passScore" type="number" placeholder="请输入合格分" value="80">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">评价细则:</span>
-                    <span class="info-value">细则.pdf</span>
+                    <label class="mx-label" for="version">版本号</label>
+                    <input class="mx-input" id="version" type="text" value="V1.0" readonly>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">状态:</span>
-                    <span class="info-value">已发布</span>
+                    <label class="mx-label required" for="evaluationRule">评价细则</label>
+                    <input class="mx-input" id="evaluationRule" type="text" placeholder="请输入评价细则" value="细则.pdf">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">版本号:</span>
-                    <span class="info-value">V1.0</span>
+                    <label class="mx-label required" for="effectiveDate">生效日期</label>
+                    <input class="mx-input" id="effectiveDate" type="date" value="2026-04-01">
                 </div>
                 <div class="info-item">
-                    <span class="info-label">生效日期:</span>
-                    <span class="info-value">2026-04-01</span>
+                    <label class="mx-label" for="createDate">创建日期</label>
+                    <input class="mx-input" id="createDate" type="text" value="2026-03-20" readonly>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">创建日期:</span>
-                    <span class="info-value">2026-03-20</span>
+                    <label class="mx-label" for="templateCode">模板编号</label>
+                    <input class="mx-input" id="templateCode" type="text" value="SQA-001" readonly>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">创建人:</span>
-                    <span class="info-value">Admin</span>
+                    <label class="mx-label" for="creator">创建人</label>
+                    <input class="mx-input" id="creator" type="text" value="Admin" readonly>
                 </div>
             </div>
         </div>
