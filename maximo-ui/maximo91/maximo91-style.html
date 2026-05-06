@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo 9.1 组件样式演示(基于JSP源码)</title>
+    <link rel="stylesheet" type="text/css" href="./maximo.css">
+    <link rel="stylesheet" type="text/css" href="./extended.css">
+    <style>
+        body {
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: arial, sans serif, verdana;
+            font-size: 11px;
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        .demo-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #0F62FE;
+            padding-bottom: 5px;
+        }
+        .form-row {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .mx-label {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            margin-right: 10px;
+            font-size: 11px;
+            color: #333;
+        }
+        .required_label {
+            margin-left: 3px;
+        }
+        /* 表格样式 */
+        .tableouter-div {
+            margin: 10px 0;
+        }
+        table.tableouter {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .listheadrow {
+            background-color: #e5e5e5;
+        }
+        .listhead {
+            padding: 5px;
+            border: 1px solid #ccced0;
+            font-weight: bold;
+            text-align: left;
+        }
+        .listrow {
+            background-color: #fff;
+        }
+        .listrow.trodd {
+            background-color: #f9f9f9;
+        }
+        .listcell {
+            padding: 5px;
+            border: 1px solid #ccced0;
+        }
+        /* 选项卡样式 */
+        .tabgroupShell {
+            margin: 10px 0;
+        }
+        ul.tabgroup {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        li.tab_li_on {
+            background-color: #fff;
+            border: 1px solid #ccced0;
+            border-bottom: none;
+            margin-right: 2px;
+            position: relative;
+            top: 1px;
+        }
+        li.tab_li_off {
+            background-color: #e5e5e5;
+            border: 1px solid #ccced0;
+            margin-right: 2px;
+        }
+        li.tab_li_on a,
+        li.tab_li_off a {
+            display: block;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        li.tab_li_on a {
+            font-weight: bold;
+        }
+        /* Section样式 */
+        .section {
+            padding: 10px;
+            border: 1px solid #ccced0;
+            margin: 10px 0;
+            background: #fff;
+        }
+        .sectionb {
+            border-top: 2px solid #0F62FE;
+        }
+        .sdesc {
+            padding: 5px;
+            color: #666;
+            font-style: italic;
+        }
+        /* 按钮样式 */
+        .greybutton {
+            background: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
+            border: 1px solid #999;
+            padding: 4px 15px;
+            cursor: pointer;
+            font-size: 11px;
+            margin: 5px;
+        }
+        .greybutton:hover {
+            background: linear-gradient(to bottom, #fff, #f0f0f0);
+        }
+        .pb {
+            display: inline-block;
+        }
+        /* Checkbox样式 */
+        .bc {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        .cbtd {
+            padding: 0;
+            vertical-align: middle;
+        }
+        .cb09 {
+            text-decoration: none;
+            outline: none;
+        }
+        /* Radio button样式 */
+        input[type="radio"] {
+            margin: 0 5px 0 0;
+            vertical-align: middle;
+        }
+        /* Textarea样式 */
+        textarea.fld {
+            font-family: arial, sans serif, verdana;
+            font-size: 11px;
+            resize: vertical;
+        }
+        /* 错误/警告样式 */
+        .fld_error {
+            background-color: #fef7f7;
+            border: 1px solid #e9c7c8;
+        }
+        .fld_warn {
+            background-color: #fffae6;
+            border: 1px solid #f0d98d;
+        }
+        .fld_info {
+            background-color: #f0f7ff;
+            border: 1px solid #a8c7e6;
+        }
+        /* 静态文本 */
+        .statictext {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="font-size: 18px; color: #333; margin-bottom: 20px;">Maximo 9.1 UI组件样式演示(基于JSP源码分析)</h1>
+
+<!-- 1. 文本框 -->
+<div class="demo-section">
+    <div class="demo-title">1. 文本框 (textbox.jsp - class="fld")</div>
+    
+    <div class="form-row">
+        <label class="mx-label">普通文本框:</label>
+        <input datatype="-1" id="txt1" ctype="textbox" class="fld text tt" 
+               type="text" value="ASSET-001" work="1" />
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">必填字段:</label>
+        <input datatype="-1" id="txt2" ctype="textbox" class="fld text tt fld_req" 
+               type="text" value="锅炉泵" work="1" />
+        <img class='required_label' width='8px' height='8px' align='absmiddle' border='0' 
+             src='./user_detail_files/required_label.gif' alt='' />
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">只读字段:</label>
+        <input datatype="-1" id="txt3" ctype="textbox" class="fld text tt fld_ro" 
+               type="text" value="READONLY" readonly="readonly" sue="1" />
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">已修改:</label>
+        <input datatype="-1" id="txt4" ctype="textbox" class="fld text tt fld_edited" 
+               type="text" value="已修改" ov="原始值" work="1" />
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">带错误:</label>
+        <input datatype="-1" id="txt5" ctype="textbox" class="fld text tt fld_error" 
+               type="text" value="无效值" exc="1" />
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">数字字段:</label>
+        <input datatype="4" id="txt6" ctype="textbox" class="fld text tt" 
+               type="text" value="12345" dir="ltr" 
+               style="padding-right:2px;text-align: right;width:100px;" num="1" />
+    </div>
+</div>
+
+<!-- 2. 多行文本框 -->
+<div class="demo-section">
+    <div class="demo-title">2. 多行文本框 (textarea.jsp)</div>
+    
+    <div class="form-row">
+        <label class="mx-label" style="vertical-align: top;">描述:</label>
+        <textarea id="ta1" class="fld" rows="4" cols="50" 
+                  style="width:400px;">这是一个多行文本框示例。
+可以在这里输入较长的文本内容。</textarea>
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label" style="vertical-align: top;">必填描述:</label>
+        <textarea id="ta2" class="fld fld_req" rows="4" cols="50" 
+                  style="width:400px;">这是必填的多行文本框。</textarea>
+        <img class='required_label' width='8px' height='8px' align='absmiddle' border='0' 
+             src='./user_detail_files/required_label.gif' alt='' />
+    </div>
+</div>
+
+<!-- 3. 下拉选择框 -->
+<div class="demo-section">
+    <div class="demo-title">3. 下拉选择框 (select.jsp / combobox)</div>
+    
+    <div class="form-row">
+        <label class="mx-label">状态:</label>
+        <select id="sel1" class="fld" style="width:150px;">
+            <option value="">-- 请选择 --</option>
+            <option value="ACTIVE" selected>活动</option>
+            <option value="INACTIVE">非活动</option>
+            <option value="PENDING">待处理</option>
+        </select>
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">优先级:</label>
+        <select id="sel2" class="fld fld_req" style="width:150px;">
+            <option value="HIGH">高</option>
+            <option value="MEDIUM" selected>中</option>
+            <option value="LOW">低</option>
+        </select>
+        <img class='required_label' width='8px' height='8px' align='absmiddle' border='0' 
+             src='./user_detail_files/required_label.gif' alt='' />
+    </div>
+</div>
+
+<!-- 4. 复选框 -->
+<div class="demo-section">
+    <div class="demo-title">4. 复选框 (checkbox.jsp - 使用图片)</div>
+    
+    <div class="form-row">
+        <label class="mx-label">启用:</label>
+        <div class="bc">
+            <table role="presentation" border="0" cellspacing="0" cellpadding="0" 
+                   style="margin:0px;display:inline;">
+                <tbody>
+                    <tr>
+                        <td valign="middle" class="cbtd">
+                            <a role="checkbox" aria-readonly="false" aria-checked="true"
+                               id="cb1" ctype="checkbox" class="cb09" 
+                               tabindex="0" style="cursor:pointer">
+                                <img border="0" align="texttop" 
+                                     src="./user_detail_files/cb_checked.gif" 
+                                     checked="checked" readonly="false" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">禁用:</label>
+        <div class="bc">
+            <table role="presentation" border="0" cellspacing="0" cellpadding="0" 
+                   style="margin:0px;display:inline;">
+                <tbody>
+                    <tr>
+                        <td valign="middle" class="cbtd">
+                            <a role="checkbox" aria-readonly="true" aria-checked="false"
+                               id="cb2" ctype="checkbox" class="cb09" 
+                               tabindex="-1" style="cursor:not-allowed" aria-disabled="true">
+                                <img border="0" align="texttop" 
+                                     src="./user_detail_files/cb_uncheckedreadonly.gif" 
+                                     checked="unchecked" readonly="true" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 5. 单选框 -->
+<div class="demo-section">
+    <div class="demo-title">5. 单选框 (radiobutton.jsp)</div>
+    
+    <div class="form-row">
+        <label class="mx-label">性别:</label>
+        <input type="radio" name="gender" id="rb1" ctype="radiobutton" 
+               class="" checked="CHECKED" />
+        <label for="rb1">男</label>
+        
+        <input type="radio" name="gender" id="rb2" ctype="radiobutton" 
+               class="" style="margin-left:15px;" />
+        <label for="rb2">女</label>
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">类型:</label>
+        <input type="radio" name="type" id="rb3" ctype="radiobutton" 
+               class="" checked="CHECKED" />
+        <label for="rb3">标准</label>
+        
+        <input type="radio" name="type" id="rb4" ctype="radiobutton" 
+               class="" style="margin-left:15px;" />
+        <label for="rb4">高级</label>
+        
+        <input type="radio" name="type" id="rb5" ctype="radiobutton" 
+               class="" style="margin-left:15px;" />
+        <label for="rb5">企业</label>
+    </div>
+</div>
+
+<!-- 6. 按钮 -->
+<div class="demo-section">
+    <div class="demo-title">6. 按钮 (pushbutton.jsp - class="pb")</div>
+    
+    <div class="form-row">
+        <label class="mx-label">普通按钮:</label>
+        <button ctype="pushbutton" control="true" id="btn1" 
+                class="greybutton pb" type="button" 
+                style="width:auto;">
+            保存
+        </button>
+        
+        <button ctype="pushbutton" control="true" id="btn2" 
+                class="greybutton pb" type="button" 
+                style="width:auto;">
+            取消
+        </button>
+        
+        <button ctype="pushbutton" control="true" id="btn3" 
+                class="greybutton pb default" type="button" 
+                style="width:auto;">
+            确定 (默认)
+        </button>
+    </div>
+    
+    <div class="form-row">
+        <label class="mx-label">禁用按钮:</label>
+        <button ctype="pushbutton" control="true" id="btn4" 
+                class="greybutton pb" type="button" 
+                disabled="disabled" aria-disabled="true"
+                style="width:auto;">
+            禁用按钮
+        </button>
+    </div>
+</div>
+
+<!-- 7. 表格 -->
+<div class="demo-section">
+    <div class="demo-title">7. 表格 (tableouter.jsp + tablerow.jsp + tablecell.jsp)</div>
+    
+    <div class="tableouter-div">
+        <table role="presentation" id="tbl1" 
+               class="tableouter" 
+               style="width:100%;border-collapse: collapse;">
+            <thead>
+                <tr data-has-data="true" data-filter-open="false" 
+                    id="tbl1_titleRow" class="ttr treven">
+                    <th headers="tbl1errtitle[R:-1]" class="tc" 
+                        style="border-right:0px; width: 1px;"></th>
+                    <td class="tc listhead" style="width:150px;">资产编号</td>
+                    <td class="tc listhead" style="width:200px;">描述</td>
+                    <td class="tc listhead" style="width:100px;">状态</td>
+                    <td class="tc listhead" style="width:100px;">位置</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-has-data="true" data-filter-open="false" 
+                    id="tbl1_row0" currentrow="true" 
+                    class="tdr treven tcr">
+                    <td headers="tbl1errtitle[R:-1]" class="tc" 
+                        style="border-right:0px; width: 1px;"></td>
+                    <td class="tc listcell">ASSET-001</td>
+                    <td class="tc listcell">锅炉泵A</td>
+                    <td class="tc listcell">运行中</td>
+                    <td class="tc listcell">车间1</td>
+                </tr>
+                <tr data-has-data="true" data-filter-open="false" 
+                    id="tbl1_row1" 
+                    class="tdr trodd">
+                    <td headers="tbl1errtitle[R:-1]" class="tc" 
+                        style="border-right:0px; width: 1px;"></td>
+                    <td class="tc listcell">ASSET-002</td>
+                    <td class="tc listcell">冷却塔B</td>
+                    <td class="tc listcell">维护中</td>
+                    <td class="tc listcell">车间2</td>
+                </tr>
+                <tr data-has-data="true" data-filter-open="false" 
+                    id="tbl1_row2" 
+                    class="tdr treven">
+                    <td headers="tbl1errtitle[R:-1]" class="tc" 
+                        style="border-right:0px; width: 1px;"></td>
+                    <td class="tc listcell">ASSET-003</td>
+                    <td class="tc listcell">压缩机C</td>
+                    <td class="tc listcell">停机</td>
+                    <td class="tc listcell">仓库</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 8. 选项卡 -->
+<div class="demo-section">
+    <div class="demo-title">8. 选项卡 (tabs.jsp + tab.jsp - class="tabgroup")</div>
+    
+    <div class="tabgroupShell">
+        <div class="tabContainer">
+            <div class="tabsWrapper">
+                <ul class="tabgroup" nowrap="nowrap" role="tablist" 
+                    style="height:4.5rem;white-space:nowrap;">
+                    <li role="presentation" class="tab_li_on" id="tab1" ctype="tab">
+                        <a role="tab" tabindex="0" id="tab1_anchor" 
+                           title="基本信息" 
+                           class="text tablabelon on" 
+                           aria-expanded="true">
+                            基本信息
+                        </a>
+                    </li>
+                    <li role="presentation" class="tab_li_off" id="tab2" ctype="tab">
+                        <a role="tab" tabindex="-1" id="tab2_anchor" 
+                           title="详细信息" 
+                           class="text tablabeloff off" 
+                           aria-expanded="false"
+                           onfocus="appendClass(this,'offhover')" 
+                           onblur="removeClass(this,'offhover')">
+                            详细信息
+                        </a>
+                    </li>
+                    <li role="presentation" class="tab_li_off" id="tab3" ctype="tab">
+                        <a role="tab" tabindex="-1" id="tab3_anchor" 
+                           title="工作流" 
+                           class="text tablabeloff off" 
+                           aria-expanded="false"
+                           onfocus="appendClass(this,'offhover')" 
+                           onblur="removeClass(this,'offhover')">
+                            工作流
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 选项卡内容区 -->
+    <div id="tab1_content" class="section sectionb">
+        <p style="margin:0;">这是"基本信息"选项卡的内容区域。</p>
+    </div>
+</div>
+
+<!-- 9. Section区域 -->
+<div class="demo-section">
+    <div class="demo-title">9. Section区域 (section.jsp - class="section")</div>
+    
+    <div id="sec1" class="section sectionb">
+        <table role="presentation" id="sec1_desc_table">
+            <tr>
+                <td id="sec1_desc" colspan="10" class="sdesc">
+                    这是一个带有描述的Section区域
+                </td>
+            </tr>
+        </table>
+        
+        <div class="form-row">
+            <label class="mx-label">字段1:</label>
+            <input class="fld text tt" type="text" value="值1" />
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label">字段2:</label>
+            <input class="fld text tt" type="text" value="值2" />
+        </div>
+    </div>
+    
+    <div id="sec2" class="section">
+        <div class="form-row">
+            <label class="mx-label">名称:</label>
+            <span class="statictext">静态文本内容</span>
+        </div>
+    </div>
+</div>
+
+<!-- 10. 标签页内容 -->
+<div class="demo-section">
+    <div class="demo-title">10. 完整的表单布局示例</div>
+    
+    <div class="section sectionb">
+        <div class="form-row">
+            <label class="mx-label">资产编号:</label>
+            <input class="fld text tt fld_req" type="text" value="ASSET-001" />
+            <img class='required_label' width='8px' height='8px' align='absmiddle' border='0' 
+                 src='./user_detail_files/required_label.gif' alt='' />
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label">描述:</label>
+            <input class="fld text tt" type="text" value="锅炉泵A" style="width:300px;" />
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label" style="vertical-align: top;">详细说明:</label>
+            <textarea class="fld" rows="3" style="width:300px;">这是一个详细的说明文本。</textarea>
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label">状态:</label>
+            <select class="fld" style="width:150px;">
+                <option value="ACTIVE" selected>活动</option>
+                <option value="INACTIVE">非活动</option>
+            </select>
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label">优先级:</label>
+            <input type="radio" name="priority" checked="CHECKED" /> 高
+            <input type="radio" name="priority" style="margin-left:15px;" /> 中
+            <input type="radio" name="priority" style="margin-left:15px;" /> 低
+        </div>
+        
+        <div class="form-row">
+            <label class="mx-label"></label>
+            <div class="bc">
+                <table role="presentation" border="0" cellspacing="0" cellpadding="0" 
+                       style="margin:0px;display:inline;">
+                    <tbody>
+                        <tr>
+                            <td valign="middle" class="cbtd">
+                                <a role="checkbox" aria-readonly="false" aria-checked="true"
+                                   class="cb09" tabindex="0" style="cursor:pointer">
+                                    <img border="0" align="texttop" 
+                                         src="./user_detail_files/cb_checked.gif" 
+                                         checked="checked" readonly="false" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <span style="margin-left:5px;">启用自动更新</span>
+        </div>
+        
+        <div class="form-row" style="margin-top:20px;">
+            <label class="mx-label"></label>
+            <button class="greybutton pb" type="button">保存</button>
+            <button class="greybutton pb" type="button">取消</button>
+            <button class="greybutton pb default" type="button">确定</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

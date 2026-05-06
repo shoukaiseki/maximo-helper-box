@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商评价单详情 - SC SE</title>
+    <style>
+        /* IBM Plex Sans 字体 */
+        @font-face {
+            font-family: 'MaximoBase';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'MaximoBase-Bold';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff") format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            color: #161616;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 20px;
+            color: #161616;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0F62FE;
+        }
+
+        .section-title {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 24px 0 12px 0;
+            color: #161616;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        /* 主表信息样式 */
+        .info-section {
+            background: #FAFAFA;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #E0E0E0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .mx-label {
+            font-weight: 600;
+            color: #464646;
+            font-size: 13px;
+            width: 100px;
+            flex-shrink: 0;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .mx-input, .mx-select {
+            border: 0px;
+            border-bottom: 1px solid #8D8D8D;
+            border-radius: 0px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #000000;
+            background-color: #ffffff;
+            font-family: 'MaximoBase', Arial, sans-serif;
+            width: 100%;
+        }
+
+        .mx-input:focus, .mx-select:focus {
+            border-bottom-color: #0F62FE;
+            outline: 2px solid #0F62FE;
+            outline-offset: -2px;
+        }
+
+        .mx-input:read-only, .mx-select:disabled {
+            background-color: #F4F4F4;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        .required::before {
+            content: "*";
+            color: #DA1E28;
+            margin-right: 4px;
+        }
+
+        /* 操作按钮区域 */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E0E0E0;
+        }
+
+        .mx-button {
+            padding: 8px 24px;
+            border: 1px solid #0F62FE;
+            border-radius: 0px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'MaximoBase', Arial, sans-serif;
+        }
+
+        .mx-primary {
+            background: #0F62FE;
+            color: #ffffff;
+            border-color: #0F62FE;
+        }
+
+        .mx-primary:hover {
+            background: #0353E9;
+            border-color: #0353E9;
+        }
+
+        .mx-secondary {
+            background: #ffffff;
+            color: #0F62FE;
+            border-color: #0F62FE;
+        }
+
+        .mx-secondary:hover {
+            background: #0F62FE;
+            color: #ffffff;
+        }
+
+        /* 表格样式 */
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+            margin-top: 12px;
+        }
+
+        .mx-table th, .mx-table td {
+            text-align: left;
+            border: 0px;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .mx-table th {
+            background: #E0E0E0;
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-weight: bold;
+            color: #444444;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .mx-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        .mx-table tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .mx-table tr:hover {
+            background: #f4f4f4;
+        }
+
+        td[numeric] {
+            text-align: center;
+        }
+
+        /* 类别合并单元格 */
+        .category-cell {
+            vertical-align: middle;
+            font-weight: 600;
+        }
+
+        .score-cell {
+            vertical-align: middle;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mx-table th, .mx-table td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>供应商评价单详情</h1>
+
+        <!-- 主表信息 -->
+        <div class="section-title">评价单基本信息</div>
+        <div class="info-section">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label class="mx-label" for="evalCode">评价单号</label>
+                    <input class="mx-input" id="evalCode" type="text" value="EVA-001" readonly>
+                </div>
+                <div class="info-item">
+                    <label class="mx-label required" for="templateCode">模板编号</label>
+                    <input class="mx-input" id="templateCode" type="text" value="SQA-001" readonly>
+                </div>
+                <div class="info-item">
+                    <label class="mx-label required" for="supplier">供应商</label>
+                    <input class="mx-input" id="supplier" type="text" placeholder="请输入供应商" value="XX零件供应商">
+                </div>
+                <div class="info-item">
+                    <label class="mx-label required" for="evalDate">评价日期</label>
+                    <input class="mx-input" id="evalDate" type="date" value="2026-04-15">
+                </div>
+                <div class="info-item">
+                    <label class="mx-label required" for="evaluator">评价人员</label>
+                    <input class="mx-input" id="evaluator" type="text" placeholder="请输入评价人员" value="李">
+                </div>
+                <div class="info-item">
+                    <label class="mx-label" for="status">状态</label>
+                    <input class="mx-input" id="status" type="text" value="分项打分中" readonly>
+                </div>
+                <div class="info-item">
+                    <label class="mx-label" for="totalScore">总分</label>
+                    <input class="mx-input" id="totalScore" type="text" value="系统自动汇总" readonly>
+                </div>
+                <div class="info-item">
+                    <label class="mx-label" for="result">结果</label>
+                    <input class="mx-input" id="result" type="text" value="合格/不合格" readonly>
+                </div>
+                <div class="info-item">
+                    <label class="mx-label" for="reviewer">审核人员</label>
+                    <input class="mx-input" id="reviewer" type="text" value="张" readonly>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="mx-button mx-primary">评价细则：提供下载或打印链接</button>
+                <button class="mx-button mx-secondary">报表：评价表打印</button>
+            </div>
+        </div>
+
+        <!-- 评价项子表 -->
+        <div class="section-title">评价项目明细</div>
+        <table class="mx-table">
+            <thead>
+                <tr>
+                    <th>类别</th>
+                    <th>评价项目</th>
+                    <th>是否必评</th>
+                    <th numeric>满分</th>
+                    <th numeric>最低合格分</th>
+                    <th numeric>实际得分</th>
+                    <th numeric>类别总分</th>
+                    <th>附件</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="category-cell" rowspan="2">品質保証組織</td>
+                    <td>組織・責任・権限</td>
+                    <td numeric>是</td>
+                    <td numeric>5</td>
+                    <td numeric>2</td>
+                    <td numeric>3</td>
+                    <td class="score-cell" rowspan="2">5</td>
+                    <td>已上传</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>品質会議体</td>
+                    <td numeric>是</td>
+                    <td numeric>5</td>
+                    <td numeric>2</td>
+                    <td numeric>2</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="category-cell" rowspan="2">体系図</td>
+                    <td>開発～サービス段階の各ステップでの実施項目</td>
+                    <td numeric>否</td>
+                    <td numeric>5</td>
+                    <td numeric>2</td>
+                    <td numeric>4</td>
+                    <td class="score-cell" rowspan="2">4</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>必要な標準類が揃っている</td>
+                    <td numeric>是</td>
+                    <td numeric>2.5</td>
+                    <td numeric>0</td>
+                    <td numeric>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>......</td>
+                    <td>......</td>
+                    <td numeric>......</td>
+                    <td numeric>......</td>
+                    <td numeric>......</td>
+                    <td numeric>......</td>
+                    <td>......</td>
+                    <td>......</td>
+                    <td>......</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

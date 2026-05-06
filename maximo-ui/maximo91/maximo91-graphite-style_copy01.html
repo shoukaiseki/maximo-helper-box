@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo 9.1 Graphite UI Components</title>
+    <style>
+        /* IBM Plex Sans 字体 - Maximo 9.1 Graphite 使用 */
+        @font-face {
+            font-family: 'IBM Plex Sans';
+            src: local('IBM Plex Sans'), local('IBMPlexSans');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: #161616;
+            background-color: #f4f4f4;
+            line-height: 1.43;
+            padding: 20px;
+        }
+        
+        /* Section 区域 */
+        .section {
+            margin-bottom: 24px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 16px;
+        }
+        
+        .section-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #161616;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        /* 标签样式 */
+        .label {
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #525252;
+            font-weight: 400;
+        }
+        
+        .label.required::before {
+            content: '*';
+            color: #da1e28;
+            margin-right: 4px;
+        }
+        
+        /* 文本框样式 */
+        .fld {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            color: #161616;
+            background-color: #fff;
+            border: 1px solid #8d8d8d;
+            border-radius: 0;
+            padding: 11px 16px 10px;
+            height: 40px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        
+        .fld:focus {
+            border-color: #0f62fe;
+            outline: 2px solid #0f62fe;
+            outline-offset: -2px;
+        }
+        
+        .fld_ro {
+            background-color: #e0e0e0;
+            border-color: #c6c6c6;
+            color: #525252;
+        }
+        
+        .fld_req {
+            border-color: #8d8d8d;
+        }
+        
+        .fld_req:focus {
+            border-color: #0f62fe;
+        }
+        
+        /* 表单行布局 */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 按钮样式 */
+        .greybutton {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            color: #fff;
+            background-color: #0f62fe;
+            border: none;
+            border-radius: 0;
+            padding: 11px 16px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+        
+        .greybutton:hover {
+            background-color: #0353e9;
+        }
+        
+        .greybutton:active {
+            background-color: #002d9c;
+        }
+        
+        .greybutton:disabled {
+            background-color: #c6c6c6;
+            color: #8d8d8d;
+            cursor: not-allowed;
+        }
+        
+        .greybutton.secondary {
+            background-color: #fff;
+            color: #0f62fe;
+            border: 1px solid #0f62fe;
+        }
+        
+        .greybutton.secondary:hover {
+            background-color: #edf5ff;
+        }
+        
+        .greybutton.secondary:disabled {
+            background-color: #fff;
+            color: #c6c6c6;
+            border-color: #c6c6c6;
+        }
+        
+        /* 表格样式 */
+        .tableouter {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        
+        .tableouter thead tr {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .listhead {
+            font-size: 14px;
+            font-weight: 600;
+            color: #161616;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .listcell {
+            font-size: 14px;
+            color: #525252;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tdr.tcr {
+            background-color: #edf5ff;
+        }
+        
+        /* 选项卡样式 */
+        .tabgroupShell {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+        
+        .tabgroup {
+            list-style: none;
+            display: flex;
+            gap: 0;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tab_li_on {
+            border-bottom: 2px solid #0f62fe;
+        }
+        
+        .tablabelon {
+            display: block;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f62fe;
+            text-decoration: none;
+            background: #fff;
+        }
+        
+        .tab_li_off {
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tablabeloff {
+            display: block;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #525252;
+            text-decoration: none;
+            background: #fff;
+        }
+        
+        .tablabeloff:hover {
+            color: #0f62fe;
+        }
+        
+        /* Section 内描述 */
+        .section-content {
+            padding: 8px 0;
+        }
+        
+        /* 标题样式 */
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #161616;
+            margin-bottom: 24px;
+        }
+        
+        /* 面包屑 */
+        .breadcrumb {
+            font-size: 14px;
+            color: #525252;
+            margin-bottom: 8px;
+        }
+        
+        .breadcrumb a {
+            color: #0f62fe;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-section {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: #fff;
+            border-radius: 4px;
+        }
+        
+        .demo-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #161616;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="breadcrumb">
+        <a href="#">List View</a> / Users (Manage)
+    </div>
+    <h1 class="page-title">Users (Manage)</h1>
+    
+    <!-- 选项卡 -->
+    <div class="demo-section">
+        <div class="demo-title">Tabs (选项卡)</div>
+        <div class="tabgroupShell">
+            <ul class="tabgroup" role="tablist">
+                <li role="presentation" class="tab_li_on">
+                    <a role="tab" tabindex="0" class="tablabelon on" aria-expanded="true">User</a>
+                </li>
+                <li role="presentation" class="tab_li_off">
+                    <a role="tab" tabindex="-1" class="tablabeloff off" aria-expanded="false">Groups</a>
+                </li>
+                <li role="presentation" class="tab_li_off">
+                    <a role="tab" tabindex="-1" class="tablabeloff off" aria-expanded="false">Security Profile</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- 表单字段 -->
+    <div class="demo-section">
+        <div class="demo-title">Form Fields (表单字段)</div>
+        
+        <div class="form-row">
+            <div class="form-field">
+                <label class="label" for="userid">User ID</label>
+                <input datatype="1" id="userid" ctype="textbox" class="fld text fld_ro" type="text" value="MAXADMIN" readonly="readonly" tabindex="-1" />
+            </div>
+            <div class="form-field">
+                <label class="label" for="status">Status</label>
+                <input datatype="1" id="status" ctype="textbox" class="fld text fld_ro" type="text" value="ACTIVE" readonly="readonly" tabindex="-1" />
+            </div>
+            <div class="form-field">
+                <label class="label required" for="usertype">Type</label>
+                <input datatype="1" id="usertype" ctype="textbox" class="fld text fld_req" type="text" value="TYPE 1" />
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-field">
+                <label class="label" for="username">User Name</label>
+                <input datatype="0" id="username" ctype="textbox" class="fld text fld_ro" type="text" value="maxadmin" readonly="readonly" tabindex="-1" />
+            </div>
+        </div>
+    </div>
+    
+    <!-- Section 区域 -->
+    <div class="demo-section">
+        <div class="demo-title">Sections (区域)</div>
+        
+        <div class="section">
+            <div class="section-header">Login Information</div>
+            <div class="section-content">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label" for="loginname">User Name</label>
+                        <input datatype="0" id="loginname" ctype="textbox" class="fld text fld_ro" type="text" value="maxadmin" readonly="readonly" tabindex="-1" />
+                    </div>
+                    <div class="form-field">
+                        <button class="greybutton secondary" style="margin-top: 20px; width: 140px;">Set Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">Personal</div>
+            <div class="section-content">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label required" for="person">Person</label>
+                        <input datatype="1" id="person" ctype="textbox" class="fld text fld_req" type="text" value="MAXADMIN" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="displayname">Display Name</label>
+                        <input datatype="1" id="displayname" ctype="textbox" class="fld text fld_ro" type="text" value="MAXADMIN" readonly="readonly" tabindex="-1" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="street">Street address</label>
+                        <input datatype="0" id="street" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label" for="personstatus">Status</label>
+                        <input datatype="1" id="personstatus" ctype="textbox" class="fld text fld_ro" type="text" value="ACTIVE" readonly="readonly" tabindex="-1" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="phone">Primary phone</label>
+                        <input datatype="0" id="phone" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="city">City</label>
+                        <input datatype="0" id="city" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label" for="firstname">First name</label>
+                        <input datatype="0" id="firstname" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="email">Primary email</label>
+                        <input datatype="0" id="email" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="state">State/Province</label>
+                        <input datatype="0" id="state" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label" for="lastname">Last name</label>
+                        <input datatype="0" id="lastname" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="memo">Memo</label>
+                        <input datatype="0" id="memo" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="postalcode">Postal code</label>
+                        <input datatype="0" id="postalcode" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label class="label" for="supervisor">Supervisor</label>
+                        <input datatype="1" id="supervisor" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                    <div class="form-field">
+                        <label class="label" for="country">Country</label>
+                        <input datatype="0" id="country" ctype="textbox" class="fld text" type="text" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 表格 -->
+    <div class="demo-section">
+        <div class="demo-title">Table (表格)</div>
+        <table role="presentation" class="tableouter">
+            <thead>
+                <tr>
+                    <th class="listhead" style="width: 1px;"></th>
+                    <th class="listhead" style="width: 150px;">User ID</th>
+                    <th class="listhead" style="width: 150px;">Status</th>
+                    <th class="listhead">Type</th>
+                    <th class="listhead">User Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tdr tcr" currentrow="true">
+                    <td class="listcell" style="width: 1px;"></td>
+                    <td class="listcell">MAXADMIN</td>
+                    <td class="listcell">ACTIVE</td>
+                    <td class="listcell">TYPE 1</td>
+                    <td class="listcell">maxadmin</td>
+                </tr>
+                <tr class="tdr">
+                    <td class="listcell" style="width: 1px;"></td>
+                    <td class="listcell">USER01</td>
+                    <td class="listcell">ACTIVE</td>
+                    <td class="listcell">TYPE 1</td>
+                    <td class="listcell">user01</td>
+                </tr>
+                <tr class="tdr">
+                    <td class="listcell" style="width: 1px;"></td>
+                    <td class="listcell">USER02</td>
+                    <td class="listcell">ACTIVE</td>
+                    <td class="listcell">TYPE 2</td>
+                    <td class="listcell">user02</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- 按钮 -->
+    <div class="demo-section">
+        <div class="demo-title">Buttons (按钮)</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button class="greybutton">Save</button>
+            <button class="greybutton secondary">Cancel</button>
+            <button class="greybutton" disabled>Disabled</button>
+        </div>
+    </div>
+</body>
+</html>

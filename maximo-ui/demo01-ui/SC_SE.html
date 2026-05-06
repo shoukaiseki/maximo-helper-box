@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商评价单列表 - SC SE</title>
+    <style>
+        /* IBM Plex Sans 字体 */
+        @font-face {
+            font-family: 'MaximoBase';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'MaximoBase-Bold';
+            src: url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff2") format("woff2"),
+                 url("isuzu-ui/mas8/font/Sans/IBMPlexSans-Bold.woff") format("woff");
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MaximoBase', "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+            color: #161616;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-size: 20px;
+            color: #161616;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0F62FE;
+        }
+
+        /* 表格样式 */
+        .mx-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: #fff;
+        }
+
+        .mx-table th, .mx-table td {
+            text-align: left;
+            border: 0px;
+            border-bottom: 1px solid #E0E0E0;
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .mx-table th {
+            background: #E0E0E0;
+            font-family: 'MaximoBase-Bold', Arial, sans-serif;
+            font-weight: bold;
+            color: #444444;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .mx-table tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        .mx-table tr:hover {
+            background: #f4f4f4;
+        }
+
+        td[numeric] {
+            text-align: right;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>供应商评价单列表</h1>
+
+        <table class="mx-table">
+            <thead>
+                <tr>
+                    <th>评价单号</th>
+                    <th>模板编号</th>
+                    <th>供应商</th>
+                    <th>评价日期</th>
+                    <th>评价人员</th>
+                    <th>状态</th>
+                    <th numeric>总分</th>
+                    <th>结果</th>
+                    <th>审核人员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EVA-001</td>
+                    <td>SQA-001</td>
+                    <td>XX零件供应商</td>
+                    <td>2026-04-15</td>
+                    <td>李</td>
+                    <td>分项打分中</td>
+                    <td numeric>系统自动汇总</td>
+                    <td>合格/不合格</td>
+                    <td>张</td>
+                </tr>
+                <tr>
+                    <td>EVA-002</td>
+                    <td>SQA-001</td>
+                    <td>YY物流供应商</td>
+                    <td>2026-04-10</td>
+                    <td>王</td>
+                    <td>已完成</td>
+                    <td numeric>85</td>
+                    <td>合格</td>
+                    <td>张</td>
+                </tr>
+                <tr>
+                    <td>EVA-003</td>
+                    <td>SQA-002</td>
+                    <td>ZZ服务供应商</td>
+                    <td>2026-03-20</td>
+                    <td>赵</td>
+                    <td>待审核</td>
+                    <td numeric>78</td>
+                    <td>不合格</td>
+                    <td>李</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

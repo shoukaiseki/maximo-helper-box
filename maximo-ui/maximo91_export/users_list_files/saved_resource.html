@@ -1,0 +1,3700 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)http://localhost:9080/maximo/ui/?uisessionid=1&type=embedded&event=loadapp&value=user -->
+<html lang="en" class="dj_webkit dj_chrome dj_contentbox" style="--data-nav-width: 320px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="imagetoolbar" content="no">
+		
+		<meta http-equiv="Content-Script-Type" content="text/javascript">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<!--<base href="http://localhost:9080/maximo/webclient/skins/skins-20260429-0534/mas8/images/" target="_self">--><base href="." target="_self">
+		
+		<title>Users (Manage)</title>
+		<link rel="stylesheet" type="text/css" href="./dojo.css">
+		<link rel="stylesheet" type="text/css" href="./ellipsis.css">
+		<link rel="stylesheet" type="text/css" href="./tundra.css">
+		<link id="csslink1" rel="stylesheet" type="text/css" href="./maximo.css">
+		<link id="csslink2" rel="stylesheet" type="text/css" href="./hc.css">
+		<link rel="shortcut icon" href="http://localhost:9080/maximo/webclient/skins/skins-20260429-0534/mas8/images/maximo-icon.ico?v2">
+		<link rel="apple-touch-icon" href="http://localhost:9080/maximo/webclient/skins/skins-20260429-0534/mas8/images/maximo-icon.png?v2">
+
+
+		<script>
+			if (self == top) {
+				let queries=window.location.search
+				if(!new URLSearchParams(queries).has("ignoreRedirect") && !sessionStorage.ignoreRedirect){
+					let split  = (window.location.pathname || "").split("/")
+					let contextPath = split.length >=1 ? split[1] : "maximo";
+					let graphiteUrl = "/oslc/graphite/manage-shell/index.html"+queries;
+					let separator = graphiteUrl.indexOf("&")==-1 ? "?" : "&";
+					graphiteUrl = graphiteUrl.includes("uisessionid") ? graphiteUrl : graphiteUrl+separator+"uisessionid="+1;
+					
+						// when 'ui' shows up as the context, it means we don't have one
+						if (contextPath !== 'ui') {
+						// if we have a context then append it
+						graphiteUrl = "/"+contextPath+graphiteUrl
+					}
+
+					//redirect to shell since we are not inside iframe with all query params
+					window.location = graphiteUrl;
+				}
+                else {
+                    sessionStorage['ignoreRedirect'] = true;
+                }
+			}
+		</script>
+		<script type="text/javascript" src="./constants.js.下载"></script>
+		<script type="text/javascript" src="./prototype.js.下载"></script>
+		<script type="text/javascript" src="./browser_library.js.下载"></script>
+		<script type="text/javascript" src="./menus.js.下载"></script>
+		<script type="text/javascript" src="./navsection.js.下载"></script>
+    	<script type="text/javascript" src="./scrollbars.js.下载"></script>
+		<script type="text/javascript" src="./library.js.下载"></script>
+		<script type="text/javascript" src="./maximo-shell-communicator.min.js.下载"></script>
+		<script type="text/javascript" src="./masheader_communication.js.下载"></script>
+
+		<script type="text/javascript" src="./skinlibrary.js.下载"></script>
+		<script type="text/javascript" src="./async.js.下载"></script>
+		<script type="text/javascript" src="./designer.js.下载"></script>
+		<script type="text/javascript" src="./wfdesign.js.下载"></script>
+
+<script type="text/javascript" src="./sessiontimer.js.下载"></script>
+
+		<script type="text/javascript" src="./dataproxy.js.下载"></script>
+		<script type="text/javascript">
+			var highContrast = false;
+			var clientAreaId = "";
+			var SYSTEMNAVBAR = true;
+			
+			var webAppUrl = "http://localhost/maximo/oslc/";
+			var nextGenUrl = "http://localhost:9080/maximo-x";
+			document.title="Users (Manage)";
+			isBidiEnabled = false;
+			var APP_KEY_LABEL = "User ID";
+			var IMAGE_PATH="";
+			var MAINDOC=document;
+			var addFocusTitles = true;
+			// No more hidden document, so set it to current document for backwards compatibility.
+			var HIDDENDOC=document;
+			var IFRAMEPAGE = "http://localhost:9080/maximo/ui/maximo.jsp?uisessionid=1";
+			var XHRACTION = "http://localhost:9080/maximo/ui/maximo.jsp";
+			var PORTLETACTION = "http://localhost:9080/maximo/webclient/components/portletrenderer.jsp?uisessionid=1";
+            var USEFILEPROMPT = "0";
+            var VERTLABELS = "true";
+            var WFPIXELS = "80";
+			var APP_STACK_SIZE = 1;
+			var DESIGNMODE=false;
+			var APPTARGET="user";
+			var APPDESCRIPTION ="Users (Manage)";
+			var DEBUGLEVEL = 0;
+			var SCREENREADER = false;
+			var DATE_PATTERN = "y/M/d";
+			var TIME_PATTERN = "H:m:s";
+			var DATE_TIME_PATTERN = "y/M/d H:m:s";
+			var SELECT_VALUE = "Select Value";
+			var WEBREPLAY = false;
+			var FOCUSDELAY = 300;
+			var EMBEDDED_MESSAGE_PREFIX = "";
+			var EMBEDDED_RETURN_DATA;
+			var OUTER_APPLICATION = null
+			var UNLOAD_WARN = "If you navigate away from this page you may lose unsaved data and it may be necessary to log in again.";
+			var TODAY = "Today";
+			var SKIN = "skins/skins-20260429-0534/mas8/";
+			var USERLOCALE="zh";
+			var MSG_BTNCLOSE = 1;
+			var MSG_BTNOK = 2;
+			var MSG_BTNCANCEL = 4;
+			var MSG_BTNYES = 8;
+			var MSG_BTNNO = 16;
+			var MSGBOX_TITLE = "System Message";
+			var EXCEPTION_NONE          = -1;
+			var EXCEPTION_WARNING       = 0;
+			var EXCEPTION_ERROR         = 3;
+			var EXCEPTION_YESNOCANCEL   = 2;
+			var EXCEPTION_REQUIREDFIELD = 1;
+			var EXCEPTION_INFO          = 5;
+			var REQUESTTYPE_ASYNC     = "ASYNC";
+			var REQUESTTYPE_HIGHASYNC = "HIGHASYNC";
+			var REQUESTTYPE_SYNC      = "SYNC";
+			var REQUESTTYPE_SYNC_WAIT = "SYNC_WAIT";
+			var REQUESTTYPE_NORENDER  = "NORENDER";
+			var REQUESTTYPE_NONE      = "none";
+      var CLEAR_SEARCH = null;
+			var REQUESTTYPE_DEFAULT   = "default";
+			var HOME_LINK_TEXT = "Start Center";
+			var OPDASHBOARD_LINK_TEXT = "Operational Dashboard";
+			var REQUESTTYPE = "requesttype";
+			var JAVASCRIPT_BASE = "http://localhost:9080/maximo/webclient/javascript/dojo-20260429-0534/";
+			var DEBUG_DOJO = false;
+      var QUERY_DROPDOWN = true;
+			var SERVER_UPDATE_WARN="The system wants to insert {0} in this field. You can either insert the system value or continue entering your value and ignore this message.";
+			var SERVER_UPDATE_BUTTON="Insert {0}";
+			var SERVER_CLEAR_WARN="The system wants to clear this field. You can either allow the system clear the field or continue entering your value and ignore this message.";
+			var SERVER_CLEAR_BUTTON="Clear Field";
+			var CONTAINER_ERROR_ICONS = {"question":{"tooltip":"Contains errors","event":"errorfocus"},"warning":{"tooltip":"Contains warnings","event":"errorfocus"},"smartfill":{"tooltip":"Contains errors","event":"errorfocus"},"error":{"tooltip":"Contains errors","event":"errorfocus"}};
+			var MAX_LENGTH="The value specified exceeds the maximum field length that is allowed for this attribute: Value = {0}, Object Name={1}, Attribute Name={2}, Maximum Length={3}. Specify a value that is less than the maximum length of {3}.";
+			var OPDASHBOARDACCESS=false;
+			var STARTCENTERACCESS=true;			
+			var menus;
+			var NAV_SECTION = false;
+			var topLevelMenus = new Array();
+			var saveUnlocked = true;
+			var EXPANDED="expanded";
+			var COLLASED="collapsed";
+			var ACTIONS="Actions";
+			var NEWROW="New Row";
+			
+			var UPLOAD_FAIL_WARN = 'Upload may have failed. Please confirm and retry if neccessary.';
+			var UPLOAD_FAIL_REASON='Upload failed for following reason: ';
+		  var ACCESSIBLE_TITLES = false;
+			
+			var tpaeConfig = {
+				extendedTooltipShowDelay: 1000,
+				extendedTooltipHideDelay: 500,
+				readOnlyMsg: "The {0} field is either read only or part of the primary key. You cannot edit this field.",
+				hotKeyLabel: "Hot Key: {0}",
+				tabBreadCrumbs: true,
+				clientDataValidation: true,
+				tableButtonPlacement: 1,
+				validationOn: true,
+				menuHideDelay : 750,
+				clientEventQueue: {
+					timeout: 10000,
+					threshold: 2
+				}
+			};
+
+			queueManager = new QueueManager({sessionid:decodeURIComponent("1"), designmode:false, threshold:tpaeConfig.clientEventQueue.threshold, timeout:tpaeConfig.clientEventQueue.timeout, csrftoken:'23fhcffogtaf3ruef58fcb6d6k'});
+			/*
+			*	Do images last so that special bindings done in inputs do not overwrite related field events for hover images
+			* 	May wish to change all bindings in bindEvents to use dojo.connect in the future
+			*/
+			var eventBindObjects = new Array("a","div","input","button","select","span","textarea","fieldset","img","td","label");
+			var LEAVE_TIMEOUT = 0;
+            var LEAVETOOLTIPOPEN = false;
+
+			var PRODUCTNAME = "Maximo - Users (Manage)";
+			SESSION_TIMEOUT = 0;
+			
+			timeUntilLogout=SESSION_TIMEOUT;//in seconds
+			SESSION_WARNTIMEOUT = 120;//in seconds.
+			SESSIONRESETTHRESHHOLD = SESSION_TIMEOUT/3;//in seconds.
+			var WARNTEXTMINS = "Your session will time out in {0} minutes.";
+			var WARNTEXTSECS = "Your session will time out in {0} seconds.";
+			var WARNLOSTCONNECTION =  "The connection to the server is lost.  When the connection is re-established, an attempt will be made to resend any failed events.";
+			var WARNCONNECTIONRESTORED =  "The connection to the server is restored and all events were successfully sent to the server.";
+			var CONNECTIONRESTOREDBTNTEXT =  "OK";
+			var WARNLOSTURL  = "http://localhost:9080/maximo/ui/1778036960567?checkhiddenandconnection=true&uisessionid=1";
+			var SHOWLOSTCONNECTIONWARNINGONLY = false;
+			var CONNECTIONREDRAWURL  = "http://localhost:9080/maximo/ui/maximo.jsp?event=render&targetid=user&value=rerender&conectionwarningclosed=true&uisessionid=1";
+			CONNECTIONWARNINGINTERVAL = 15000;//in milliseconds.
+			CONNECTIONRECHECKINTERVAL = 2000;//in milliseconds.
+			var ASYNCTOOLTIPWAITEBEFOREOPEN = 2000;//in milliseconds.
+			var ASYNCTOOLTIPUSERVALUE =  "You entered:";
+			var MAXRCURL = "http://localhost:9080/maximo";
+			var TIMEOUTRESETURL = "http://localhost:9080/maximo/servlet/sessionservlet?resetsession=true&uisessionid=1";
+			var LOGOUTURL = "http://localhost:9080/maximo/webclient/login/logout.jsp?uisessionid=1";
+			var APPID = "user";
+            
+			function intializeMASHeader(){
+				let config = window.getMasHeaderConfig();
+				config.currentAppId = APPTARGET;
+				config.headerConfig = [];
+                config.helpActions = [
+                    {   id:"appHelpItem",
+				        label: "Users (Manage) help",
+				        clickAction: "sendEvent",
+				        clickArgs: { type: "apphelp" }
+				    }
+                ];
+             config.headerConfig.push({hidden:"false",id:"bulletinHidden",}); config.headerConfig.push({hidden:"false",id:"reportHidden",}); config.headerConfig.push({hidden:"false",id:"userProfileHidden",}); config.headerConfig.push({hidden:"false",id:"helpHidden",}); config.headerConfig.push({hidden:"false",id:"gettingStartedHidden",}); config.headerConfig.push({hidden:"false",id:"documentationHidden",}); config.headerConfig.push({hidden:"false",id:"requestEnhancementHidden",}); config.headerConfig.push({hidden:"false",id:"videosHidden",}); config.headerConfig.push({hidden:"false",id:"supportHidden",}); config.headerConfig.push({hidden:"false",id:"aboutHidden",}); config.headerConfig.push({hidden:"false",id:"whatsNewHidden",}); config.bannerTitle = "";
+					
+
+                    config.profileActions = [
+                    {
+                        id:"personalMenuItem1",
+                        label: "Default Information",
+                        clickAction: "sendEvent",
+                        clickArgs: { type: "DEFAULT" },
+                    },
+                    {
+                        id:"personalMenuItem2",
+                        label: "Personal Information",
+                        clickAction: "sendEvent",
+                        clickArgs: { type: "PERSONAL" },
+                    },
+					
+                    {
+                        id:"personalMenuItem4",
+                        label: "Set or Modify E-Signature Key",
+                        clickAction: "sendEvent",
+                        clickArgs: { type: "MODESIGKEY" },
+                    } 
+                ];
+				
+                config.headerActions = [
+                    {
+                        id:"Bulletin",
+                        label: "Bulletins",
+						count: "0",
+                        icon: "carbon:bullhorn",
+                        clickAction: "callFunction",
+						accesskey: "ALT+B",
+						clickArgs: { 
+							functionName: "sendHeaderEvent",
+							args: [{eventType: 'showbboard',
+									targetid: APPID,
+									value: ''}]
+						},
+                    },
+                    {
+                        id:"Report",
+                        label: "Reports",
+                        icon: "carbon:report",
+                        clickAction: "callFunction",
+						accesskey: "ALT+R",
+						clickArgs: { 
+							functionName: "sendHeaderEvent",
+							args: [{eventType: 'showmenu',
+									targetid: 'mainrec_menus',
+									value: 'MASHEADER:reportsmenu'}]
+						},
+                    }
+                ];
+				
+                config.hasSideNav = true;
+                config.sideNavProps = null;
+				config.hideMenuButton = false;
+                config.uisessionid = "1";
+				config.tabName = "Users (Manage)";
+				changeMasHeader(config);
+			}
+
+			intializeMASHeader();
+			var HOSTNAME = "localhost";
+			var HOSTPORT = "9080";
+			var ALWAYSOPENATTACHMENTS = false;
+			var PAGESEQNUM = "5";
+			var UISESSIONID = decodeURIComponent("1");
+			var CSRFTOKEN = "23fhcffogtaf3ruef58fcb6d6k";
+			var loadMethods = new Array;
+			function addLoadMethod(method)
+			{
+				loadMethods.push(method);
+			}
+			var LIGHTNINGPORTALMODE=false;
+      var PORTALMODE=false;
+			
+      
+			var USERNAME="MAXADMIN";
+			var SECURE_USERNAME = "z%EF%BE%83%27%EF%BE%9D%EF%BF%99i%7F%EF%BF%88";
+			var USERLANG="EN";
+			var MOBILE=false;
+			var MOBILEAGENT = false;
+			var MOBILEDATEPICKER=false;
+			var OUTOFSEQERRORMSG="There was a communication problem with the server which will result in the loss of some of your changes. You must reload the application and enter the information again.";
+			var OUTOFSEQERRORRELOADBUTTON="Reload";
+			var CONNECTIONERRORMSG="The browser cannot connect to the server. Reload the application and try again. If reloading does not solve the problem, the reason might be that you are disconnected from the network or the server might be down. Error code: {0}";
+			var UNKNOWSERVERERRORMSG="The server has encountered an unknown error. Reload the application and try again. If the problem persists, contact your system administrator.<br/><br/>Error code: {0}";
+			var PAGEID="mainrec-pg";
+			var clientDate = new Date().getTime();
+			var clientTimer = true;
+			var serverTZOffset = 0;
+			var clientTZOffset = new Date().getTimezoneOffset() * 60 * 1000;
+			var tzAdjustment = serverTZOffset + clientTZOffset;
+			var systemDate = 1778036960569 + tzAdjustment;
+			var NEW_APPLINK = false;
+      var EMBEDDED = self !== top;
+			var PROXYLOGINSTRINGCHECK = "pkmslogin";
+      var navSearchString = "Find navigation item";
+		var warnExit = false; // since manage is in an iframe, the browser close detection should be done in the parent
+		addLoadMethod("hideURLbar();");
+		addLoadMethod("stopDocScroll();");
+		
+		var INVALIDFILENAMEMSG="The file  is not valid or not in the selected directory. Provide a valid file name and try again.";
+			var TABLEDOMAINLIST = [{"validfor":30,"did":"MAXUSERSTATUS","simpledomain":true,"ts":null},{"validfor":30,"did":"USERTYPE","simpledomain":true,"ts":null}];
+		</script>
+<style> td.tc { white-space: normal !important; }</style>
+		<script type="text/javascript">
+			var djConfig =
+			{
+				isDebug: false,
+				modulePaths: {
+							'com.ibm.mm':'/enabler/js/com/ibm/mm',
+							'com.ibm.mashups':'/enabler/js/com/ibm/mm',
+							'com.ibm.widgets':'/enabler/js/com/ibm/widgets'},
+				parseOnLoad: false,
+				locale: 'en',
+				extraLocale: ['zh']
+			};
+			var DOJOLOCALE="en";
+			var DOJOLOCALEFORDATEFORMAT = "zh-cn";
+		</script>
+
+		<script type="text/javascript" src="./dojo.js.下载"></script>
+		<script type="text/javascript" src="./window.js.下载"></script>
+		<script type="text/javascript" src="./dojo_library.js.下载"></script>
+		<script>
+			window.addEventListener("message", function(e){
+        //handle app wrapper messages
+        // setup a post message function
+				var postMsg = window.parent.postMessage || window.top.postMessage;			
+				if(e.data['page-stack']){
+					let breadCrumbs = document.querySelector('.text.bottomApp');
+					if(breadCrumbs){
+						let data = e.data['page-stack'];
+						if(data.navigationType!=='none'){
+							let crumbArray = Array.from(data.stack).reverse();
+							crumbArray.shift();
+							crumbArray.forEach((crumb, crumbIndex) => {
+								let element = document.createElement(data.navigationType==='full'?'a':'span');
+								element.innerText = crumb.title;
+								element.tabIndex = '0';
+								if(data.navigationType==='full'){
+									element.href = 'Javascript: applinkReturnNoValue('+(crumbIndex+1)+')';
+								}
+								let span = document.createElement('span');
+								span.innerText = '/';
+								span.className = 'breadcrumbSep';
+								breadCrumbs.insertBefore(span,breadCrumbs.firstElementChild);
+								breadCrumbs.insertBefore(element,breadCrumbs.firstElementChild);
+							});
+						}
+					}
+				}
+				if(e.data['close-tpae-iframe'] || e.data['close-embedded-app']){
+					EMBEDDED_RETURN_DATA = e.data['close-tpae-iframe'];
+					setValueForFocusChange();
+					queueManager.appInfo().then(function(appInfo){
+						let enableSave = false;
+						if(appInfo){
+							if(systemDialogShowing()){
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+'maximo-app-notification']:'contains-errors'},'*');
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+'app-error-notification']:'contains-errors'},'*');
+							}
+							else if(appInfo.exceptionmessage !== ''){ //should close messagebox
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+'maximo-app-notification']:appInfo.exceptionmessage},'*');
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+"inner-app-ready"]:true},'*');
+								enableSave=true;
+							}
+							else if(appInfo.saveneeded === true || appInfo.haserrors === true){
+								if(appInfo.haserrors === true){
+									if(LIGHTNINGPORTALMODE){
+										postMsg({[EMBEDDED_MESSAGE_PREFIX+'maximo-app-notification']:'contains-errors'},'*');										
+									}
+									postMsg({[EMBEDDED_MESSAGE_PREFIX+'app-error-notification']:'contains-errors'},'*');
+									if(!LIGHTNINGPORTALMODE){
+										sendEvent('cannotsave', APPTARGET, null);
+									}
+									enableSave=true;
+								}
+								else { //ASK IF USER WANTS TO SAVE
+									window.parent.postMessage({[EMBEDDED_MESSAGE_PREFIX+"inner-app-ready"]:true},'*');
+									if(LIGHTNINGPORTALMODE){
+										postMsg({[EMBEDDED_MESSAGE_PREFIX+'maximo-app-notification']:'tpae-save-option'},'*');
+									}
+									else {
+										sendEvent('closeembedded', APPTARGET, null);
+									}
+								}
+							}
+							else { //good to close
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+'close-tpae-iframe']:true},'*');
+								postMsg({[EMBEDDED_MESSAGE_PREFIX+'close-embedded-iframe']:EMBEDDED_RETURN_DATA},'*');
+							}
+						}
+						else {
+							$M.toggleWait(false);
+						}
+						if(enableSave && tpaeConfig.validationOn){
+							setTimeout(()=>{
+								setButtonEnabled(saveButton,true);
+							}, 300);
+						}
+					});
+				}
+				if(e.data['save-tpae']){
+					queueManager.saveApp().then(function(e){
+						window.setTimeout(function(){
+							queueManager.appInfo().then(function(appInfo){
+								if(appInfo.saveneeded !== true){
+									postMsg({[EMBEDDED_MESSAGE_PREFIX+'close-tpae-iframe']:true},'*');
+									postMsg({[EMBEDDED_MESSAGE_PREFIX+'close-embedded-iframe']:true},'*');
+								}
+								else {
+									window.postMessage({'close-tpae-iframe':true},'*');
+								}
+							});
+
+						}, 1000);
+					});
+				}
+			}, false);
+
+			var MAXRECENTAPPS = 8;
+			var RECENTAPPTEXT = "My Recent Applications";
+			var tenantID = "";
+			
+					addToAppCache({"text":"Users (Manage)","id":"recentApp_user","eventvalue":"user"});
+			
+			var hebrew=false;
+			var islamic=false;
+			dojo.require('layers.mbs.popuplayer');
+			dojo.addOnLoad(function() {
+				if(dojo.isFF >= 4 || dojo.isFF==0){ //problem with 3.6 and dojox.html.ellipsis
+					dojo.require("dojox.html.ellipsis");
+				}
+				dojo.require("ibm.tivoli.mbs.html");
+				dojo.require("dojox.html.entities");
+				dojo.require("dojo.number");
+				dojo.require('dijit._base.popup');
+				dojo.require('dijit.Tooltip');
+				dojo.require('dojo.dnd.Moveable');
+				dojo.require("dojo.dnd.move");
+				dojo.require("dojo.fx");
+				// Workaround to set the starting z index for dojo popups and tooltips above the maximo dialog.
+				dojo.addOnLoad(dojohelper.fixPopupZIndex);
+			});
+		</script>
+	<style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style><style type="text/css"></style></head>
+	<body scroll="no" data-designmode="false" data-is-mobile="false" data-appid="user" class="tundra has-app-nav" data-applinking="false" "="" style="overflow: hidden; padding: 0px; margin: 0px; height: 100%; width: 100%;" data-a11y="false" data-vertical-labels="" overflow="hidden" data-nav-width="320">
+		<div class="application-navigation-menu custom-scroller-outer" role="navigation" id="custom_scrollbar_0" style="overflow: hidden;"><div class="custom-scroller" tabindex="-1" style="max-width: 100%; top: 0px; width: 100%; height: 100%; overflow: auto;"><div><div class="app-nav-search app-nav-dark"><img src="./search.svg" title="Find navigation item"><input id="AppNavSearchInput" placeholder="Find navigation item" autocomplete="off" style="padding-inline-end: 26px; z-index: 0;"><button class="clearButton" id="start_nav_search_field_clear" style="margin-top: 6px; position: absolute; right: 10px;"><img src="./close.gif" alt="Clear" draggable="false" style="filter: invert(1);"></button></div><div class="menu-search-results app-menu-search-results" id="appMenuSearch" data-search-input-id="AppNavSearchInput" data-menu-holder-id="mea59820d_ns_menu_holder"></div><div class="app-nav-home app-nav-dark"><a href="Javascript: sendEvent(&quot;changeapp&quot;,&quot;startcntr&quot;,&quot;startcntr&quot;)" id="startcenter" hotkey="67"><img src="./modimg_startcenter.svg"><div>Start Center</div></a></div><div id="mea59820d_ns_menu_holder"><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu" level="0" class="navMenus ns_goto maximo-menu-dark Left-Navigation-Menu" data-menu-div="true" style="position: static;"><li role="none" data-no-search="true" draggable="false" id="mea59820d_ns_menu_recentApps" menu-sub-expanded="false" class="navSubmenu recentAppsMenuItem" subid="mea59820d_ns_menu_recentApps_sub"><a id="mea59820d_ns_menu_recentApps_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //My Recent Applications" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="My Recent Applications"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_recentapps.svg"><span id="mea59820d_ns_menu_recentApps_a_tnode">My Recent Applications</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="undefined" id="mea59820d_ns_menu_recentApps_sub" level="1" aria-labelledby="mea59820d_ns_menu_recentApps" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_recentApps_sub_changeapp_user_a" id="mea59820d_ns_menu_recentApps_sub_changeapp_user" class="undefined menu-item-highlight"><a id="mea59820d_ns_menu_recentApps_sub_changeapp_user_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Users (Manage)" title="Users (Manage)"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_recentApps_sub_changeapp_user_a_tnode">Users (Manage)</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_recentApps_sub_changeapp_masuser_a" id="mea59820d_ns_menu_recentApps_sub_changeapp_masuser" class=""><a id="mea59820d_ns_menu_recentApps_sub_changeapp_masuser_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Users" title="Users"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_recentApps_sub_changeapp_masuser_a_tnode">Users</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_SETUP_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto menuborder" subid="mea59820d_ns_menu_SETUP_MODULE_sub"><a id="mea59820d_ns_menu_SETUP_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Administration" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Administration"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_setup.svg"><span id="mea59820d_ns_menu_SETUP_MODULE_a_tnode">Administration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SETUP_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_SETUP_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_REPORT_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_REPORT" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_REPORT_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Report Administration" title="Report Administration"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_REPORT_a_tnode">Report Administration</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_MPMAN_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_MPMAN" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_MPMAN_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Map Manager" title="Map Manager"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_MPMAN_a_tnode">Map Manager</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_RLADMIN_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_RLADMIN" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_RLADMIN_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Record Release" title="Record Release"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_changeapp_RLADMIN_a_tnode">Record Release</span></div></a></li><li role="none" draggable="false" id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub"><a id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Scheduler Administration" aria-haspopup="true" aria-expanded="false" title="Scheduler Administration"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_a_tnode">Scheduler Administration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_APPTBKMGR_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_APPTBKMGR" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_APPTBKMGR_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Appointment Book Manager" title="Appointment Book Manager"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_APPTBKMGR_a_tnode">Appointment Book Manager</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHOVAVAIL_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHOVAVAIL" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHOVAVAIL_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Scheduling Alternate Resources" title="Scheduling Alternate Resources"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHOVAVAIL_a_tnode">Scheduling Alternate Resources</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHTTMGR_a" id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHTTMGR" class=""><a id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHTTMGR_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Configure Tooltips" title="Configure Tooltips"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SETUP_MODULE_sub_SADM10_HEADER_sub_changeapp_SCHTTMGR_a_tnode">Configure Tooltips</span></div></a></li></ul></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_ANALYTICS_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_ANALYTICS_MODULE_sub"><a id="mea59820d_ns_menu_ANALYTICS_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Analytics" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Analytics"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_analytics.svg"><span id="mea59820d_ns_menu_ANALYTICS_MODULE_a_tnode">Analytics</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_ANALYTICS_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_ANALYTICS_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_ANALYTICS_MODULE_sub_changeapp_RPTOUTPUT_a" id="mea59820d_ns_menu_ANALYTICS_MODULE_sub_changeapp_RPTOUTPUT" class=""><a id="mea59820d_ns_menu_ANALYTICS_MODULE_sub_changeapp_RPTOUTPUT_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Report Viewer" title="Report Viewer"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_ANALYTICS_MODULE_sub_changeapp_RPTOUTPUT_a_tnode">Report Viewer</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_APPCONFIG_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_APPCONFIG_MODULE_sub"><a id="mea59820d_ns_menu_APPCONFIG_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Application administration" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Application administration"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_default.svg"><span id="mea59820d_ns_menu_APPCONFIG_MODULE_a_tnode">Application administration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_APPCONFIG_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_APPCONFIG_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MOBADMIN_a" id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MOBADMIN" class=""><a id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MOBADMIN_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Mobile Configuration" title="Mobile Configuration"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MOBADMIN_a_tnode">Mobile Configuration</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MAFCONFIG_a" id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MAFCONFIG" class=""><a id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MAFCONFIG_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Application configuration (Maximo Application Framework Configuration Tool)" title="Application configuration (Maximo Application Framework Configuration Tool)"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_APPCONFIG_MODULE_sub_changeapp_MAFCONFIG_a_tnode">Application configuration (Maximo Application Framework Configuration Tool)</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_HEALTH_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_HEALTH_MODULE_sub"><a id="mea59820d_ns_menu_HEALTH_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Health" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Health"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_default.svg"><span id="mea59820d_ns_menu_HEALTH_MODULE_a_tnode">Health</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_HEALTH_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_HEALTH_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_HEALTH_MODULE_sub_changeapp_RELENGINEER_a" id="mea59820d_ns_menu_HEALTH_MODULE_sub_changeapp_RELENGINEER" class=""><a id="mea59820d_ns_menu_HEALTH_MODULE_sub_changeapp_RELENGINEER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Assets &amp; locations" title="Assets &amp; locations"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_HEALTH_MODULE_sub_changeapp_RELENGINEER_a_tnode">Assets &amp; locations</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_INT_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_INT_MODULE_sub"><a id="mea59820d_ns_menu_INT_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Integration" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Integration"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_int.svg"><span id="mea59820d_ns_menu_INT_MODULE_a_tnode">Integration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_INT_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_INT_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_INT_MODULE_sub_changeapp_APIKEY_a" id="mea59820d_ns_menu_INT_MODULE_sub_changeapp_APIKEY" class=""><a id="mea59820d_ns_menu_INT_MODULE_sub_changeapp_APIKEY_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //API Keys" title="API Keys"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_INT_MODULE_sub_changeapp_APIKEY_a_tnode">API Keys</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_INVENTOR_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_INVENTOR_MODULE_sub"><a id="mea59820d_ns_menu_INVENTOR_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Inventory" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Inventory"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_inventor.svg"><span id="mea59820d_ns_menu_INVENTOR_MODULE_a_tnode">Inventory</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_INVENTOR_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_INVENTOR_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_INVENTOR_MODULE_sub_changeapp_COUNTBOOK_a" id="mea59820d_ns_menu_INVENTOR_MODULE_sub_changeapp_COUNTBOOK" class=""><a id="mea59820d_ns_menu_INVENTOR_MODULE_sub_changeapp_COUNTBOOK_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Count Books" title="Count Books"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_INVENTOR_MODULE_sub_changeapp_COUNTBOOK_a_tnode">Count Books</span></div></a></li><li role="none" draggable="false" id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub"><a id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Role Based Applications" aria-haspopup="true" aria-expanded="false" title="Role Based Applications"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_a_tnode">Role Based Applications</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ICMOBILE_a" id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ICMOBILE" class=""><a id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ICMOBILE_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Inventory Counting" title="Inventory Counting"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ICMOBILE_a_tnode">Inventory Counting</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ITMOBILE_a" id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ITMOBILE" class=""><a id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ITMOBILE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Issues and Transfers" title="Issues and Transfers"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_INVENTOR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_ITMOBILE_a_tnode">Issues and Transfers</span></div></a></li></ul></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_PLANS_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_PLANS_MODULE_sub"><a id="mea59820d_ns_menu_PLANS_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Planning" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Planning"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_plans.svg"><span id="mea59820d_ns_menu_PLANS_MODULE_a_tnode">Planning</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_PLANS_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_PLANS_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub"><a id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Role Based Applications" aria-haspopup="true" aria-expanded="false" title="Role Based Applications"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_a_tnode">Role Based Applications</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub_changeapp_MANAGEINSPFORM_a" id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub_changeapp_MANAGEINSPFORM" class=""><a id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub_changeapp_MANAGEINSPFORM_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Inspection Forms" title="Inspection Forms"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_PLANS_MODULE_sub_MODMOB1_HEADER_sub_changeapp_MANAGEINSPFORM_a_tnode">Inspection Forms</span></div></a></li></ul></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_SCHEDULER_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_SCHEDULER_MODULE_sub"><a id="mea59820d_ns_menu_SCHEDULER_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Planning and Scheduling" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Planning and Scheduling"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_scheduling.svg"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_a_tnode">Planning and Scheduling</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_SCHEDULER_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GWORKASSIGN_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GWORKASSIGN" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GWORKASSIGN_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Graphical Work Week" title="Graphical Work Week"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GWORKASSIGN_a_tnode">Graphical Work Week</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLASSIGN_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLASSIGN" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLASSIGN_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Graphical Assignment" title="Graphical Assignment"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLASSIGN_a_tnode">Graphical Assignment</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLCAPACITY_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLCAPACITY" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLCAPACITY_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Graphical Assignment-Repair Facilities" title="Graphical Assignment-Repair Facilities"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_RLCAPACITY_a_tnode">Graphical Assignment-Repair Facilities</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_APPTBOOK_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_APPTBOOK" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_APPTBOOK_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Graphical Appointment Book" title="Graphical Appointment Book"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_APPTBOOK_a_tnode">Graphical Appointment Book</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GRESOURCE_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GRESOURCE" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GRESOURCE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Graphical Resource View " title="Graphical Resource View "><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_GRESOURCE_a_tnode">Graphical Resource View </span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_SCHEDULINGDASHBOARD_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_SCHEDULINGDASHBOARD" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_SCHEDULINGDASHBOARD_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Scheduling Dashboard" title="Scheduling Dashboard"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_SCHEDULINGDASHBOARD_a_tnode">Scheduling Dashboard</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_PLANNINGDASHBOARD_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_PLANNINGDASHBOARD" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_PLANNINGDASHBOARD_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Planning Dashboard" title="Planning Dashboard"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_PLANNINGDASHBOARD_a_tnode">Planning Dashboard</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_DISPATCHINGDASHBOARD_a" id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_DISPATCHINGDASHBOARD" class=""><a id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_DISPATCHINGDASHBOARD_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Dispatching Dashboard" title="Dispatching Dashboard"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SCHEDULER_MODULE_sub_changeapp_DISPATCHINGDASHBOARD_a_tnode">Dispatching Dashboard</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_SECURITY_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_SECURITY_MODULE_sub"><a id="mea59820d_ns_menu_SECURITY_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Security" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Security"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_security.svg"><span id="mea59820d_ns_menu_SECURITY_MODULE_a_tnode">Security</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SECURITY_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_SECURITY_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_SECURGROUP_a" id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_SECURGROUP" class=""><a id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_SECURGROUP_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Security Groups (Manage)" title="Security Groups (Manage)"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_SECURGROUP_a_tnode">Security Groups (Manage)</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_USER_a" id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_USER" class="undefined menu-item-highlight"><a id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_USER_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Users (Manage)" title="Users (Manage)"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SECURITY_MODULE_sub_changeapp_USER_a_tnode">Users (Manage)</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_AUTH_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_AUTH_MODULE_sub"><a id="mea59820d_ns_menu_AUTH_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Security" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Security"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./carbon_security-services.svg"><span id="mea59820d_ns_menu_AUTH_MODULE_a_tnode">Security</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_AUTH_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_AUTH_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASUSER_a" id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASUSER" class=""><a id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASUSER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Users" title="Users"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASUSER_a_tnode">Users</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASGROUP_a" id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASGROUP" class=""><a id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASGROUP_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Security Groups" title="Security Groups"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_AUTH_MODULE_sub_changeapp_MASGROUP_a_tnode">Security Groups</span></div></a></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_SSDR_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_SSDR_MODULE_sub"><a id="mea59820d_ns_menu_SSDR_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Self Service" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Self Service"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_ssdr.svg"><span id="mea59820d_ns_menu_SSDR_MODULE_a_tnode">Self Service</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SSDR_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_SSDR_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub"><a id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Role Based Applications" aria-haspopup="true" aria-expanded="false" title="Role Based Applications"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_a_tnode">Role Based Applications</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a" id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE" class=""><a id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Service Requests" title="Service Requests"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_SSDR_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a_tnode">Service Requests</span></div></a></li></ul></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_UTIL_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_UTIL_MODULE_sub"><a id="mea59820d_ns_menu_UTIL_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //System Configuration" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="System Configuration"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_util.svg"><span id="mea59820d_ns_menu_UTIL_MODULE_a_tnode">System Configuration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_UTIL_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_UTIL_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub"><a id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Platform Configuration" aria-haspopup="true" aria-expanded="false" title="Platform Configuration"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_a_tnode">Platform Configuration</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_PROPMAINT_a" id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_PROPMAINT" class=""><a id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_PROPMAINT_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //System Properties" title="System Properties"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_PROPMAINT_a_tnode">System Properties</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_LOGGING_a" id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_LOGGING" class=""><a id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_LOGGING_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Logging" title="Logging"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_LOGGING_a_tnode">Logging</span></div></a></li><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_DESIGNER_a" id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_DESIGNER" class=""><a id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_DESIGNER_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Application Designer" title="Application Designer"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_UTIL_MODULE_sub_MOD11130_HEADER_sub_changeapp_DESIGNER_a_tnode">Application Designer</span></div></a></li></ul></li></ul></li><li role="none" draggable="false" id="mea59820d_ns_menu_WO_MODULE" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_WO_MODULE_sub"><a id="mea59820d_ns_menu_WO_MODULE_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" href="javascript: //Work Orders" aria-haspopup="true" aria-expanded="false" class=" dojoxEllipsis" title="Work Orders"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./modimg_wo.svg"><span id="mea59820d_ns_menu_WO_MODULE_a_tnode">Work Orders</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_WO_MODULE_sub" level="1" aria-labelledby="mea59820d_ns_menu_WO_MODULE" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER" menu-sub-expanded="false" class="navSubmenu ns_goto" subid="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub"><a id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Role Based Applications" aria-haspopup="true" aria-expanded="false" title="Role Based Applications"><div style="padding-inline-start: 10px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_a_tnode">Role Based Applications</span></div><img src="./menu_sub_dark.svg" class="menu-sub-image" aria-hidden="true"></a><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="1" id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub" level="2" aria-labelledby="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER" class="subNavMenus ns_goto maximo-menu-dark" style="display: none;"><li role="none" draggable="false" eventtype="changeapp" anchorid="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a" id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE" class=""><a id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" href="javascript: //Service Requests" title="Service Requests"><div style="padding-inline-start: 20px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="mea59820d_ns_menu_WO_MODULE_sub_MODMOB1_HEADER_sub_changeapp_SRMOBILE_a_tnode">Service Requests</span></div></a></li></ul></li></ul></li></ul></div></div></div><div role="scrollbar" aria-controls="custom_scrollbar_0" aria-orientation="vertical" aria-valuemax="0" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; height: calc(100% - 16px); width: 16px; background: transparent; top: 0px; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; right: 0px; display: none;"><div style="position: absolute; width: 12px; background: rgb(153, 153, 153); top: 0px; margin: 2px; border-radius: 12px; height: 1016px;"></div></div><div role="scrollbar" aria-controls="custom_scrollbar_0" aria-orientation="horizontal" aria-valuemax="0" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; width: calc(100% - 16px); height: 16px; bottom: 0px; background: transparent; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; display: none;"><div style="position: absolute; height: 12px; background: rgb(153, 153, 153); left: 0px; margin: 2px; border-radius: 12px; right: auto; width: 31.1351px;"></div></div><div class="custom-scroller-corner" style="width: 12px; height: 12px; background: rgba(200, 200, 200, 0.25); position: absolute; bottom: 2px; opacity: 0.25; border-radius: 12px; right: 2px;"></div><div style="width: 100%; height: 100%; top: 0px; position: absolute; z-index: 2; display: none; background: rgba(255, 255, 255, 0.05);"></div></div><form id="psuedoForm" aria-label="main form" action="http://localhost:9080/maximo/webclient/maximo.jsp" method="post" onsubmit="return false" onkeypress="if(event.keyCode==&#39;13&#39; &amp;&amp; getSourceElement(event).tagName!=&#39;TEXTAREA&#39; &amp;&amp; getSourceElement(event).tagName!=&#39;A&#39;){if(event.preventDefault){ event.preventDefault(); }else{ event.returnValue = false;}}">
+      
+      <div class="appBreadCrumbs" aria-label="Users (Manage)" role="navigation">
+	 	<script>
+			if(browserSupportsLocalStorage()) {
+				var dataString =  localStorage.getItem("tpaeInspectorData");
+				if(dataString && dataString.length>0){
+					var data = JSON.parse(dataString);
+					if(data && data.inspectorURL){ //was run here
+						require([data.inspectorURL, "dojo/domReady!"], function(inspector){
+							window.setTimeout(function(){
+								new inspector().startup(/*headless*/false, data.inspectorURL);
+							}, 1000);
+						});
+					}
+				}
+			}
+		</script>
+		
+		<table id="menuholder" style="position:absolute;z-index:50000;top:0px;left:0px;display:inline;" role="presentation"><tbody><tr><td id="menuholdertd" width="100%" aria-live="assertive"></td></tr></tbody></table>
+		<label for="tempselect" aria-hidden="true" style="display:none">TEMPSELECT</label><input type="text" id="tempselect" style="display:none" aria-hidden="true">
+		<table id="mainrec-pg" class="  " summary="" width="100%" height="100%" style="vertical-align:top;" role="presentation">
+
+				<tbody><tr id="mainrec-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="mainrec-co3_0" nowrap="nowrap" class="  verticalSpacer" style=" height:100%;vertical-align:top;" data-control="page"><table role="presentation" id="mainrec-gr" cellspacing="0" width="100%" class="  " summary="" style="">
+				<tbody><tr id="mainrec-co4_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="mainrec-co6_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="page"><table role="presentation" id="mainrec-gr2" cellspacing="0" width="100%" class="  " summary="" style="">
+				<tbody><tr id="mainrec-co7_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="mainrec-co8_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="page">
+
+
+<table role="presentation" control="true" id="mainrec-chld" width="100%" class="  " summary="" style="width:100%;;;vertical-align:top">
+
+
+
+
+
+
+					<tbody><tr>
+						<td>
+							<div id="m8567bebd-co_0_div" style="width: 1707px; height: 100%; overflow-x: auto; min-width: 100vw;">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+
+				<tbody><tr id="m8567bebd-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m8567bebd-co3_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="header">
+
+
+<table role="presentation" control="true" id="m8567bebd-chld" width="100%" height="100%" class="  " summary="" style="width:100%;height:100%;;vertical-align:top">
+				<tbody><tr id="titlebar-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+				<td style="vertical-align:bottom;text-align:left">
+					<table id="titlebar_error_table" class="umtable" border="0" cellspacing="0" cellpadding="0" style="text-align:left" role="presentation">
+						<tbody><tr>
+							<td><img id="titlebar_error_image" src="./information.gif" style="visibility:hidden" alt=""></td>
+							<td id="titlebar_error" role="alert" class="text um" style="white-space: normal">&nbsp;</td>
+						</tr>
+					</tbody></table>
+				</td>
+		
+
+				</tr>
+
+
+
+				<tr id="toolbar2-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="toolbar2-co2_0" nowrap="nowrap" class="tb FIREFOXtb  verticalSpacer" style="vertical-align:top;" data-control="toolbar">
+
+
+
+
+
+
+<div id="toolbar2-chld_holder" aria-hidden="false" aria-busy="false" style="display: inline;">
+
+	
+	<table id="toolbar2-chld_listView" role="presentation" style="position:absolute;margin-top:-8px;z-index:1;">
+	<tbody><tr><td><div id="mab323381_nc_list_button" class="text bottomApp" style="clear:both;display:none"><a href="javascript: sendEvent(&#39;gotolisttab&#39;,&#39;maintabs&#39;,&#39;&#39;)">List View</a><span class="breadcrumbSep">/</span></div></td></tr></tbody></table>
+
+	<table id="toolbar2-chld" valign="top" summary="" style="position:relative;padding-inline-end:1rem;z-index:1;float:right;" role="presentation">
+		<tbody><tr>
+<td role="presentation">&nbsp;</td>
+				<td id="toolbar2_tbs_0-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_0-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_0-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+
+	<td>
+		<div id="quicksearch_outer" class="qsFieldOuter">
+			<div id="quicksearch_wrapper" class="qryWrapper" style="display:initial;visibility:hidden;opacity:0;;transition: visibility 0s, opacity 0.5s linear;"> 
+				  <input id="quicksearch" type="text" aria-label="Find User ID" title="Find User ID (CTRL+ALT+F)" promptvalue="Find User ID" ctype="qstextbox" class="fld text tt qSearch queryField" async="1" ae="setvalue" placeholder="Find User ID" bound="true">
+					<img id="quicksearch_closebtn" role="button" alt="Close" src="./close.gif" tabindex="0" class="qryFieldCloseBtn" onclick="closeQueryField()" onkeypress="if(event.key === &#39;Enter&#39;){event.target.click();}" draggable="false"> 
+				
+			</div> 
+		  	<div id="quicksearch_QSButtonDiv" class="greybuttondiv" style="display: inline-block">
+		  		<div style="display: inline-block">
+					<input type="image" id="quicksearchQSImage" aria-label="Find User ID" title="Find User ID" alt="Find User ID" role="button" onkeypress="if(event.key === &#39;Enter&#39;){event.target.click();}" onclick="findValue(&#39;quicksearch&#39;)" class="greybutton" src="./qf_find.gif">
+				</div>
+				<div style="display: inline-block; position: relative; top: -2px">	
+					<input id="moresearchicon" type="image" title="More Search Fields" alt="More Search Fields" aria-label="More Search Fields" role="button" onkeypress="if(event.key === &#39;Enter&#39;){event.target.click();}" onclick="setFocusToId(&#39;moresearchicon&#39;);setClickPosition(this, event); sendEvent(&#39;searchmore&#39;, APPID, null)" class="greybutton" src="./advanced_search.gif">
+				</div>
+			
+				<div style="display: inline-block;margin-inline-start:-0.5rem;">
+					<input id="quicksearchQSMenuImage" type="image" title="Quick Search menu" alt="Quick Search menu" aria-label="Quick Search menu" role="button" onkeypress="if(event.key === &#39;Enter&#39;){event.target.click();}" onclick="setClickPosition(this, event); sendEvent(&#39;click&#39;, &#39;quicksearch&#39;, &#39;quicksearch&#39;)" class="greybutton" src="./nav_btn_menuArrow_Search.gif">
+				</div>
+			
+			</div>
+		</div>
+	</td>
+	<script>
+  let keepQueryFieldOpen = false;
+	function findValue(id){
+		var filterFld = dojo.byId("quicksearch");
+		var fldDiv = filterFld.parentElement;
+		var fldVal = filterFld.value;
+		if(fldVal){
+			sendEvent('find', 'quicksearch', '');
+      if(!keepQueryFieldOpen){
+			  dojo.style(fldDiv, {"visibility": "hidden", "opacity":"0"});
+      }
+		}
+		else {
+			dojo.style(fldDiv, {"visibility": "initial", "opacity":"1"});
+      if(!SCREENREADER){
+        window.setTimeout(function(){filterFld.focus()}, 300);
+      }
+		}
+	}
+	
+	function closeQueryField(){
+		var filterFld = dojo.byId("quicksearch_wrapper");
+    if(!keepQueryFieldOpen){
+		  dojo.style(filterFld, {"visibility": "hidden", "opacity":"0"});
+    }
+    let button = document.getElementById("quicksearchQSImage") || document.getElementById("quicksearchQSMenuImage");
+    if(button){
+      window.setTimeout(function(){
+        if(!keepQueryFieldOpen){
+          button.focus();
+        }
+        filterFld.querySelector('INPUT').value='';
+      }, 300);
+    }
+	}
+	
+	function fixQSFieldWidth(width) {
+		var qsField = dojo.byId("quicksearch");
+		var qsButtonDiv = dojo.byId("quicksearch_QSButtonDiv");
+		var qsMenuImage = dojo.byId("quicksearchQSMenuImage");
+		if(qsField && qsButtonDiv) {
+		
+			dojo.connect(qsButtonDiv, "mouseover", qsButtonDiv, function(event) {
+				appendClass(qsButtonDiv, "greybuttondiv_hover");
+			});
+			dojo.connect(qsButtonDiv, "mouseout", qsButtonDiv, function(event) {
+				removeClass(qsButtonDiv, "greybuttondiv_hover");
+			});
+		
+			var navContainer = dojo.query("div.fixedNavContainer")[0];
+			if(undef(width) && navContainer){
+				width = navContainer.clientWidth;
+			}
+			if(!undef(width)) {
+				var setWidth = width - getLeftPosition(qsField) - qsButtonDiv.offsetWidth - 15;
+				if(document.body.dir == "rtl") {
+					setWidth = width - qsButtonDiv.offsetWidth - 25
+				}
+				if(setWidth < 80) {
+					setWidth = 80;
+				}
+				dojo.style(qsField, {"width": setWidth +"px"});
+			}
+		}
+		else {
+			if(undef(width)){
+				var navContainer = dojo.query("div.fixedNavContainer")[0];
+				if(navContainer){
+					width = navContainer.clientWidth - 30;
+					var qsFieldOuter = dojo.byId("quicksearch_outer");
+					if(qsFieldOuter) {
+						dojo.style(qsFieldOuter, {"width": width +"px"});
+					}
+				}
+			}
+			return;
+		}
+		bindQSFieldEvents(qsField);
+	}
+	function bindQSFieldEvents(el) {
+		if(dojo.attr(el, 'bound')!="true"){
+			dojo.connect(el, "drop", el, tb_);
+			dojo.connect(el, "blur", el, tb_)
+			dojo.connect(el, "click", el, tb_);
+			dojo.connect(el, "change", el, tb_);
+			dojo.connect(el, "cut", el, tb_);
+			dojo.connect(el, "focus", el, tb_);
+			dojo.connect(el, "keydown", el, tb_);
+			//dojo.connect(el, "keypress", el, tb_);
+			dojo.connect(el, "keyup", el, tb_);
+			dojo.connect(el, "mousedown", el, tb_);
+			dojo.connect(el, "mousemove", el, tb_);
+			dojo.connect(el, "mouseup", el, tb_);
+			dojo.connect(el, "paste", el, tb_);
+      dojo.connect(el, "keypress", el, function(evt){
+        if(evt.key === 'Escape'){
+          evt.stopPropagation();
+          el.value = '';
+          closeQueryField();
+        }
+        else {
+          tb_.call(el,evt);
+        }
+      });
+			tb_(el);
+			dojo.attr(el, {'bound':'true'});
+		}
+    dojo.connect(document.body, "keypress", el, function(evt){
+      if(evt.key === 'f' && evt.altKey && evt.ctrlKey){
+        el.focus();
+      }
+    });
+	}
+	function bindQSFunctions() {
+		var qsField = dojo.byId("quicksearch");
+		var qsImage = dojo.byId("quicksearchQSImage");
+		if(qsField) {
+			dojo.connect(qsField, "focus", qsField, function(event){
+				input_onfocus(event,this);
+			} );
+			dojo.connect(qsField, "blur", qsField, function(event){
+				input_onblur(event,this);
+			} );
+
+			dojo.connect(qsField, "keypress", qsImage, function(event){
+				if(hasKeyCode(event,'KEYCODE_ENTER')) {
+					window.setTimeout(function(){sendEvent('find', 'quicksearch', '')},100);
+          if(!keepQueryFieldOpen){
+            let button = document.getElementById("quicksearchQSImage") || document.getElementById("quicksearchQSMenuImage");
+            if(button){
+              button.focus();
+              focusOnItem(button.id,false);
+            }
+          }
+				}
+			} );
+		}
+	}
+	
+		addLoadMethod("bindQSFunctions();");
+		addLoadMethod("fixQSFieldWidth();");
+	
+	dojo.subscribe("sizeNavHeader", function(data){
+		fixQSFieldWidth(data);
+	});
+	</script>
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_1-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_1-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_1-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_2-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_2-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_2-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+				<td id="toolbar2_tbs_2_tba_0-co_0" nowrap="nowrap" align="left" class="  verticalSpacer" style="vertical-align:top;" data-control="toolbaractions">
+
+
+
+
+
+</td>
+				<td id="toolbar2_tbs_2_tba_0-co_1" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="toolbaractions">
+
+
+
+
+	<ul class="toolbar" role="toolbar" aria-label="toolbar">
+
+
+
+			<li role="presentation" id="toolactions_SAVE-tbb" hotkey="83" ctype="toolbarbutton" disabled="true"><a draggable="false" role="button" id="toolactions_SAVE-tbb_anchor" href="javascript:setClickElementId(&quot;toolactions_SAVE-tbb&quot;);sendEvent(&quot;click&quot;,&quot;toolactions_SAVE-tbb&quot;,&quot;&quot;)" onkeydown="itemAKey(event,this)" title="Save User    CTRL+ALT+S" hotkey="S" onfocus="appendClass(this,&#39;onhover&#39;)" tabindex="-1" onblur="removeClass(this,&#39;onhover&#39;)" disabled="true" eventtype="SAVE" class="off opacity_20"><img aria-hidden="true" role="button" tabindex="-1" id="toolactions_SAVE-tbb_image" src="./nav_icon_save.gif" alt="Save User    CTRL+ALT+S" draggable="false"></a></li>
+		
+
+
+
+
+
+
+			<li role="presentation" id="toolactions_CLEAR-tbb" hotkey="67" ctype="toolbarbutton" disabled="disabled"><a draggable="false" role="button" id="toolactions_CLEAR-tbb_anchor" href="javascript:setClickElementId(&quot;toolactions_CLEAR-tbb&quot;);sendEvent(&quot;click&quot;,&quot;toolactions_CLEAR-tbb&quot;,&quot;&quot;)" onkeydown="itemAKey(event,this)" title="Clear Changes    CTRL+ALT+C" hotkey="C" onfocus="appendClass(this,&#39;onhover&#39;)" tabindex="-1" onblur="removeClass(this,&#39;onhover&#39;)" disabled="true" eventtype="CLEAR" class="off"><img aria-hidden="true" role="button" tabindex="-1" id="toolactions_CLEAR-tbb_image" src="./nav_icon_clear.gif" alt="Clear Changes    CTRL+ALT+C" draggable="false"></a></li>
+		
+
+
+
+
+
+
+			<li role="presentation" id="toolactions_PREVIOUS-tbb" hotkey="80" ctype="toolbarbutton" disabled="disabled"><a draggable="false" role="button" id="toolactions_PREVIOUS-tbb_anchor" href="javascript:setClickElementId(&quot;toolactions_PREVIOUS-tbb&quot;);sendEvent(&quot;click&quot;,&quot;toolactions_PREVIOUS-tbb&quot;,&quot;&quot;)" onkeydown="itemAKey(event,this)" title="Previous User    CTRL+ALT+P" hotkey="P" onfocus="appendClass(this,&#39;onhover&#39;)" tabindex="-1" onblur="removeClass(this,&#39;onhover&#39;)" disabled="true" eventtype="PREVIOUS" class="off"><img aria-hidden="true" role="button" tabindex="-1" id="toolactions_PREVIOUS-tbb_image" src="./nav_icon_previous.gif" alt="Previous User    CTRL+ALT+P" draggable="false"></a></li>
+		
+
+
+
+
+
+
+			<li role="presentation" id="toolactions_NEXT-tbb" hotkey="78" ctype="toolbarbutton" disabled="disabled"><a draggable="false" role="button" id="toolactions_NEXT-tbb_anchor" href="javascript:setClickElementId(&quot;toolactions_NEXT-tbb&quot;);sendEvent(&quot;click&quot;,&quot;toolactions_NEXT-tbb&quot;,&quot;&quot;)" onkeydown="itemAKey(event,this)" title="Next User    CTRL+ALT+N" hotkey="N" onfocus="appendClass(this,&#39;onhover&#39;)" tabindex="-1" onblur="removeClass(this,&#39;onhover&#39;)" disabled="true" eventtype="NEXT" class="off"><img aria-hidden="true" role="button" tabindex="-1" id="toolactions_NEXT-tbb_image" src="./nav_icon_next.gif" alt="Next User    CTRL+ALT+N" draggable="false"></a></li>
+		
+
+
+	</ul>
+<script>
+					fixToolbarButtons("li[eventtype='SAVE']", "toolactions_SAVE-tbb");
+					fixToolbarButtons("li[eventtype='CLEAR']", "toolactions_CLEAR-tbb");
+					fixToolbarButtons("li[eventtype='PREVIOUS']", "toolactions_PREVIOUS-tbb");
+					fixToolbarButtons("li[eventtype='NEXT']", "toolactions_NEXT-tbb");</script>
+	<script>
+		saveButton = "toolactions_SAVE-tbb";
+	</script>
+
+</td>
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_3-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_3-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_3-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+				</tr><tr>
+					<td id="toolbar2_tbs_3_dynamictoolbar_0-dtb" style="padding:0px;vertical-align:middle;padding-left:1px;white-space: nowrap">
+	
+
+						
+							
+
+
+
+
+	<ul class="toolbar" role="toolbar" aria-label="toolbar">
+
+
+
+			<li role="presentation" id="ROUTEWF__-tbb" ctype="toolbarbutton" disabled="disabled"><a draggable="false" role="button" id="ROUTEWF__-tbb_anchor" href="javascript:setClickElementId(&quot;ROUTEWF__-tbb&quot;);sendEvent(&quot;click&quot;,&quot;ROUTEWF__-tbb&quot;,&quot;&quot;)" onkeydown="itemAKey(event,this)" title="Route Workflow" onfocus="appendClass(this,&#39;onhover&#39;)" tabindex="-1" onblur="removeClass(this,&#39;onhover&#39;)" disabled="true" eventtype="ROUTEWF" class="off"><img aria-hidden="true" role="button" tabindex="-1" id="ROUTEWF__-tbb_image" src="./nav_icon_route.gif" alt="Route Workflow" draggable="false"></a></li>
+		
+
+
+	</ul>
+
+
+				
+
+	
+					</td>
+				</tr>
+
+
+
+				
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_4-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_4-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_4-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_5-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_5-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_5-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+				<td id="toolbar2_tbs_6-co_0" nowrap="nowrap" class="tbs  verticalSpacer" style="vertical-align:top;" data-control="toolbarsection"><table role="presentation" id="toolbar2_tbs_6-gr" cellspacing="0" width="100%" class="  " summary="" style="display:block;">
+				<tbody><tr id="toolbar2_tbs_6-co2_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+
+		</tr>
+	</tbody></table>
+
+	<table id="toolbar2-chld_appName" class="titleAppName" role="presentation"><tbody><tr><td><h1 class="h1AppName">Users (Manage)</h1></td></tr></tbody></table>
+
+</div>
+
+<script>
+	var breadcrumbPresent = document.getElementsByClassName('bottomApp').length > 0;
+	if(breadcrumbPresent && false){
+		//move the toolbar to the right to align with buttons
+		document.getElementById('toolbar2-chld').style.marginInlineEnd = '1.5rem';
+	}
+</script>
+
+
+</td>
+
+
+				</tr>
+
+
+</tbody></table>
+
+
+</td>
+
+
+				</tr>
+								</tbody></table>
+							</div>
+						</td>
+					</tr>
+					<script>
+						var headerId = "m8567bebd-co_0";
+						var headerScrollDivId = "m8567bebd-co_0_div";
+					</script>
+
+
+
+
+
+
+
+				<tr id="mbd5bb736-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="mbd5bb736-co3_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="clientarea">
+
+
+	<div id="mbd5bb736-ca"> 
+
+
+
+<table role="presentation" control="true" id="mbd5bb736-chld" width="100%" class="  " summary="" style="width:100%;;;vertical-align:top">
+
+
+
+
+
+		<tbody><tr id="">
+			<td id="SystemNav-so" class="" control="true" style="vertical-align:top;">
+	
+		<div id="SystemNav-so_compHolder" aria-live="polite" style="padding:0px;margin:0px;vertical-align:top;height: 100%;display:">
+		
+			<table id="SystemNav-so_inner" role="presentation" cellspacing="0" class="so sysNav  " cellpadding="0" height="100%" width="100%" style="vertical-align:top;"><tbody><tr id="SystemNav-so_1" style="vertical-align:top;display:;"> 
+
+
+
+
+			<script>
+				elLabel = document.getElementById("null");
+				if(!elLabel)
+				{ 
+					
+				}
+			</script>
+
+	<td id="SystemNav-se" aria-live="polite" style="padding: 0px 5px;display:;white-space:nowrap;padding-bottom: 2px;" class="section   " valign="top">
+
+
+<table role="presentation" control="true" id="SystemNav-chld" width="100%" height="100%" class="tdtblw  " summary="" style="width:100%;height:100%;;vertical-align:top">
+				<tbody><tr id="md4ef0e3c-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+
+		<td id="SystemNavAppContent_menu-sc" aria-live="polite" style="padding: 0px 8px; vertical-align: top; width: 256px;" sc="true" height="100%" class="sectioncol ">
+			<div id="SystemNavAppContent_menu-sc_div" class="custom-scroller-outer" style="width: 256px; position: relative; overflow: hidden; height: calc(-68px + 100vh);"><div class="custom-scroller" tabindex="-1" style="max-width: 100%; top: 0px; width: 100%; height: 100%; overflow: auto;"><div style="margin-inline-end: 0px; margin-bottom: 0px;">
+			
+
+
+
+<table role="presentation" control="true" id="SystemNavAppContent_menu-chld" width="100%" height="100%" class="  " summary="" style="width:100%;height:100%;;vertical-align:top">
+				<tbody><tr id="mab323381-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="mab323381-co2_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="navcontainer">
+	<script type="text/javascript">
+		var mab323381_ncnavSections = {};
+		var mab323381_ncnavSectionsOrder = new Array();
+	</script>
+	
+    	<script type="text/javascript">
+			function fixListViewButtonId() {
+				var listViewButton = document.getElementById('nc_list_button');
+				if (listViewButton != null) {
+					listViewButton.id = 'mab323381_nc_list_button';
+				}
+			}
+			addLoadMethod("fixListViewButtonId()");
+		</script>
+	
+	<div class="navContainer" style="width:256px">
+    
+    <div style="position: sticky; top: 0px !important; padding-top: 16px">
+      <div navsearch="true" id="mab323381_nc_search" class="nav-header nav-search-field dojoxEllipsis" style="display: flex; align-items: center; width: 100%;">
+        <input id="nav_search_field" style="width: 100%" ctype="navsearch" autocomplete="off" navcontainerid="mab323381_nc" type="text" class="fld text tt queryField menuSearch" placeholder="Find navigation item" promptvalue="Find navigation item" data-field-width="100">
+        
+        <button id="nav_search_field_clear" class="clearButton" style="position: absolute;">
+          <img id="quicksearch_closebtn" alt="Clear" src="./close.gif" draggable="false">
+        </button>
+        
+          <button id="nav_search_collapse" aria-label="Open/Close" class="collapseNav" onclick="toggleNavContainer(event)"><img src="./img_menu.gif" aria-label="Open/Close"></button>  
+      </div>
+    <button id="app_query_menu" aria-haspopup="menu" aria-label="Available Queries" class="menuQuery-button"><div id="mainQueryMenu" readonly="true" class="fld text tt queryField menuSearch menuQuery">Available Queries</div></button></div>
+    <div id="mab323381_nc_search_results" data-search-input-id="nav_search_field" data-menu-holder-id="mab323381_nc" class="menu-search-results">
+    </div>
+		<div id="mab323381_nc" state="open" cellspacing="0" collapsible="false" style="overflow: hidden;vertical-align:top;border-spacing: collapse;width:256px" pagenav="true" searchfieldid="nav_search_field" maxwidth="256">
+  	
+			<div id="mea59820d_ns_content" style="display:;" class="navContent" tabindex="-1">
+				<div id="mea59820d_ns_content_inner">
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+			
+				var statemea59820d_ns = "normal";
+				if(mab323381_ncnavSections["mea59820d_ns"]) {
+					statemea59820d_ns = mab323381_ncnavSections["mea59820d_ns"]["state"];
+				}
+				mab323381_ncnavSections["mea59820d_ns"]={"height":"","state":statemea59820d_ns,"loaded":false};
+				mab323381_ncnavSectionsOrder.push("mea59820d_ns");
+        
+        if(CLEAR_SEARCH){
+          CLEAR_SEARCH(dojo.byId('nav_search_field_clear'));
+        }
+        
+        
+          fillAppNavSection({"menu":{"id":"menu0nsaa-ns","mxevent":"changeapp","type":1,"items":[{"image":"modimg_setup.svg","sub":{"id":"1","mxevent":"changeapp","type":1,"items":[{"eventvalue":"REPORT","apptype":"RUN","text":"Report Administration","id":"REPORT_APP","ismafmobileapp":"false"},{"eventvalue":"MPMAN","apptype":"RUN","text":"Map Manager","id":"MPMAN_APP","ismafmobileapp":"false"},{"eventvalue":"RLADMIN","apptype":"RUN","text":"Record Release","id":"RLADMIN_APP","ismafmobileapp":"false"},{"sub":{"id":"SADM10_HEADER2","mxevent":"changeapp","type":1,"items":[{"eventvalue":"APPTBKMGR","apptype":"RUN","text":"Appointment Book Manager","id":"APPTBKMGR_APP","ismafmobileapp":"false"},{"eventvalue":"SCHOVAVAIL","apptype":"RUN","text":"Scheduling Alternate Resources","id":"SCHOVAVAIL_APP","ismafmobileapp":"false"},{"eventvalue":"SCHTTMGR","apptype":"RUN","text":"Configure Tooltips","id":"SCHTTMGR_APP","ismafmobileapp":"false"}],"openat":null},"text":"Scheduler Administration","id":"SADM10_HEADER"}],"openat":null},"text":"Administration","id":"SETUP_MODULE"},{"image":"modimg_analytics.svg","sub":{"id":"3","mxevent":"changeapp","type":1,"items":[{"eventvalue":"RPTOUTPUT","apptype":"RUN","text":"Report Viewer","id":"RPTOUTPUT_APP","ismafmobileapp":"false"}],"openat":null},"text":"Analytics","id":"ANALYTICS_MODULE"},{"image":"modimg_default.svg","sub":{"id":"4","mxevent":"changeapp","type":1,"items":[{"eventvalue":"MOBADMIN","apptype":"WC","text":"Mobile Configuration","id":"MOBADMIN_APP","custapptype":"REACT","ismafmobileapp":"false"},{"eventvalue":"MAFCONFIG","apptype":"APP","text":"Application configuration (Maximo Application Framework Configuration Tool)","id":"MAFCONFIG_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Application administration","id":"APPCONFIG_MODULE"},{"sub":{"id":"5","mxevent":"changeapp","type":1,"items":[{"eventvalue":"RELENGINEER","apptype":"WC","text":"Assets & locations","id":"RELENGINEER_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Health","id":"HEALTH_MODULE"},{"image":"modimg_int.svg","sub":{"id":"6","mxevent":"changeapp","type":1,"items":[{"eventvalue":"APIKEY","apptype":"WC","text":"API Keys","id":"APIKEY_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Integration","id":"INT_MODULE"},{"image":"modimg_inventor.svg","sub":{"id":"7","mxevent":"changeapp","type":1,"items":[{"eventvalue":"COUNTBOOK","apptype":"RUN","text":"Count Books","id":"COUNTBOOK_APP","ismafmobileapp":"false"},{"sub":{"id":"MODMOB1_HEADER8","mxevent":"changeapp","type":1,"items":[{"eventvalue":"ICMOBILE","apptype":"APP","text":"Inventory Counting","id":"ICMOBILE_APP","custapptype":"REACT","ismafmobileapp":"true"},{"eventvalue":"ITMOBILE","apptype":"APP","text":"Issues and Transfers","id":"ITMOBILE_APP","custapptype":"REACT","ismafmobileapp":"true"}],"openat":null},"text":"Role Based Applications","id":"MODMOB1_HEADER"}],"openat":null},"text":"Inventory","id":"INVENTOR_MODULE"},{"image":"modimg_plans.svg","sub":{"id":"9","mxevent":"changeapp","type":1,"items":[{"sub":{"id":"MODMOB1_HEADER10","mxevent":"changeapp","type":1,"items":[{"eventvalue":"MANAGEINSPFORM","apptype":"APP","text":"Inspection Forms","id":"MANAGEINSPFORM_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Role Based Applications","id":"MODMOB1_HEADER"}],"openat":null},"text":"Planning","id":"PLANS_MODULE"},{"image":"modimg_scheduling.svg","sub":{"id":"11","mxevent":"changeapp","type":1,"items":[{"eventvalue":"GWORKASSIGN","apptype":"RUN","text":"Graphical Work Week","id":"GWORKASSIGN_APP","ismafmobileapp":"false"},{"eventvalue":"RLASSIGN","apptype":"RUN","text":"Graphical Assignment","id":"RLASSIGN_APP","ismafmobileapp":"false"},{"eventvalue":"RLCAPACITY","apptype":"RUN","text":"Graphical Assignment-Repair Facilities","id":"RLCAPACITY_APP","ismafmobileapp":"false"},{"eventvalue":"APPTBOOK","apptype":"RUN","text":"Graphical Appointment Book","id":"APPTBOOK_APP","ismafmobileapp":"false"},{"eventvalue":"GRESOURCE","apptype":"RUN","text":"Graphical Resource View ","id":"GRESOURCE_APP","ismafmobileapp":"false"},{"eventvalue":"SCHEDULINGDASHBOARD","apptype":"APP","text":"Scheduling Dashboard","id":"SCHEDULINGDASHBOARD_APP","custapptype":"REACT","ismafmobileapp":"false"},{"eventvalue":"PLANNINGDASHBOARD","apptype":"APP","text":"Planning Dashboard","id":"PLANNINGDASHBOARD_APP","custapptype":"REACT","ismafmobileapp":"false"},{"eventvalue":"DISPATCHINGDASHBOARD","apptype":"APP","text":"Dispatching Dashboard","id":"DISPATCHINGDASHBOARD_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Planning and Scheduling","id":"SCHEDULER_MODULE"},{"image":"modimg_security.svg","sub":{"id":"12","mxevent":"changeapp","type":1,"items":[{"eventvalue":"SECURGROUP","apptype":"RUN","text":"Security Groups (Manage)","id":"SECURGROUP_APP","ismafmobileapp":"false"},{"eventvalue":"USER","apptype":"RUN","text":"Users (Manage)","id":"USER_APP","ismafmobileapp":"false"}],"openat":null},"text":"Security","id":"SECURITY_MODULE"},{"image":"carbon_security-services.svg","sub":{"id":"13","mxevent":"changeapp","type":1,"items":[{"eventvalue":"MASUSER","apptype":"WC","text":"Users","id":"MASUSER_APP","custapptype":"REACT","ismafmobileapp":"false"},{"eventvalue":"MASGROUP","apptype":"WC","text":"Security Groups","id":"MASGROUP_APP","custapptype":"REACT","ismafmobileapp":"false"}],"openat":null},"text":"Security","id":"AUTH_MODULE"},{"image":"modimg_ssdr.svg","sub":{"id":"14","mxevent":"changeapp","type":1,"items":[{"sub":{"id":"MODMOB1_HEADER15","mxevent":"changeapp","type":1,"items":[{"eventvalue":"SRMOBILE","apptype":"APP","text":"Service Requests","id":"SRMOBILE_APP","custapptype":"REACT","ismafmobileapp":"true"}],"openat":null},"text":"Role Based Applications","id":"MODMOB1_HEADER"}],"openat":null},"text":"Self Service","id":"SSDR_MODULE"},{"image":"modimg_util.svg","sub":{"id":"16","mxevent":"changeapp","type":1,"items":[{"sub":{"id":"MOD11130_HEADER17","mxevent":"changeapp","type":1,"items":[{"eventvalue":"PROPMAINT","apptype":"RUN","text":"System Properties","id":"PROPMAINT_APP","ismafmobileapp":"false"},{"eventvalue":"LOGGING","apptype":"RUN","text":"Logging","id":"LOGGING_APP","ismafmobileapp":"false"},{"eventvalue":"DESIGNER","apptype":"RUN","text":"Application Designer","id":"DESIGNER_APP","ismafmobileapp":"false"}],"openat":null},"text":"Platform Configuration","id":"MOD11130_HEADER"}],"openat":null},"text":"System Configuration","id":"UTIL_MODULE"},{"image":"modimg_wo.svg","sub":{"id":"18","mxevent":"changeapp","type":1,"items":[{"sub":{"id":"MODMOB1_HEADER19","mxevent":"changeapp","type":1,"items":[{"eventvalue":"SRMOBILE","apptype":"APP","text":"Service Requests","id":"SRMOBILE_APP","custapptype":"REACT","ismafmobileapp":"true"}],"openat":null},"text":"Role Based Applications","id":"MODMOB1_HEADER"}],"openat":null},"text":"Work Orders","id":"WO_MODULE"}],"openat":null}}, {"labelledBy":"mea59820d_ns_label","args":{"content":{"events": dojo.toJson([{"navSectionId":"mea59820d_ns","containerId" : "mab323381_nc","classname":"ns_goto","showImages" : "true","isQuery" : "false","render" : "true"}])}}});
+        
+				</script>
+		
+	
+  
+
+		<div id="m9e1854a7_ns" class="navSection" role="toolbar" aria-labelledby="m9e1854a7_ns_label" containerid="mab323381_nc">
+			<div class="navHeadOuter">
+			  <div id="m9e1854a7_ns_head" title="Available Queries" role="presentation" style="width:100%" class="navHead" onkeyup="navHeadingKey(event,&#39;m9e1854a7_ns&#39;)">
+					<div style="display:inline;white-space: nowrap">
+						<table role="presentation">
+							<tbody><tr>
+								<td>
+									<div ondblclick="toggleSectionState(&#39;m9e1854a7_ns&#39;);hideAllMenusNF();stopBubble(event);" id="m9e1854a7_ns_label" class="navTitle dojoxEllipsis" style="user-select: none; display: none;"><img src="./queries_section.png" style="margin: 3px;" alt="">Available Queries</div>
+								</td>
+								<td>
+							</td></tr>
+						</tbody></table>
+					</div>
+				</div>
+			</div>
+	
+			<div id="m9e1854a7_ns_content" style="display:;" class="navContent" tabindex="-1">
+				<div id="m9e1854a7_ns_content_inner">
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+			
+				var statem9e1854a7_ns = "normal";
+				if(mab323381_ncnavSections["m9e1854a7_ns"]) {
+					statem9e1854a7_ns = mab323381_ncnavSections["m9e1854a7_ns"]["state"];
+				}
+				mab323381_ncnavSections["m9e1854a7_ns"]={"height":"","state":statem9e1854a7_ns,"loaded":false};
+				mab323381_ncnavSectionsOrder.push("m9e1854a7_ns");
+        
+        if(CLEAR_SEARCH){
+          CLEAR_SEARCH(dojo.byId('nav_search_field_clear'));
+        }
+        
+        
+          fillNavSection({"menu":{"id":"menu0nsq-ns","type":2,"items":[{"eventvalue":"queryMenuItem_0","targetId":"nsq-ns","query":null,"text":"All Records","id":"queryMenuItem_0","mxevent":"queryclick","value":"queryMenuItem_0","backendevent":"_useAllRecsQuery"},{"eventvalue":"queryMenuItem_1","targetId":"nsq-ns","query":null,"text":"All Bookmarks","id":"queryMenuItem_1","mxevent":"queryclick","value":"queryMenuItem_1","backendevent":"_useAllBookmarksQuery"},{"border":"true","eventvalue":"queryMenuItem_2","image":"menu_icon_publicquery.gif","targetId":"nsq-ns","query":"All User Types","text":"All User Types","id":"queryMenuItem_2","mxevent":"queryclick","value":"queryMenuItem_2","target":"user","backendevent":"_usequery"}],"openat":null}}, {"labelledBy":"m9e1854a7_ns_label","args":{"content":{"events": dojo.toJson([{"navSectionId":"m9e1854a7_ns","containerId" : "mab323381_nc","classname":"ns_query","showImages" : "true","isQuery" : "true","render" : "true"}])}}});
+        
+				</script>
+		
+	
+  
+
+		<div id="md86fe08f_ns" class="navSection" role="toolbar" aria-labelledby="md86fe08f_ns_label" containerid="mab323381_nc">
+			<div class="navHeadOuter">
+			  <div id="md86fe08f_ns_head" title="Common Actions" role="presentation" style="width:100%" class="navHead" onkeyup="navHeadingKey(event,&#39;md86fe08f_ns&#39;)">
+					<div style="display:inline;white-space: nowrap">
+						<table role="presentation">
+							<tbody><tr>
+								<td>
+									<div ondblclick="toggleSectionState(&#39;md86fe08f_ns&#39;);hideAllMenusNF();stopBubble(event);" id="md86fe08f_ns_label" class="navTitle dojoxEllipsis" style="user-select: none;-moz-user-select: none;"><img src="./commonactions_section.png" style="margin: 3px;" alt="">Common Actions</div>
+								</td>
+								<td>
+							</td></tr>
+						</tbody></table>
+					</div>
+				</div>
+			</div>
+	
+			<div id="md86fe08f_ns_content" style="display:;" class="navContent" tabindex="-1">
+				<div id="md86fe08f_ns_content_inner"><div></div><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="7" id="md86fe08f_ns_menu" level="0" aria-labelledby="md86fe08f_ns_label" class="navMenus ns_toolbar " data-menu-div="true" style="position: static;"><li role="none" draggable="false" eventtype="STATUS" anchorid="md86fe08f_ns_menu_STATUS_OPTION_a" id="md86fe08f_ns_menu_STATUS_OPTION" class=" menuborder"><a id="md86fe08f_ns_menu_STATUS_OPTION_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" eventtype="STATUS" href="javascript: //Change Status" class=" dojoxEllipsis" hotkey="65" title="Change Status   CTRL+ALT+A" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./nav_icon_changestatus.gif"><span id="md86fe08f_ns_menu_STATUS_OPTION_a_tnode">Change Status</span></div></a></li><li role="none" draggable="false" eventtype="CREATEKPI" anchorid="md86fe08f_ns_menu_CREATEKPI_OPTION_a" id="md86fe08f_ns_menu_CREATEKPI_OPTION" class=" menuborder"><a id="md86fe08f_ns_menu_CREATEKPI_OPTION_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" eventtype="CREATEKPI" href="javascript: //Create KPI" class=" dojoxEllipsis" hotkey="75" title="Create KPI   CTRL+ALT+K" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./nav_icon_kpi.gif"><span id="md86fe08f_ns_menu_CREATEKPI_OPTION_a_tnode">Create KPI</span></div></a></li><li role="none" draggable="false" eventtype="CREATEREPT" anchorid="md86fe08f_ns_menu_CREATEREPT_OPTION_a" id="md86fe08f_ns_menu_CREATEREPT_OPTION" class=" menuborder"><a id="md86fe08f_ns_menu_CREATEREPT_OPTION_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" eventtype="CREATEREPT" href="javascript: //Create Report" class=" dojoxEllipsis" title="Create Report" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./nav_icon_createQueryBasedReport.gif"><span id="md86fe08f_ns_menu_CREATEREPT_OPTION_a_tnode">Create Report</span></div></a></li></ul></div>
+			</div>
+			
+			<script type="text/javascript">
+			
+				var statemd86fe08f_ns = "normal";
+				if(mab323381_ncnavSections["md86fe08f_ns"]) {
+					statemd86fe08f_ns = mab323381_ncnavSections["md86fe08f_ns"]["state"];
+				}
+				mab323381_ncnavSections["md86fe08f_ns"]={"height":"","state":statemd86fe08f_ns,"loaded":false};
+				mab323381_ncnavSectionsOrder.push("md86fe08f_ns");
+        
+        if(CLEAR_SEARCH){
+          CLEAR_SEARCH(dojo.byId('nav_search_field_clear'));
+        }
+        
+        
+          fillNavSection({"menu":{"id":"menu0nsca-ns","type":7,"items":[{"border":"true","image":"nav_icon_changestatus.gif","accesskey":"CTRL+ALT+A","text":"Change Status","id":"STATUS_OPTION","mxevent":"STATUS"},{"border":"true","image":"nav_icon_kpi.gif","accesskey":"CTRL+ALT+K","text":"Create KPI","id":"CREATEKPI_OPTION","mxevent":"CREATEKPI"},{"border":"true","image":"nav_icon_createQueryBasedReport.gif","text":"Create Report","id":"CREATEREPT_OPTION","mxevent":"CREATEREPT"}],"openat":null}}, {"labelledBy":"md86fe08f_ns_label","args":{"content":{"events": dojo.toJson([{"navSectionId":"md86fe08f_ns","containerId" : "mab323381_nc","classname":"ns_toolbar","showImages" : "true","isQuery" : "false","render" : "true"}])}}});
+        
+				</script>
+		
+	
+  
+
+		<div id="m74daaf83_ns" class="navSection" role="toolbar" aria-labelledby="m74daaf83_ns_label" containerid="mab323381_nc">
+			<div class="navHeadOuter">
+			  <div id="m74daaf83_ns_head" title="More Actions" role="presentation" style="width:100%" class="navHead" onkeyup="navHeadingKey(event,&#39;m74daaf83_ns&#39;)">
+					<div style="display:inline;white-space: nowrap">
+						<table role="presentation">
+							<tbody><tr>
+								<td>
+									<div ondblclick="toggleSectionState(&#39;m74daaf83_ns&#39;);hideAllMenusNF();stopBubble(event);" id="m74daaf83_ns_label" class="navTitle dojoxEllipsis" style="user-select: none;-moz-user-select: none;"><img src="./actions_section.png" style="margin: 3px;" alt="">More Actions</div>
+								</td>
+								<td>
+							</td></tr>
+						</tbody></table>
+					</div>
+				</div>
+			</div>
+	
+			<div id="m74daaf83_ns_content" style="display:;" class="navContent" tabindex="-1">
+				<div id="m74daaf83_ns_content_inner"><div></div><ul static="true" overlay="undefined" target="user" topoffset="undefined" role="menu" menutype="3" id="m74daaf83_ns_menu" level="0" aria-labelledby="m74daaf83_ns_label" class="navMenus ns_actions " data-menu-div="true" style="position: static;"><li role="none" draggable="false" eventtype="PROFILE" anchorid="m74daaf83_ns_menu_PROFILE_OPTION_a" id="m74daaf83_ns_menu_PROFILE_OPTION" class=" menuborder"><a id="m74daaf83_ns_menu_PROFILE_OPTION_a" role="menuitem" tabindex="0" draggable="false" clickid="undefined" eventtype="PROFILE" href="javascript: //Set Security Profile" class=" dojoxEllipsis" title="Set Security Profile" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="m74daaf83_ns_menu_PROFILE_OPTION_a_tnode">Set Security Profile</span></div></a></li><li role="none" draggable="false" eventtype="SESSION" anchorid="m74daaf83_ns_menu_SESSION_OPTION_a" id="m74daaf83_ns_menu_SESSION_OPTION" class=""><a id="m74daaf83_ns_menu_SESSION_OPTION_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" eventtype="SESSION" href="javascript: //Manage Sessions" class=" dojoxEllipsis" title="Manage Sessions" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="m74daaf83_ns_menu_SESSION_OPTION_a_tnode">Manage Sessions</span></div></a></li><li role="none" draggable="false" eventtype="IPBLOCK" anchorid="m74daaf83_ns_menu_IPBLOCK_OPTION_a" id="m74daaf83_ns_menu_IPBLOCK_OPTION" class=""><a id="m74daaf83_ns_menu_IPBLOCK_OPTION_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" eventtype="IPBLOCK" href="javascript: //Manage Blocked IP Addresses" class=" dojoxEllipsis" title="Manage Blocked IP Addresses" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="m74daaf83_ns_menu_IPBLOCK_OPTION_a_tnode">Manage Blocked IP Addresses</span></div></a></li><li role="none" draggable="false" eventtype="RUNREPORTS" anchorid="m74daaf83_ns_menu_RUNREPORTS_OPTION_a" id="m74daaf83_ns_menu_RUNREPORTS_OPTION" class=" menuborder"><a id="m74daaf83_ns_menu_RUNREPORTS_OPTION_a" role="menuitem" tabindex="-1" draggable="false" clickid="undefined" eventtype="RUNREPORTS" href="javascript: //Run Reports" class=" dojoxEllipsis" title="Run Reports" style="width: 202px;"><div style="padding-inline-start: 0px; overflow: hidden; text-overflow: ellipsis;"><img class="menuimg" alt="" src="./blank.gif"><span id="m74daaf83_ns_menu_RUNREPORTS_OPTION_a_tnode">Run Reports</span></div></a></li></ul></div>
+			</div>
+			
+			<script type="text/javascript">
+			
+				var statem74daaf83_ns = "normal";
+				if(mab323381_ncnavSections["m74daaf83_ns"]) {
+					statem74daaf83_ns = mab323381_ncnavSections["m74daaf83_ns"]["state"];
+				}
+				mab323381_ncnavSections["m74daaf83_ns"]={"height":"","state":statem74daaf83_ns,"loaded":false};
+				mab323381_ncnavSectionsOrder.push("m74daaf83_ns");
+        
+        if(CLEAR_SEARCH){
+          CLEAR_SEARCH(dojo.byId('nav_search_field_clear'));
+        }
+        
+        
+          fillNavSection({"menu":{"id":"menu0nsoa-ns","type":3,"items":[{"border":"true","text":"Set Security Profile","id":"PROFILE_OPTION","mxevent":"PROFILE"},{"text":"Manage Sessions","id":"SESSION_OPTION","mxevent":"SESSION"},{"text":"Manage Blocked IP Addresses","id":"IPBLOCK_OPTION","mxevent":"IPBLOCK"},{"border":"true","text":"Run Reports","id":"RUNREPORTS_OPTION","mxevent":"RUNREPORTS"}],"openat":null}}, {"labelledBy":"m74daaf83_ns_label","args":{"content":{"events": dojo.toJson([{"navSectionId":"m74daaf83_ns","containerId" : "mab323381_nc","classname":"ns_actions","showImages" : "true","isQuery" : "false","render" : "true"}])}}});
+        
+				</script>
+		
+	
+  
+
+	  </div>
+	</div> 
+
+	<script type="text/javascript">
+		require(["dojo/on", "dojo/dom"], function(on , dom){
+			var searchField = dom.byId('nav_search_field');
+      if(searchField){
+			  dojo.attr("mab323381_nc", {"searchFieldId" : searchField.id});
+        on(searchField, 'focus', function(event){
+          menus.collapseAll();
+          setCurrentfocusFromId(event, this.id);
+        });
+			  on(searchField, 'keyup', function(event){
+  				if(!hasKeyCode(event, KEYCODE_ESC)){
+					  menus.menuSearch('mab323381_nc','mab323381_nc_search_results',this, {'group':'div.navSection','title':'.navTitle'});
+            if(event.currentTarget.value){
+              event.currentTarget.classList.add('with-value');
+            }else {
+              event.currentTarget.classList.remove('with-value');
+            }
+            let appQueryMenu = document.getElementById('app_query_menu');
+            if(appQueryMenu){
+              let count = getFilteredQueryItemsLength(QUERY_MENU_ITEMS,searchField.value);
+              let stringCount = (count?count:'0') + '';
+              appQueryMenu.setAttribute('data-count', stringCount);
+              if(searchField.value){
+                appQueryMenu.classList.add('filtered-queries');
+                if(!count){
+                  appQueryMenu.classList.add('no-pointer-events');
+                  appQueryMenu.setAttribute('aria-disabled', 'true');
+                }
+                else {
+                  appQueryMenu.classList.remove('no-pointer-events');
+                  appQueryMenu.removeAttribute('aria-disabled');
+                }
+                appQueryMenu.firstElementChild.style.paddingInlineEnd = ((stringCount.length * 10) + 46) +'px';
+              }
+              else {
+                searchField.classList.remove('with-value');
+                appQueryMenu.classList.remove('filtered-queries');
+                appQueryMenu.classList.remove('no-pointer-events');
+                appQueryMenu.removeAttribute('aria-disabled');
+                appQueryMenu.style.paddingInlineEnd = '0';
+              }
+            }
+				  }
+			  });
+        let clearSearch = CLEAR_SEARCH = !SCREENREADER && function(field){
+          field.value='';	
+          field.classList.remove('with-value');
+          menus.menuSearch('mab323381_nc','mab323381_nc_search_results', field, {'group':'div.navSection','title':'.navTitle'});
+		  if(document.getElementById('app_query_menu')){ 
+		  let appQueryMenu = document.getElementById('app_query_menu');
+          appQueryMenu.classList.remove('filtered-queries');
+          appQueryMenu.classList.remove('no-pointer-events');
+          appQueryMenu.removeAttribute('aria-disabled');
+		  }
+          field.focus();
+        }
+        
+        var searchFieldClear = dom.byId('nav_search_field_clear');
+        if(searchFieldClear){
+          on(searchFieldClear, 'keypress', function(event){
+            if(event.key === 'Enter'){
+              clearSearch(event.currentTarget.previousElementSibling);
+            }
+          });
+          on(searchFieldClear, 'click', function(event){
+            clearSearch(event.currentTarget.previousElementSibling);
+          });
+        }
+      }
+		})
+
+		// delay this as IE wraps the toolbar late in the process and the navbar top position is calculated incorrectly
+		function fixIt() {
+			fixNavContainer('mab323381_nc');
+			var navContainer = dojo.byId('mab323381_nc');
+			
+			dojo.connect(window, 'resize', function() {sizePanes('mab323381_nc', true)});
+			var header = dojo.byId('mab323381_ncnavcontainerheader');
+			if(header) {
+				addLoadMethod("dojo.publish('sizeNavHeader', dojo.byId('mab323381_nc').clientWidth);");
+			}
+			if(navContainer) {
+				var navWidth = parseInt(navContainer.offsetWidth);
+				sizeAnchors(navContainer, navWidth);
+			}
+			var state = "open";
+			if(-1==1){
+				state = "closed";
+			}
+			dojo.attr(navContainer, "maxwidth", 256);
+			setNavContainerState(navContainer, state, false, true);
+			addLoadMethod("window.setTimeout(fixIt, 200);");
+		}
+		var navContainerStrings = {"collapse":"Minimize Section","expand":"Maximize Section"};
+		window.setTimeout(fixIt, 200);
+	</script>
+
+</div></div></div></td>
+
+
+				</tr>
+
+
+</tbody></table>
+
+
+
+		</div></div><div role="scrollbar" aria-controls="SystemNavAppContent_menu-sc_div" aria-orientation="vertical" aria-valuemax="0" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; height: calc(100% - 16px); width: 16px; background: transparent; top: 0px; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; right: 0px; display: none;"><div style="position: absolute; width: 12px; background: rgb(153, 153, 153); top: 0px; margin: 2px; border-radius: 12px; height: 948px;"></div></div><div role="scrollbar" aria-controls="SystemNavAppContent_menu-sc_div" aria-orientation="horizontal" aria-valuemax="0" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; width: calc(100% - 16px); height: 16px; bottom: 0px; background: transparent; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; display: none;"><div style="position: absolute; height: 12px; background: rgb(153, 153, 153); left: 0px; margin: 2px; border-radius: 12px; right: auto; width: 256px;"></div></div><div class="custom-scroller-corner" style="width: 12px; height: 12px; background: rgba(200, 200, 200, 0.25); position: absolute; bottom: 2px; opacity: 0.25; border-radius: 12px; right: 2px;"></div><div style="width: 100%; height: 100%; top: 0px; position: absolute; z-index: 2; display: none; background: rgba(255, 255, 255, 0.05);"></div></div>
+	</td>
+
+
+
+
+
+
+		<td id="SystemNavAppContent-sc" aria-live="polite" style="width:100%;display:;;padding:0px 2px;vertical-align: top" sc="true" height="100%" class="sectioncol appContent">
+			<div id="SystemNavAppContent-sc_div" class="custom-scroller-outer custom-scroller-horiztonal" style="position: relative; overflow: auto; height: calc(-68px + 100vh); width: calc(100vw - var(--data-nav-width));"><div class="custom-scroller" tabindex="-1" style="max-width: 100%; top: 0px; width: 100%; height: 100%; overflow: auto;"><div style="margin-inline-end: 0px; margin-bottom: 16px;">
+			
+
+
+
+<table role="presentation" control="true" id="SystemNavAppContent-chld" width="100%" height="100%" class="  " summary="" style="width:100%;height:100%;;vertical-align:top">
+
+
+
+
+
+		<tbody><tr>
+			<td id="m397b0593-tabg_td" class="tabg   " style="vertical-align:top;padding:0px;margin:0px">
+				
+				
+
+
+					<table role="presentation" id="m397b0593-tabg" width="100%" class="tabg   ">
+						
+
+				<tbody><tr id="m397b0593-co3_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+
+
+
+
+
+
+				</tr>
+
+
+
+
+
+
+
+
+
+
+
+		<tr id="m9fa3e414-tabb" control="true">
+			<td id="m397b0593" class="  " width="100%">
+				<table role="presentation" id="m397b0593_tabbody_table" summary="" class="tabBodyTable">
+					
+				<tbody><tr id="m6a7dfd2f-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m6a7dfd2f-co2_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="table">
+
+
+
+
+
+	
+	<div nowrap="" id="m6a7dfd2f-to_holder" class="tableouter-div" style="display:inline;background-color: inherit !important">
+	
+		<table role="presentation" id="m6a7dfd2f-to" valign="top" summary="" class="tableouter   " style="width: calc(100% - 12px);border-collapse: collapse;">
+
+				<tbody><tr id="m6a7dfd2f-co3_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+		<td id="m6a7dfd2f-hb" data-inner-css="hb thb" class="hbouter" style="padding: 0px; white-space: nowrap; display: block;" onkeydown="tableHotkey(event, this);" role="presentation" aria-hidden="false">
+			<table cellspacing="0" cellpadding="0" style="width:100%;" class="" role="presentation">
+				<tbody><tr>
+						<td class="h_l"></td>
+	
+				  <td id="m6a7dfd2f-hb_header_0" align="left" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width:100%;="">
+
+
+<h2 labelledby="m6a7dfd2f-lb_h2" style="display:inline"><label id="m6a7dfd2f-lb" align="left" ctype="label" noclick="1" targetid="m6a7dfd2f-lb" class="text ttit  " style="display:block;padding-left:2px;padding-top:2px;">
+<img id="m6a7dfd2f-lb_er_img" src="./blank(1).gif" style="display:none" class="label_blank_icon" title="" alt="">Users</label></h2>
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_1" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;display:none" width:100%;="">
+
+
+
+
+
+<a id="m6a7dfd2f-ti15" class="" href="Javascript: void(0)" ctype="toggleimage" ev="false" title="" tabindex="-1" active="0" disabled="disabled"><img id="m6a7dfd2f-ti15_img" aria-hidden="true" tabindex="-1" border="0" class="ti topPaginationBtn  opacity_30" src="./tablebtn_previous_off.gif" source="tablebtn_previous_off.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="" title="" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_2" align="left" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width:100%;="">
+
+
+<label id="m6a7dfd2f-lb3" align="left" ctype="label" noclick="1" targetid="m6a7dfd2f-lb3" class="text tht tCount  " style="display:block;padding-left:2px;padding-top:2px;">(1 - 4 of 4)</label>
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_3" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;display:none" width:100%;="">
+
+
+
+
+
+<a id="m6a7dfd2f-ti16" class="" href="Javascript: void(0)" ctype="toggleimage" ev="false" title="" tabindex="-1" active="0" disabled="disabled"><img id="m6a7dfd2f-ti16_img" aria-hidden="true" tabindex="-1" border="0" class="ti topPaginationBtn  opacity_30" src="./tablebtn_next_off.gif" source="tablebtn_next_off.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="" title="" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_4" aria-hidden="true" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+	<div id="m6a7dfd2f-bl" aria-disabled="true" name="m6a7dfd2f-bl" class="text ts  ">&nbsp;</div>
+
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_5" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-ti3" class="" href="Javascript: void(0)" ctype="toggleimage" ev="false" title="" tabindex="-1" active="0" disabled="disabled"><img id="m6a7dfd2f-ti3_img" aria-hidden="true" tabindex="-1" border="0" class="ti   opacity_30" src="./qf_clear_disabled.gif" source="qf_clear_disabled.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="" title="" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_6" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-ti" class="tableFilterOn" href="Javascript: void(0);" ctype="toggleimage" ev="true" title="Close Filter CTRL+Z" tabindex="0"><img id="m6a7dfd2f-ti_img" aria-hidden="true" tabindex="-1" border="0" class="ti   " src="./tablebtn_filter_off.gif" source="tablebtn_filter_off.gif" imgtype="" ev="true" align="top" style="display:block;margin:0px;" alt="Close Filter CTRL+Z" title="Close Filter CTRL+Z" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_7" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-img5" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Reload to update the list from the database" tabindex="0"><img id="m6a7dfd2f-img5_img" aria-hidden="true" tabindex="-1" border="0" class="ti   " src="./listab_refresh.gif" source="listab_refresh.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="Reload to update the list from the database" title="Reload to update the list from the database" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_8" align="left" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+<a id="m6a7dfd2f-lb4" align="left" ctype="label" href="http://localhost:9080/maximo/webclient/common/asynctabledownload.jsp?filename=1778036965078&amp;_tbldnld=results_showlist&amp;uisessionid=1" onmouseover="return noStatus();" target="_blank" rel="noopener noreferrer" noclick="1" targetid="m6a7dfd2f-lb4" class="text tht  " style="display:block;" title="Download"><img id="m6a7dfd2f-lb4_image" aria-hidden="true" src="./tablebtn_download.gif" border="0" style="vertical-align:middle;margin:0px;margin-left:3px;margin-right:3px;" alt="Download"><span>Download</span></a>
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_header_9" class="hb thb   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-ti8" class="" href="Javascript: void(0);" ctype="toggleimage" ev="true" title="Hide Table: Users" tabindex="0"><img id="m6a7dfd2f-ti8_img" async="1" ae="setvalue" aria-hidden="true" tabindex="-1" border="0" class="ti   " src="./minimize.gif" source="minimize.gif" imgtype="" ev="true" align="top" style="display:block;margin:0px;" alt="Hide Table: Users" title="Hide Table: Users" draggable="false"></a>
+			
+
+
+</td>					<td class="h_r"></td>
+				</tr>
+			</tbody></table>
+		</td>
+
+
+				</tr>
+				<tr id="m6a7dfd2f-co3_1" control="true" class="  verticalSpacer" style="vertical-align:top;">
+				</tr>
+				<tr id="m6a7dfd2f-co3_2" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m6a7dfd2f-co4_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="table">
+
+
+<table role="presentation" control="true" id="m6a7dfd2f-chld" width="100%" class="table  " summary="" onkeydown="tableHotkey(event, this);" style="width:100%;;;vertical-align:top">
+				<tbody><tr id="m6a7dfd2f_tbod-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m6a7dfd2f_tbod-hg_0" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="tablebody">
+
+
+
+
+<div width="100%" class="helpgrid ">
+	<div width="100%" class="helpgrid ">
+	<table border="0" width="100%" summary="" style="display:none;" id="m6a7dfd2f_tbod-hg1" role="presentation">
+		<tbody><tr>
+			<td width="1" valign="top">
+				<img alt="" border="0" src="./icon_details.gif" role="presentation">
+			</td>
+			<td class="text help" style="cursor:default">
+				 
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+</div>
+
+
+
+</td>
+
+
+				</tr>
+
+
+
+				<tr id="m6a7dfd2f_tbod-co1_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m6a7dfd2f_tbod-co3_0" nowrap="nowrap" class="tbod  verticalSpacer" style="vertical-align:top;" data-control="tablebody">
+
+
+
+
+
+  			
+					<div aria-hidden="true" id="results_showlist_tablebody_rowholder" style="display:none"></div>
+					<div aria-hidden="true" id="results_showlist_tablebody_rowholder" style="display:none"></div><table data-multi="false" id="m6a7dfd2f_tbod-tbd" aria-label="Users" rownum="0" rowsperpage="20" displayrows="4" valign="top" summary="Users" style="border-collapse: separate; table-layout: auto; width: 100%;" class="tbod  ">
+	
+
+
+
+
+	<tbody><tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_ttrow-tr" class="ttitr   treven" style="display:;">
+	<th id="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right: 0px; width: 5px;"></th>
+
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:0]-c" tablecell="1" scope="col" class="tc hlsel" style="width: 5px;">
+
+
+<div id="m6a7dfd2f_ttrow_[C:0]_ttselallrows-gr" width="100%" nowrap="nowrap" class=" tsrsa " style="display:none;">
+
+
+
+
+
+<a id="m6a7dfd2f_ttrow_[C:0]_ttselallrows-ti" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select All Records" tabindex="0"><img id="m6a7dfd2f_ttrow_[C:0]_ttselallrows-ti_img" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox tstcb  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;margin-top:2px;" alt="Select All Records" title="Select All Records" draggable="false"></a>
+			
+
+
+</div>
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:1]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_ttrow_[C:1]_ttitle-lb" align="left" ctype="sortlabel" tabindex="0" ev="1" targetid="m6a7dfd2f_ttrow_[C:1]_ttitle-lb" mxevent="click" class="text hcns   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+User ID</span>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:1]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:2]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_ttrow_[C:2]_ttitle-lb" align="left" ctype="sortlabel" tabindex="0" ev="2" targetid="m6a7dfd2f_ttrow_[C:2]_ttitle-lb" mxevent="click" class="text hcns   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+Person</span>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:2]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:3]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<label id="m6a7dfd2f_ttrow_[C:3]_ttitle-lb" align="left" ctype="sortlabel" noclick="1" targetid="m6a7dfd2f_ttrow_[C:3]_ttitle-lb" class="text ct  " style="padding:0px;padding-left:1px;margin:0px;">
+First name</label>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:3]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:4]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<label id="m6a7dfd2f_ttrow_[C:4]_ttitle-lb" align="left" ctype="sortlabel" noclick="1" targetid="m6a7dfd2f_ttrow_[C:4]_ttitle-lb" class="text ct  " style="padding:0px;padding-left:1px;margin:0px;">
+Last name</label>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:4]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:5]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<label id="m6a7dfd2f_ttrow_[C:5]_ttitle-lb" align="left" ctype="sortlabel" noclick="1" targetid="m6a7dfd2f_ttrow_[C:5]_ttitle-lb" class="text ct  " style="padding:0px;padding-left:1px;margin:0px;">
+Display Name</label>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:5]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:6]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_ttrow_[C:6]_ttitle-lb" align="left" ctype="sortlabel" tabindex="0" ev="6" targetid="m6a7dfd2f_ttrow_[C:6]_ttitle-lb" mxevent="click" class="text hcns   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+Status</span>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:6]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:7]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_ttrow_[C:7]_ttitle-lb" align="left" ctype="sortlabel" tabindex="0" ev="7" targetid="m6a7dfd2f_ttrow_[C:7]_ttitle-lb" mxevent="click" class="text hcns   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+Type</span>
+
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_ttrow_[C:7]_ttitle-si" tabindex="-1" border="0" aria-hidden="true" src="./blank(1).gif" aria-live="polite" alt="Default Sort" width="0" height="11" align="absmiddle" style="margin:0px;" draggable="false">
+
+
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	<th id="m6a7dfd2f_ttrow_[C:8]-c" tablecell="1" scope="col" class="tc ">
+
+
+
+
+
+
+
+
+
+
+	<div id="m6a7dfd2f_ttrow_[C:8]_tblempty-bl" aria-disabled="true" name="m6a7dfd2f_ttrow_[C:8]_tblempty-bl" class="  ">&nbsp;</div>
+
+
+
+
+
+
+
+
+
+</th>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tfrow-tr" filter="true" aria-label="Users Filter Table" onkeyup="if(tableRowEnterKeyFlag==1 &amp;&amp; event.keyCode==KEYCODE_ENTER){sendEvent(&#39;filterrows&#39;,&#39;m6a7dfd2f_tbod_tfrow-tr&#39;,&#39;&#39;);cancelEvent(event);}" onkeydown="if(event.keyCode == KEYCODE_ENTER) tableRowEnterKeyFlag=1; else tableRowEnterKeyFlag=0;" class="tfr   trodd" style="display:;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"></td>
+
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:0]-c" tablecell="1" class="tc " headers="m6a7dfd2f_ttrow_[C:0]-c">
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:1]-c" tablecell="1" style="white-space: nowrap !important; width: 0ch;" class="tc " headers="m6a7dfd2f_ttrow_[C:1]-c">
+
+
+
+
+
+
+
+
+<input datatype="1" id="m6a7dfd2f_tfrow_[C:1]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:1]-c" class="fld text tablefilterfield  tt queryField" ctype="textbox" li="m6a7dfd2f_tfrow_[C:1]_txt-img" style=";width:34.0ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;query&quot;:true,&quot;eventpriority&quot;:1}" data-field-width="34" originalvalue="" prekeyvalue="" keydown="true">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:1]_txt-img" sf="1" role="presentation" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank" imgtype=".gif" style="display:inline;margin:0px;" border="0" lc="m6a7dfd2f_tfrow_[C:1]_txt-tb" class="dButton " align="center" width="0px" title="">
+			<span class="dbutton_spacer" role="presentation" aria-hidden="true"></span>
+	    
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:2]-c" tablecell="1" style="white-space: nowrap !important; width: 0ch;" class="tc " headers="m6a7dfd2f_ttrow_[C:2]-c">
+
+
+
+
+
+
+
+
+<input datatype="1" id="m6a7dfd2f_tfrow_[C:2]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:2]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:2]_txt-img" style=";width:34.0ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;query&quot;:true,&quot;eventpriority&quot;:1}" data-field-width="34">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:2]_txt-img" sf="1" role="presentation" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank" imgtype=".gif" style="display:inline;margin:0px;" border="0" lc="m6a7dfd2f_tfrow_[C:2]_txt-tb" class="dButton " align="center" width="0px" title="">
+			<span class="dbutton_spacer" role="presentation" aria-hidden="true"></span>
+	    
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:3]-c" tablecell="1" style="white-space: nowrap !important; width: 0ch;" class="tc " headers="m6a7dfd2f_ttrow_[C:3]-c">
+
+
+
+
+
+
+
+
+<input datatype="0" id="m6a7dfd2f_tfrow_[C:3]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:3]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:3]_txt-img" style=";width:16.1ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;query&quot;:true,&quot;eventpriority&quot;:1}" data-field-width="16">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:3]_txt-img" sf="1" role="presentation" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank" imgtype=".gif" style="display:inline;margin:0px;" border="0" lc="m6a7dfd2f_tfrow_[C:3]_txt-tb" class="dButton " align="center" width="0px" title="">
+			<span class="dbutton_spacer" role="presentation" aria-hidden="true"></span>
+	    
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:4]-c" tablecell="1" style="white-space: nowrap !important; width: 0ch;" class="tc " headers="m6a7dfd2f_ttrow_[C:4]-c">
+
+
+
+
+
+
+
+
+<input datatype="0" id="m6a7dfd2f_tfrow_[C:4]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:4]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:4]_txt-img" style=";width:34.0ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;query&quot;:true,&quot;eventpriority&quot;:1}" data-field-width="34">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:4]_txt-img" sf="1" role="presentation" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank" imgtype=".gif" style="display:inline;margin:0px;" border="0" lc="m6a7dfd2f_tfrow_[C:4]_txt-tb" class="dButton " align="center" width="0px" title="">
+			<span class="dbutton_spacer" role="presentation" aria-hidden="true"></span>
+	    
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:5]-c" tablecell="1" style="white-space: nowrap !important; width: 0ch;" class="tc " headers="m6a7dfd2f_ttrow_[C:5]-c">
+
+
+
+
+
+
+
+
+<input datatype="0" id="m6a7dfd2f_tfrow_[C:5]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:5]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:5]_txt-img" style=";width:34.0ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;query&quot;:true,&quot;eventpriority&quot;:1}" data-field-width="34">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:5]_txt-img" sf="1" role="presentation" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank" imgtype=".gif" style="display:inline;margin:0px;" border="0" lc="m6a7dfd2f_tfrow_[C:5]_txt-tb" class="dButton " align="center" width="0px" title="">
+			<span class="dbutton_spacer" role="presentation" aria-hidden="true"></span>
+	    
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:6]-c" tablecell="1" style=";white-space: nowrap !important;" class="tc " headers="m6a7dfd2f_ttrow_[C:6]-c">
+
+
+
+
+
+
+
+
+<input datatype="1" id="m6a7dfd2f_tfrow_[C:6]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:6]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:6]_txt-img" style=";width:16.1ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;lookup&quot;:&quot;valuelist&quot;,&quot;query&quot;:true,&quot;eventpriority&quot;:2}" data-field-width="16">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:6]_txt-img" sf="1" ctype="image" alt="Select Value" src="./img_lookup.gif" source="img_lookup" imgtype=".gif" style="cursor:default;display:inline;margin:0px;margin-top:2px;margin-left:2px;" border="0" lc="m6a7dfd2f_tfrow_[C:6]_txt-tb" aria-haspopup="true" class="dButton " align="center" ev="valuelist" tabindex="-1" title="Select Value" draggable="false">
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:7]-c" tablecell="1" style=";white-space: nowrap !important;" class="tc " headers="m6a7dfd2f_ttrow_[C:7]-c">
+
+
+
+
+
+
+
+
+<input datatype="1" id="m6a7dfd2f_tfrow_[C:7]_txt-tb" role="textbox" aria-labelledby="m6a7dfd2f_ttrow_[C:7]-c" class="fld text tablefilterfield  tt queryField " ctype="textbox" li="m6a7dfd2f_tfrow_[C:7]_txt-img" style=";width:16.1ch;" ontr="true" async="1" ae="setvalue" type="text" value="" ov="" fldinfo="{&quot;lookup&quot;:&quot;valuelist&quot;,&quot;query&quot;:true,&quot;eventpriority&quot;:2}" data-field-width="16">
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:7]_txt-img" sf="1" ctype="image" alt="Select Value" src="./img_lookup.gif" source="img_lookup" imgtype=".gif" style="cursor:default;display:inline;margin:0px;margin-top:2px;margin-left:2px;" border="0" lc="m6a7dfd2f_tfrow_[C:7]_txt-tb" aria-haspopup="true" class="dButton " align="center" ev="valuelist" tabindex="-1" title="Select Value" draggable="false">
+
+
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tfrow_[C:8]-c" tablecell="1" class="tc " headers="m6a7dfd2f_ttrow_[C:8]-c">
+
+
+
+
+
+
+
+<img id="m6a7dfd2f_tfrow_[C:8]_tblimg-img" sf="1" active="0" ctype="image" alt="" src="./blank(1).gif" source="blank.gif" imgtype="" style="cursor:default;display:@display;margin:0px;margin-top:2px;margin-left:2px;" border="0" title="">
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tempty-tr" class="nrm   treven" aria-hidden="true" style="display:none;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"></td>
+
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tdrow-tr[R:0]" currentrow="true" class="tablerow   tcr trodd" style="display:;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"><img id="m6a7dfd2f_tbod_tdrow-tr[R:0]_er_img" src="./blank(1).gif" style="display:none" class="tablerow_blank_icon" title="" alt=""></td>
+
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:0]-c[R:0]" tablecell="1" class="tc cdhlsel" headers="m6a7dfd2f_ttrow_[C:0]-c">
+
+
+<div id="m6a7dfd2f_tdrow_[C:0]_tbselrow-gr[R:0]" width="100%" nowrap="nowrap" class=" tsrsa " style="display:none;">
+
+
+
+
+
+<a id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:0]" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select Record unchecked" tabindex="0" role="checkbox" aria-checked="false"><img id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:0]_img" checked="unchecked" mxejse="tglsr" async="1" ae="click" fldinfo="{&quot;eventpriority&quot;:2}" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;margin-top:2px;" alt="Select Record unchecked" title="Select Record unchecked" draggable="false"></a>
+			
+
+
+</div>
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:1]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:1]-c">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:0]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:0]" mxevent="click" class="text txtbold txtbold text label   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+MAXADMIN</span>
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:2]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:2]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MAXADMIN">MAXADMIN<!--m6a7dfd2f_tdrow_[C:2]-c[R:0]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:3]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:3]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:4]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:4]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:5]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:5]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MAXADMIN">MAXADMIN<!--m6a7dfd2f_tdrow_[C:5]-c[R:0]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:6]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:6]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="ACTIVE">ACTIVE<!--m6a7dfd2f_tdrow_[C:6]-c[R:0]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:7]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:7]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="TYPE 1">TYPE 1<!--m6a7dfd2f_tdrow_[C:7]-c[R:0]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:8]-c[R:0]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:8]-c">
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:0]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:0]" mxevent="click" class="text label   anchor" style="display:block;cursor:pointer;white-space: nowrap !important;" title="Add to Bookmarks"><img id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:0]_image" aria-hidden="true" src="./btn_addtobookmarks.gif" border="0" style="vertical-align:top;margin:0px;margin-left:3px;margin-right:3px;" alt="Add to Bookmarks">
+<span></span></span>
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tdrow-tr[R:1]" class="tablerow   treven" style="display:;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"><img id="m6a7dfd2f_tbod_tdrow-tr[R:1]_er_img" src="./blank(1).gif" style="display:none" class="tablerow_blank_icon" title="" alt=""></td>
+
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:0]-c[R:1]" tablecell="1" class="tc cdhlsel" headers="m6a7dfd2f_ttrow_[C:0]-c">
+
+
+<div id="m6a7dfd2f_tdrow_[C:0]_tbselrow-gr[R:1]" width="100%" nowrap="nowrap" class=" tsrsa " style="display:none;">
+
+
+
+
+
+<a id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:1]" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select Record unchecked" tabindex="0" role="checkbox" aria-checked="false"><img id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:1]_img" checked="unchecked" mxejse="tglsr" async="1" ae="click" fldinfo="{&quot;eventpriority&quot;:2}" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;margin-top:2px;" alt="Select Record unchecked" title="Select Record unchecked" draggable="false"></a>
+			
+
+
+</div>
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:1]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:1]-c">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:1]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:1]" mxevent="click" class="text label   anchor" style="padding: 0px 0px 0px 1px; margin: 0px; cursor: pointer; white-space: nowrap !important;">
+MAXREG</span>
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:2]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:2]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MAXREG">MAXREG<!--m6a7dfd2f_tdrow_[C:2]-c[R:1]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:3]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:3]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:4]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:4]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:5]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:5]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MAXREG">MAXREG<!--m6a7dfd2f_tdrow_[C:5]-c[R:1]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:6]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:6]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="ACTIVE">ACTIVE<!--m6a7dfd2f_tdrow_[C:6]-c[R:1]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:7]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:7]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="TYPE 1">TYPE 1<!--m6a7dfd2f_tdrow_[C:7]-c[R:1]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:8]-c[R:1]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:8]-c">
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:1]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:1]" mxevent="click" class="text label   anchor" style="display:block;cursor:pointer;white-space: nowrap !important;" title="Add to Bookmarks"><img id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:1]_image" aria-hidden="true" src="./btn_addtobookmarks.gif" border="0" style="vertical-align:top;margin:0px;margin-left:3px;margin-right:3px;" alt="Add to Bookmarks">
+<span></span></span>
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tdrow-tr[R:2]" class="tablerow   trodd" style="display:;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"><img id="m6a7dfd2f_tbod_tdrow-tr[R:2]_er_img" src="./blank(1).gif" style="display:none" class="tablerow_blank_icon" title="" alt=""></td>
+
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:0]-c[R:2]" tablecell="1" class="tc cdhlsel" headers="m6a7dfd2f_ttrow_[C:0]-c">
+
+
+<div id="m6a7dfd2f_tdrow_[C:0]_tbselrow-gr[R:2]" width="100%" nowrap="nowrap" class=" tsrsa " style="display:none;">
+
+
+
+
+
+<a id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:2]" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select Record unchecked" tabindex="0" role="checkbox" aria-checked="false"><img id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:2]_img" checked="unchecked" mxejse="tglsr" async="1" ae="click" fldinfo="{&quot;eventpriority&quot;:2}" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;margin-top:2px;" alt="Select Record unchecked" title="Select Record unchecked" draggable="false"></a>
+			
+
+
+</div>
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:1]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:1]-c">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:2]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:2]" mxevent="click" class="text label   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+MGUEST</span>
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:2]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:2]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MGUEST">MGUEST<!--m6a7dfd2f_tdrow_[C:2]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:3]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:3]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MGUEST">MGUEST<!--m6a7dfd2f_tdrow_[C:3]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:4]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:4]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="USER">USER<!--m6a7dfd2f_tdrow_[C:4]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:5]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:5]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="Guest User">Guest User<!--m6a7dfd2f_tdrow_[C:5]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:6]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:6]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="INACTIVE">INACTIVE<!--m6a7dfd2f_tdrow_[C:6]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:7]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:7]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="TYPE 1">TYPE 1<!--m6a7dfd2f_tdrow_[C:7]-c[R:2]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:8]-c[R:2]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:8]-c">
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:2]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:2]" mxevent="click" class="text label   anchor" style="display:block;cursor:pointer;white-space: nowrap !important;" title="Add to Bookmarks"><img id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:2]_image" aria-hidden="true" src="./btn_addtobookmarks.gif" border="0" style="vertical-align:top;margin:0px;margin-left:3px;margin-right:3px;" alt="Add to Bookmarks">
+<span></span></span>
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_tdrow-tr[R:3]" class="tablerow   treven" style="display:;">
+	<td headers="m6a7dfd2ferrtitle[R:-1]" aria-labelledby="m6a7dfd2ferrtitle[R:-1]" class="tc" style="border-right:0px; width: 1px;"><img id="m6a7dfd2f_tbod_tdrow-tr[R:3]_er_img" src="./blank(1).gif" style="display:none" class="tablerow_blank_icon" title="" alt=""></td>
+
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:0]-c[R:3]" tablecell="1" class="tc cdhlsel" headers="m6a7dfd2f_ttrow_[C:0]-c">
+
+
+<div id="m6a7dfd2f_tdrow_[C:0]_tbselrow-gr[R:3]" width="100%" nowrap="nowrap" class=" tsrsa " style="display:none;">
+
+
+
+
+
+<a id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:3]" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select Record unchecked" tabindex="0" role="checkbox" aria-checked="false"><img id="m6a7dfd2f_tdrow_[C:0]_tbselrow-ti[R:3]_img" checked="unchecked" mxejse="tglsr" async="1" ae="click" fldinfo="{&quot;eventpriority&quot;:2}" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;margin-top:2px;" alt="Select Record unchecked" title="Select Record unchecked" draggable="false"></a>
+			
+
+
+</div>
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:1]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:1]-c">
+
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:3]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:1]_ttxt-lb[R:3]" mxevent="click" class="text label   anchor" style="padding:0px;padding-left:1px;margin:0px;cursor:pointer;white-space: nowrap !important;">
+MXINTADM</span>
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:2]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:2]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MXINTADM">MXINTADM<!--m6a7dfd2f_tdrow_[C:2]-c[R:3]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:3]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:3]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:4]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:4]-c">
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:5]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:5]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="MXINTADM">MXINTADM<!--m6a7dfd2f_tdrow_[C:5]-c[R:3]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:6]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:6]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="ACTIVE">ACTIVE<!--m6a7dfd2f_tdrow_[C:6]-c[R:3]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:7]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:7]-c">
+
+
+
+
+
+
+
+<span style="width: 100%;white-space: nowrap !important;" wrapoff="true" title="TYPE 1">TYPE 1<!--m6a7dfd2f_tdrow_[C:7]-c[R:3]-->
+
+
+
+
+
+
+
+
+</span></td>
+	
+
+
+
+
+	<td id="m6a7dfd2f_tdrow_[C:8]-c[R:3]" tablecell="1" class="tc cd" headers="m6a7dfd2f_ttrow_[C:8]-c">
+
+
+
+
+
+
+<span id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:3]" align="left" ctype="label" tabindex="0" targetid="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:3]" mxevent="click" class="text label   anchor" style="display:block;cursor:pointer;white-space: nowrap !important;" title="Add to Bookmarks"><img id="m6a7dfd2f_tdrow_[C:8]_hyperlink-lb[R:3]_image" aria-hidden="true" src="./btn_addtobookmarks.gif" border="0" style="vertical-align:top;margin:0px;margin-left:3px;margin-right:3px;" alt="Add to Bookmarks">
+<span></span></span>
+
+
+
+
+
+
+</td>
+	
+
+
+
+
+	</tr>
+
+
+
+
+
+
+
+	<tr data-has-data="true" data-filter-open="true" id="m6a7dfd2f_tbod_ttselrows-tr" class="tablerow   troddtsr" style="display:;" selectrows="true">
+	
+				<td id="m6a7dfd2f_tbod_ttselrows-co_0" headers="m6a7dfd2f_ttrow_[C:0]-c m6a7dfd2f_ttrow_[C:1]-c m6a7dfd2f_ttrow_[C:2]-c m6a7dfd2f_ttrow_[C:3]-c m6a7dfd2f_ttrow_[C:4]-c m6a7dfd2f_ttrow_[C:5]-c m6a7dfd2f_ttrow_[C:6]-c m6a7dfd2f_ttrow_[C:7]-c m6a7dfd2f_ttrow_[C:8]-c " colspan="100" nowrap="nowrap" align="left" class="tsrs  verticalSpacer" style="vertical-align:middle;" data-control="tabletoggleselectrows">
+
+
+
+
+
+<a id="m6a7dfd2f_tbod_ttselrows-ti" class="" href="Javascript: void(0);" ctype="toggleimage" ev="false" title="Select Specific Records" tabindex="0" role="checkbox" aria-checked="false"><img id="m6a7dfd2f_tbod_ttselrows-ti_img" aria-hidden="true" tabindex="-1" border="0" class="ti toggleselectcheckbox  " src="./table_cb_unchecked.gif" source="table_cb_unchecked" imgtype=".gif" ev="false" align="top" style="display:inline;margin:0px;" alt="Select Specific Records" title="Select Specific Records" draggable="false"><span id="m6a7dfd2f_tbod_ttselrows-ti_label" class="text">Select Records</span>
+			</a>
+			
+
+
+</td>
+
+
+
+	</tr>
+
+
+
+						</tbody></table>
+						<script>
+							window.setTimeout(function(){
+								fixTableAndHeader('m6a7dfd2f');
+							}, 50);
+						</script>
+				
+
+</td>
+
+
+				</tr>
+
+
+</tbody></table>
+
+
+</td>
+
+
+				</tr>
+				<tr id="m6a7dfd2f-co3_3" control="true" class="  verticalSpacer" style="vertical-align:top;">
+				</tr>
+				<tr id="m6a7dfd2f-co3_4" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+
+
+		<td id="m6a7dfd2f-hb_bottom" data-inner-css="hb thb tablefooter" class="hbouter" style="padding: 0px; white-space: nowrap; display: block;" onkeydown="tableHotkey(event, this);" role="presentation" aria-hidden="false">
+			<table cellspacing="0" cellpadding="0" style="width:100%;" class="" role="presentation">
+				<tbody><tr>
+						<td class="h_l"></td>
+	
+				  <td id="m6a7dfd2f-hb_bottom_header_0" align="left" class="hb thb tablefooter   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width:100%;="">
+
+
+<label id="m6a7dfd2f-lb3a" align="left" ctype="label" noclick="1" targetid="m6a7dfd2f-lb3a" class="text tht tCount  " style="display:block;padding-left:2px;padding-top:2px;">1 - 4 of 4</label>
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_bottom_header_1" aria-hidden="true" class="hb thb tablefooter   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+	<div id="m6a7dfd2f-bl4" aria-disabled="true" name="m6a7dfd2f-bl4" class="text ts  ">&nbsp;</div>
+
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_bottom_header_2" class="hb thb tablefooter   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-ti6" class="" href="Javascript: void(0)" ctype="toggleimage" ev="false" title="" tabindex="-1" active="0" disabled="disabled"><img id="m6a7dfd2f-ti6_img" aria-hidden="true" tabindex="-1" border="0" class="ti bottomPaginationBtn  opacity_30" src="./tablebtn_previous_off.gif" source="tablebtn_previous_off.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="" title="" draggable="false"></a>
+			
+
+
+</td>	
+				  <td id="m6a7dfd2f-hb_bottom_header_3" class="hb thb tablefooter   hbsh" valign="middle" style="padding:0px;white-space:nowrap;" width="100%">
+
+
+
+
+
+<a id="m6a7dfd2f-ti7" class="" href="Javascript: void(0)" ctype="toggleimage" ev="false" title="" tabindex="-1" active="0" disabled="disabled"><img id="m6a7dfd2f-ti7_img" aria-hidden="true" tabindex="-1" border="0" class="ti bottomPaginationBtn  opacity_30" src="./tablebtn_next_off.gif" source="tablebtn_next_off.gif" imgtype="" ev="false" align="top" style="display:block;margin:0px;" alt="" title="" draggable="false"></a>
+			
+
+
+</td>					<td class="h_r"></td>
+				</tr>
+			</tbody></table>
+		</td>
+
+
+				</tr>
+
+
+
+		<script>
+			if(!DESIGNMODE){
+				if(tpaeConfig.tableButtonPlacement){
+					relocateTableButtons("m6a7dfd2f","true","true");
+				}
+			}
+		</script>
+				</tbody></table>
+	
+	</div>
+
+
+
+</td>
+
+
+				</tr>
+
+
+
+				</tbody></table>
+			</td>
+		</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						
+					</tbody></table>
+				
+
+			</td>
+		</tr>
+
+</tbody></table>
+
+
+
+		</div></div><div role="scrollbar" aria-controls="SystemNavAppContent-sc_div" aria-orientation="vertical" aria-valuemax="0" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; height: calc(100% - 16px); width: 16px; background: transparent; top: 0px; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; right: 0px; display: none;"><div style="position: absolute; width: 12px; background: rgb(153, 153, 153); top: 0px; margin: 2px; border-radius: 12px; height: 948px;"></div></div><div role="scrollbar" aria-controls="SystemNavAppContent-sc_div" aria-orientation="horizontal" aria-valuemax="1019" aria-valuemin="0" aria-valuenow="0" class="custom-scroller-track" style="position: absolute; width: calc(100% - 16px); height: 16px; bottom: 0px; background: transparent; opacity: 0.25; border-radius: 12px; overflow: hidden; z-index: 2; display: block;"><div style="position: absolute; height: 12px; background: rgb(153, 153, 153); left: 0px; margin: 2px; border-radius: 12px; right: auto; width: 1018.95px;"></div></div><div class="custom-scroller-corner" style="width: 12px; height: 12px; background: rgba(200, 200, 200, 0.25); position: absolute; bottom: 2px; opacity: 0.25; border-radius: 12px; right: 2px;"></div></div>
+	</td>
+
+
+
+
+
+
+				</tr>
+
+
+</tbody></table>
+
+
+</td>
+
+
+		</tr>
+		
+			</tbody></table>
+		</div>
+	
+			</td>
+		</tr>
+	
+
+</tbody></table>
+
+
+	</div>
+	<script>
+		clientAreaId = "mbd5bb736-ca";
+	    var pageScrollArea = dojo.byId(clientAreaId);
+		var SYSTEMNAVBAR = true; 
+		var adjacentColumn = null;
+		dojo.connect(window, "resize", function(){
+			window.setTimeout(function(){
+				sizeClientArea();
+			}, 200);
+		});
+		addLoadMethod("sizeClientArea()");
+		dojo.subscribe("maintabchange", null, function(message){
+			var clientArea = dojo.byId("mbd5bb736-ca");
+			if(clientArea) {
+				clientArea.scrollTop = 0;
+				clientArea.scrollLeft = 0;
+			}
+			if (adjacentColumn && adjacentColumn.children[0])
+			{
+				adjacentColumn.children[0].scrollTop = 0;
+				adjacentColumn.children[0].scrollLeft = 0;
+			}
+					
+		});
+	</script>
+
+
+</td>
+
+
+				</tr>
+
+
+
+
+
+
+
+
+
+				<tr id="m924132f-co_0" control="true" class="  verticalSpacer" style="vertical-align:top;">
+
+				<td id="m924132f-co2_0" colspan="20" nowrap="nowrap" class="  verticalSpacer" style="vertical-align:top;" data-control="footer"><div id="m924132f-gp" width="100%" nowrap="nowrap" class=" abs " style="display:block;">
+
+
+
+
+</div>
+
+</td>
+
+
+				</tr>
+
+
+
+
+
+
+</tbody></table>
+
+
+</td>
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+				</tr>
+
+
+</tbody></table>
+
+</td>
+
+
+				</tr>
+
+
+
+	</tbody></table>
+	<table id="dialogholder" style="position:absolute;top:0px;left:0px;" role="presentation">
+		<tbody><tr>
+			<td id="dialogholdertd" width="100%" aria-live="polite"></td>
+			<td id="popupholdertd" width="100%" onclick="cancelBubble(event);" aria-live="polite" role="presentation"></td>
+		</tr>
+	</tbody></table>
+
+
+<div id="warndiv" style="" aria-hidden="true" onclick="handleWarnDialog(&#39;close&#39;)" role="alert">
+	<div id="warndiv_inner_dialogwait" style="display:none" class="wait_modal">&nbsp;</div>
+	<table id="warndiv_inner" positionx="" positiony="" tabindex="0" modal="true" width="400" role="presentation" class="dsc1 dh mc modal" border="0" defaultbutton="" style="display: none" aria-hidden="true">
+		<tbody><tr style="" valign="top">
+			<td valign="BOTTOM" style="padding:0px;" class="dh mh dhb">
+				<table id="warndiv_content0" width="100%" role="presentation">
+					<tbody><tr>
+						
+						<td align="left" class="" valign="middle" style="padding:0px;" nowrap="nowrap">
+							<h1 style="display:inline" title="System Message"><span align="left" ctype="label" noclick="1" targetid="mx696" class="text dh mh " style="display:block;padding-left:2px;padding-top:2px;;;;" title="System Message">System Message</span></h1>
+						</td>
+						<td class="" valign="middle" style="padding:0px;" width="100%" nowrap="nowrap">
+							<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc dhbsh" style="display:inline;">
+								<div class="ts dh mh ">&nbsp;</div>
+							</div>
+						</td>
+						<td align="right" class="" valign="middle" style="padding:0px;" width="100%" nowrap="nowrap">
+							<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc dhbsh" style="display:inline;"><img sf="1" ctype="image" tabindex="0" src="./blank(1).gif" imgtype="" alt="" style="cursor:default;display:block;margin:0px" border="0" dialog="1" align="right" draggable="false"></div>
+						</td>
+						<td align="right" class="" valign="middle" style="padding:0px;" width="100%" nowrap="nowrap">
+							<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc dhbsh" style="display:inline;"><img sf="1" active="0" ctype="image" tabindex="-1" src="./blank(1).gif" imgtype="" alt="" style="display:block;margin:0px" border="0" dialog="1" align="right" draggable="false"></div>
+						</td>
+						<td align="right" class="" valign="middle" style="padding:0px;" width="100%" nowrap="nowrap">
+							<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc dhbsh" style="display:inline;"><img sf="1" ctype="image" tabindex="0" src="./blank(1).gif" imgtype="" alt="" style="cursor:default;display:block;margin:0px" border="0" dialog="1" align="right" draggable="false"></div>
+						</td>
+						<td align="right" class="" valign="middle" style="padding:0px;" width="100%" nowrap="nowrap">
+							<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc dhbsh" style="display:inline;"><img sf="1" active="0" ctype="image" tabindex="-1" src="./blank(1).gif" imgtype="" alt="" style="display:block;margin:0px" border="0" dialog="1" align="right" draggable="false"></div>
+						</td>
+						
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+		<tr style="" valign="top">
+			<td valign="BOTTOM" style="padding:0px;">
+				<table class="dialogb" width="100%" style="position:relative;top:0px;margin:0px;" height="100%" role="presentation">
+					<tbody><tr>
+						<td class="" style=";padding:0px;">
+							<table width="100%" height="*" role="presentation">
+								<tbody><tr>
+									<td style="height:100%;padding:10px;">&nbsp;</td>
+								</tr>
+							</tbody></table>
+							<table width="100%" height="-50px" role="presentation">
+								<tbody><tr>
+									<td class="db ml " style="height:100%;padding:10px;">
+										<div id="warndiv_bodydiv">
+											<h1 style="display:inline" title="">
+											<span id="warndiv_warnmsg" class="text ml " style="display:block;padding-left:2px;padding-top:2px;;;;" title=" " aria-live="polite">WARN MESSAGE</span>
+											</h1>
+										</div>
+									</td>
+								</tr>
+							</tbody></table>
+							<table width="100%" height="*" role="presentation">
+								<tbody><tr>
+									<td align="right" nowrap="nowrap">
+										<div nowrap="nowrap" needsrefresh="false" vis="true" class="bc" style="display:inline;">
+											<button type="button" control="true" style="" class="text pb default" onmouseover="appendClass(this,&#39;pbo&#39;)" onmouseout="removeClass(this,&#39;pbo&#39;)">
+											&nbsp;&nbsp;OK&nbsp;&nbsp;
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody></table>
+							<img tabindex="0" alt="" role="presentation" onfocus="moveable_onfocus(this);" src="./blank(1).gif" width="1" height="1" lastbuttonid="" aria-hidden="true" draggable="false">
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+<script type="text/javascript">
+window.setTimeout("if(dojo.byId('warndiv_inner')){dojo.require('dojo.dnd.move');var warndivDnD = new dojo.dnd.move.constrainedMoveable(dojo.byId('warndiv_inner'),{constraints : function(){var d=dojo.byId('warndiv_inner'); return {'t':0, 'l':-1*(d.clientWidth-50)};}, within: true, skip: true, handle: dojo.byId('warndiv_content0')});}",500);
+</script>
+
+		<div id="wait" width="100%" height="100%" class="wait" style="position: absolute; top: 0px; left: 0px; height: 1032px; width: 1755px; display: none; cursor: default; opacity: 1;">
+		    <div class="bx--loading-overlay">
+			    <div data-loading="" class="bx--loading">
+  			    <svg class="bx--loading__svg" viewBox="-75 -75 150 150">
+			        <title>Loading</title>
+			        <circle cx="0" cy="0" r="37.5"></circle>
+			      </svg>
+			    </div>
+			  </div>
+		</div>
+	</div></form>
+
+	<script>
+		dialogCount=0;//all dialogs increase the count when _init (on refresh and straight render of page)
+		addLoadMethod("addHotKey('CTRL+ALT+P','toolactions_PREVIOUS-tbb', 'PREVIOUS')");
+		addLoadMethod("addHotKey('CTRL+ALT+S','toolactions_SAVE-tbb', 'SAVE')");
+		addLoadMethod("addHotKey('CTRL+ALT+C','toolactions_CLEAR-tbb', 'CLEAR')");
+		addLoadMethod("addHotKey('CTRL+ALT+N','toolactions_NEXT-tbb', 'NEXT')");
+		fixPasswordFields();
+		if(DESIGNMODE)
+		{
+			parent.unLockWait();
+			parent.hideWait();
+		}
+		    startLogoutTimer();
+			startTimer();
+
+	</script>
+
+	<script>
+		if(tpaeConfig.validationOn)
+		{
+				setButtonEnabled(saveButton,false);
+
+		}
+	</script>
+
+	<div id="storage" style="display:none"></div>
+
+<div id="ascerr_div" aria-hidden="true" style="display:none;">
+	<table border="0" style="width:100%" cellpadding="0" cellspacing="0" role="presentation">
+		<tbody><tr>
+			<td>
+				<div id="template_userinput" class="text"></div>
+				<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+					<tbody><tr>
+						<td align="right"><img id="template_ascerr_errorimg" border="0" src="./blank(1).gif" alt="" style="margin: 0px 10px 0px 0px"></td>
+					 	<td id="template_ascerrmsg" ctype="ttdialog" class="text"></td>
+					</tr>
+				</tbody></table>
+			</td>
+			<td valign="top" align="right"><button type="button" id="template_ascerr_closeimg" tabindex="0" border="0" onclick="stopPopOver()" onkeydown="if(hasKeyCode(event,&#39;KEYCODE_SPACEBAR|KEYCODE_ENTER&#39;)){stopPopOver();}" style="border:0px;height:20px;width:20px;background:transparent;border:0px" aria-label="Close Dialog" title="Close Dialog"><img role="presentation" id="template_ascerr_close_img" src="./dialogclose.gif" alt=""></button></td>
+		</tr>
+		<tr>
+			<td>
+				<iframe src="./saved_resource(1).html" id="template_ascerr_div_iframe" frameborder="0" style="border:0px;display:none" aria-hidden="true" title="External Content"></iframe>
+			</td>
+		</tr>
+	</tbody></table>
+	<div id="template_tt_default_help" class="text">
+		<p id="template_whelp" style="width: 400px;margin: 10px 0px 0px;">Click <q>"Use My Value"</q> to change the value you entered or <q>"Go Back"</q> to the value that was there before.</p>
+		<p id="template_ehelp" style="width: 400px;margin: 10px 0px 0px;">Click <q>"Edit My Value"</q> to change the value you entered or <q>"Go Back"</q> to the value that was there before.</p>
+	</div>
+	<div id="template_tt_defaultbuttons" align="right">
+		<button type="button" id="template_ync_ybtn" class="text" onclick="processYesNoCancelButton(this, event, 8);">Yes</button>
+		<button type="button" id="template_ync_nbtn" class="text" onclick="processYesNoCancelButton(this, event, 16);">No</button>
+		<button type="button" id="template_ync_okbtn" class="text" onclick="processYesNoCancelButton(this, event, 2);">OK</button>
+		<button type="button" id="template_ync_cbtn" class="text" onclick="processYesNoCancelButton(this, event, 4);">Cancel</button>
+		<button type="button" id="template_ync_clbtn" class="text" onclick="processYesNoCancelButton(this, event, 1);">Close</button>
+		<button type="button" id="template_chkbx_btn" class="text" onclick="processIgnoreButton(this, event);">OK</button>
+		<button type="button" id="template_edit_ebtn" class="text" onclick="processEditButton(this, event);">Edit My Value</button>
+		<button type="button" id="template_ignore_ibtn" class="text" onclick="processIgnoreButton(this, event);">Use My Value</button>
+		<button type="button" id="template_revert_rbtn" class="text" onclick="processRevertButton(this, event);">Go Back</button>
+		<span id="template_tt_custom_buttons">&nbsp;</span>
+	</div>
+</div>
+
+
+
+<script>
+require(["dojo/hccss"]);
+require(["dojo/domReady!"], function(){
+	tpaeConfig['hc'] = new HighContrast(document.body.className.indexOf('dj_a11y')>=0);
+	tpaeConfig['isHighContrast'] = function(){return this.hc._isHC();};
+});
+menus = new MenuController("shared","Next","Previous","Search","Search for {0}.");
+menus["handlerId"] = "mainrec_menus";
+
+function processLoadMethods()
+{
+	document.body.addEventListener('click', bodyEvent); 
+  	document.body.addEventListener('keydown', bodyEvent); 
+	while(loadMethods.length > 0)
+	{
+		var loadMethod = loadMethods.shift();
+		try
+		{
+			if(DEBUGLEVEL > 1)
+			{
+				console.debug(loadMethod);
+			}
+			eval(loadMethod);
+		}
+		catch(error)
+		{
+			console.error("LoadMethod error["+error.message+"]. Unable to process: ["+loadMethod+"]");
+		}
+	}
+}
+
+function getQSTB()
+{
+	return getElement("null");
+}
+sizeCanvas();
+</script>
+
+	<div aria-hidden="true" id="HF" class="dsc1" style="padding:2px;left:0px;top:0px;z-index:50000;background:#E7E7E7;border:1px solid #999999;display:none;position:absolute;">
+	<div aria-hidden="true" class="dh mh dhb">Hidden Form</div>
+	<form aria-label="hidden form" aria-hidden="true" id="hiddenform" name="hiddenform" method="POST" action="http://localhost:9080/maximo/ui/maximo.jsp" style="padding:3px;">
+		<input type="text" size="45" name="event" id="event" title="event type" aria-hidden="true"><br>
+		<input type="text" size="45" name="targetid" id="targetid" title="target id" aria-hidden="true"><br>
+		<input type="hidden" size="45" name="value" id="value" aria-hidden="true" value="">
+		<input type="text" size="45" name="changedcomponentid" id="changedcomponentid" title="changed component id" aria-hidden="true"><br>
+		<input type="text" size="45" name="vischangedcomponentvalue" id="vischangedcomponentvalue" title="changed component value" aria-hidden="true"><br>
+		<input type="hidden" name="changedcomponentvalue" aria-hidden="true" value="">
+		<input type="hidden" name="localStorage" aria-hidden="true" value="true">
+		<input type="text" size="45" name="currentfocus" id="currentfocus" title="focus id" aria-hidden="true"><br>
+		<input name="scrollleftpos" id="scrollleftpos" size="45" title="Scroll Left" aria-hidden="true"><br>
+		<input name="scrolltoppos" id="scrolltoppos" size="45" title="Scroll Top" aria-hidden="true"><br>
+		<input type="text" size="45" name="uisessionid" id="uisessionid" aria-hidden="true" value="1" class="fld_ro" readonly="readonly" title="ui session id"><br>
+		<input type="text" size="45" name="csrftokenholder" id="csrftokenholder" aria-hidden="true" value="23fhcffogtaf3ruef58fcb6d6k" title="CSRF Token" readonly="readonly" class="fld_ro"><br>
+	</form>
+	</div>
+<script>
+	//supported data types
+	var CS_VALIDATE_OK_LABEL = "OK";
+    var MORE_INFO = "<a href='{0}' target='help' > More information</a>";
+    var MOREHELP_URL = "http://www.ibm.com:80/docs/SSLPL8_cd/com.ibm.support.mbs.doc/messages/{0}.html"
+	var CS_VALIDATE_REVERT = "Go Back";
+	var DATA_TYPES = {
+		"aln":0,
+		"upper":1,
+		"lower":2,
+		"date":3,
+		"datetime":4,
+		"time":5,
+		"integer":6,
+		"smallint":7,
+		"bigint":19,
+		"decimal":9,
+		"float":8,
+		"duration":10,
+		"amount":11
+	};
+	var NUMERIC_CHARS = new Array("\\.",",","-"," ");
+	var DATA_TYPE_ERRORS = {
+		3:"The date format is not valid. Use the date format defined by your locale, or use the calendar control to enter a date. (BMXAA4143E)",
+		4:"The date/time format is not valid. Make sure the date/time is specified in a valid format supported by the current locale setting. (BMXAA4144E)",
+		5:"The time format is not valid. Make sure a valid value is entered that conforms to the date time properties of the current locale. (BMXAA4155E)",
+		6:"The entered value {0} is not valid. Enter a valid integer value. (BMXAA7094E)",
+		7:"The entered value {0} is not valid. Enter a valid integer value. (BMXAA7094E)",
+		19:"The entered value {0} is not valid. Enter a valid integer value. (BMXAA7094E)",
+		8:"The entered value {0} is not valid. Enter a valid decimal value. (BMXAA7095E)",
+		9:"The entered value {0} is not valid. Enter a valid decimal value. (BMXAA7095E)",
+		10:"{0} is not a valid duration. You cannot use both a time separator and a decimal separator. Enter the duration value as HH:MM or as a decimal value. (BMXAA4145E)",
+		11:"{0} is not a number. Enter a numeric value. (BMXAA4141E)",
+		"length":"The value specified exceeds the maximum field length that is allowed for this attribute: Value = {0}, Object Name={1}, Attribute Name={2}, Maximum Length={3}. Specify a value that is less than the maximum length of {3}. (BMXAA4049E)",
+		"decimaltoolong":"You entered more digits before the decimal point than is permitted in the field. (BMXAA4081E)",
+		"domainvalidation":"{0} is not valid. (BMXAA8284E)"
+	};
+	//TODO - Move some of these cached into WCR?
+	function buildRegexArray()
+	{
+		var DATE_REGEX = new RegExp(/^((\d{4}|\d{2}|\d{1})([\s\.\/\-:]*((一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月|1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月)))?([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?|(\d{4}|\d{2}|\d{1})([\s\.\/\-:]*(1[012]|0[1-9]|[0-9]))?([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?|(\d{4}|\d{2}|\d{1})([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?([\s\.\/\-:]*((一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月|1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月)))?)([\.]?)$/i);
+		var DATETIME_REGEX = new RegExp(/^((\d{4}|\d{2}|\d{1})([\s\.\/\-:]*((一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月|1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月)))?([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?|(\d{4}|\d{2}|\d{1})([\s\.\/\-:]*(1[012]|0[1-9]|[0-9]))?([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?|(\d{4}|\d{2}|\d{1})([\s\.\/\-:]*(3[01]|0[1-9]|[1-2]?[0-9]))?([\s\.\/\-:]*((一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月|1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月)))?)([\.]?)\s([2][0-4]|0[0-9]|[01]?[0-9])((\sh\s)?[\.:]?([0-5][0-9]|[0-9])?)?((\smin\s)?[\.:]?([0-5][0-9]|[0-9])?)?(\ss\s)?(\s上[.]?午[.]?|\s下[.]?午[.]?|\sa[.]?m[.]?|\sp[.]?m[.]?)?$/i);
+		var TIME_REGEX = new RegExp(/^([2][0-4]|0[0-9]|[01]?[0-9])((\sh\s)?[\.:]?([0-5][0-9]|[0-9])?)?((\smin\s)?[\.:]?([0-5][0-9]|[0-9])?)?(\ss\s)?(\s上[.]?午[.]?|\s下[.]?午[.]?|\sa[.]?m[.]?|\sp[.]?m[.]?)?$/i);
+		var INTEGER_REGEX = new RegExp(/^[-+]?\d+(,?\d{3})*[-+]?$/);
+		var DECIMAL_REGEX = new RegExp(/(^[-+]?\d{1,3}(,?\d{3})*(\.\d*)?[-+]?$)|(^[-+]?\.\d+$)/);
+		var DURATION_REGEX = new RegExp(/(^[-+]?[\d,]*:?[\d,]*[-+]?$)/);
+		return {
+			3:[INTEGER_REGEX,DATE_REGEX],
+			4:[INTEGER_REGEX,DATE_REGEX,DATETIME_REGEX],
+			5:[INTEGER_REGEX,TIME_REGEX,DECIMAL_REGEX],
+			6:[INTEGER_REGEX],
+			7:[INTEGER_REGEX],
+			19:[INTEGER_REGEX],
+			8:[INTEGER_REGEX,DECIMAL_REGEX],
+			9:[INTEGER_REGEX,DECIMAL_REGEX],
+			10:[DECIMAL_REGEX,DURATION_REGEX],
+			11:[INTEGER_REGEX,DECIMAL_REGEX]
+		};
+	}
+	var DATA_TYPE_REGEX = buildRegexArray();
+</script>
+
+	<script type="text/javascript">
+		var DeferRun = false;
+		function deferred(){
+			if(DeferRun){
+				return;
+			}
+			DeferRun = true;
+						
+              try {
+                let theFocusItem = document.querySelector('#retButtons > button');
+                if(!theFocusItem){
+                  theFocusItem = document.querySelector('.bottomApp a:last-of-type');
+                }
+                let startTab = 'null';
+                var focusId = NEW_APPLINK && startTab.toLowerCase()==='insert' ? theFocusItem.id : 'm6a7dfd2f-img5';
+                focusItem(focusId,true);
+              }
+              catch(error){
+                focusItem('m6a7dfd2f-img5',true);
+              }
+			//The following is for Web Replay/tbx
+			callWebReplayFrame();
+		replaceAllItems();
+	
+			resetLogoutTimer(true);
+		processLoadMethods();
+		fixSpacers();
+		
+		document.body.style.cursor="";
+	
+		
+		bindEventsArray(document,eventBindObjects,false);
+		hideWait();
+		killAjaxTimeout();
+		working=false;
+		window.setTimeout("showingPopup=false",100);
+		sizeCanvas();
+		window.top.postMessage({[EMBEDDED_MESSAGE_PREFIX+'inner-app-ready']:true},"*");
+		}
+		document.body.onload=deferred;
+		window.onload=deferred;
+		window.setTimeout(function(){deferred}, 100);
+	</script>
+
+
+<script>
+	if (window.parent && window.parent.postMessage)
+	{
+		window.parent.postMessage({[EMBEDDED_MESSAGE_PREFIX+"inner-app-ready"]:true},'*');
+  	window.parent.postMessage({[EMBEDDED_MESSAGE_PREFIX+"inner-app-started"]:true},'*');
+  }
+	window.onunload = function(){
+		window.top.postMessage({[EMBEDDED_MESSAGE_PREFIX+"inner-app-ready"]:false},"*");
+	};
+	window.onbeforeunload = promptSessionLeave;
+
+		menus.createMenuCache(null);
+
+
+
+		loadDomains(TABLEDOMAINLIST);
+
+</script>
+
+
+
+<div></div></body><div class="xl-chrome-ext-bar_4DB361DE-01F7-4376-B494-639E489D19ED" id="xl_chrome_ext_4DB361DE-01F7-4376-B494-639E489D19ED" data-v-app="" style="display: block;"><div class=""><div id="xl_chrome_ext_video_tag_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED" config="[object Object]" uiversion="v1" exception="false" latestvideosrc="" isshowvideotag="false" isshowdownloadbar="false" isshowcloudaddbar="false"><!----><div class="_options-wrapper_pujw6_3" style="display: none;"><a id="xl_chrome_ext_bar_close" href="javascript:;"></a><div class="_xl-chrome-ext-bar__logo_pujw6_30"></div><!----><!----><div class="_xl-chrome-ext-tips_pujw6_62"><a id="xl_chrome_ext_bar_screen" href="javascript:;" class="_xl-chrome-ext-bar__option_pujw6_78"></a><div class="_xl-chrome-ext-title_pujw6_69">投屏</div></div><div class="_xl-chrome-ext-tips_pujw6_62"><a id="xl_chrome_ext_bar_copy" class="_xl-chrome-ext-bar__option_pujw6_78" href="javascript:;"></a><div class="_xl-chrome-ext-title_pujw6_69">复制链接</div></div></div></div><div class="badge_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED _badge_wrapper_wnbzb_1" id="badge_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED"><div class="_logo_wnbzb_24"></div><span class="_line_wnbzb_32"></span><div class="_text_wrapper_wnbzb_39"><span class="_download_icon_wnbzb_51"></span><span class="_text_wnbzb_39">高速下载</span></div></div><!----><!----><!----><!----><div class="_container_wq4mj_4"><!----></div></div></div></html>
