@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="48px" viewBox="0 0 64 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>btn_tab_end_fade</title>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#F4F4F4" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#F4F4F4" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icons---svg" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="btn_tab_end_fade" fill-rule="nonzero">
+            <rect id="bg" fill="#F4F4F4" x="16" y="0" width="48" height="48"></rect>
+            <g id="Actions-/-Navigation-/-chevron--right-/-16" transform="translate(37.300000, 19.000000)" fill="#161616">
+                <polygon id="Fill" points="5.7 5 0.7 10 -8.8817842e-16 9.3 4.3 5 -8.8817842e-16 0.7 0.7 0"></polygon>
+            </g>
+            <rect id="utilities-/-overflow-indicator-/-vertical-/-small-/-ui-02" fill="url(#linearGradient-1)" transform="translate(8.000000, 24.000000) scale(-1, 1) translate(-8.000000, -24.000000) " x="0" y="0" width="16" height="48"></rect>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,61 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2014,2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+/*	This file is used to override styles in high contrast mode */
+
+.dj_a11y .text, .dj_a11y LI A{
+    font-family: 'Open Sans',Arial,Helvetica,sans-serif;
+    font-size: 14px !important;
+}
+
+.dj_a11y input[type="text"] {
+	border: 2px groove !important;	
+}
+
+.dj_a11y .fld_error	{
+	border-color: red;
+}
+
+.dj_a11y LI {
+	border: 0px;
+}
+
+.dj_a11y LI.current {
+	border: 2px solid #fff !important;
+}
+
+.dj_a11y .toolbar LI A.off, .dj_a11y .dj_ie .toolbar LI A.off IMG {
+    opacity: .6 !important;
+}
+
+.dj_a11y .pb {
+	border: ridge;
+}
+
+.dj_a11y .pbo {
+	border: 2px ridge;
+}
+
+.dj_a11y .gotobutton, .dj_a11y .gotobuttonhover {
+	background: transparent;	
+}
+
+.dj_a11y .gotobutton img, .dj_a11y .homebutton img {
+	display: inline !important;
+}
+
+.dj_a11y .required_label {
+	height: 16px !important;
+	width: 16px !important;	
+}
+
+.dj_a11y .subSpan {
+	display: inline !important;	
+}

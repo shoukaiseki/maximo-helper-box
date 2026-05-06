@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>btn_tab_menu_over</title>
+    <g id="icons---svg" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="btn_tab_menu_over" fill-rule="nonzero">
+            <g id="Group" transform="translate(24.000000, 24.000000) rotate(-90.000000) translate(-24.000000, -24.000000) ">
+                <rect id="bg" fill="#E5E5E5" x="0" y="0" width="48" height="48"></rect>
+                <g id="Actions-/-Navigation-/-chevron--left-/-16" transform="translate(21.000000, 19.000000)" fill="#161616">
+                    <polygon id="Fill" points="0 5 5 0 5.7 0.7 1.4 5 5.7 9.3 5 10"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

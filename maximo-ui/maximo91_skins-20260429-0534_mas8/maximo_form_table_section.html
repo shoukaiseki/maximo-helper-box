@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo Form and Table Section</title>
+    
+    <!-- Import Maximo MAS8 Skin CSS Files -->
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/maximo.css">
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/labels-horizontal.css">
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/labels-dynamic.css">
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/labels-vertical.css">
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/dynamic-base.css">
+    <link rel="stylesheet" type="text/css" href="../demo01-ui-mas91/skins-20260429-0534/mas8/css/extended.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f1f1f1;
+            font-family: "IBM Plex Sans", Arial, sans-serif;
+        }
+        
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+        }
+        
+        /* Table row hover effect */
+        .tablerow {
+            background: white;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+        .tablerow:hover {
+            background-color: #e0e0e0;
+        }
+        /* Selected row style - blue left border and gray background */
+        .tablerow.selected {
+            border-left: 4px solid #0f62fe;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="section-container">
+        <!-- Section 1: with Form Fields -->
+        <div id="me669611-so_compHolder" class="sectionBS">
+            <table id="me669611-so_inner" class="so so-wide">
+                <tr id="me669611-so_0">
+                    <td id="me669611-hb" class="hbouter">
+                        <h2>
+                            <label class="text st">部分(section)标题</label>
+                        </h2>
+                    </td>
+                </tr>
+                <tr id="me669611-so_1">
+                    <td id="me669611-se" class="section sectionb">
+                        <table class="tdtblw">
+                            <!-- Row 1: 单行文本框必填 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label required" style="display:block; padding-left:2px; padding-top:2px;">
+                                        <img class="required_label" width="8px" height="8px" align="absmiddle" border="0" src="./testuser_files/required_label.gif" alt="">单行文本框(textbox)必填</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text fld_req" value="TYPE 1" style="width:16.1ch; height: 40px;">
+                                    <div style="display:inline-block; width: 40px; height: 40px; background: #FFFFFF; border: 1px solid #c6c6c6; margin-left: 4px; vertical-align: middle;">
+                                        <img src="./testuser_files/img_lookup.gif" style="width: 40px; height: 40px; margin: 0px; display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 2: 单行文本框常规 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">单行文本框(textbox)常规</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text" value="" style="width:16.1ch; height: 40px;">
+                                    <div style="display:inline-block; width: 40px; height: 40px; background: #FFFFFF; border: 1px solid #c6c6c6; margin-left: 4px; vertical-align: middle;">
+                                        <img src="./testuser_files/img_lookup.gif" style="width: 40px; height: 40px; margin: 0px; display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 3: 单行文本框只读 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">单行文本框(textbox)只读</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text fld_ro" readonly value="MAXADMIN" style="width:16.1ch; height: 40px;">
+                                    <div style="display:inline-block; width: 40px; height: 40px; background: #FFFFFF; border: 1px solid #c6c6c6; margin-left: 4px; vertical-align: middle;">
+                                        <img src="./testuser_files/img_menu.gif" style="width: 40px; height: 40px; margin: 0px; display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 4: 单行文本框日期 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">单行文本框(textbox)日期</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text" value="" style="width:16.1ch; height: 40px;">
+                                    <div style="display:inline-block; width: 40px; height: 40px; background: #FFFFFF; border: 1px solid #c6c6c6; margin-left: 4px; vertical-align: middle;">
+                                        <img src="./testuser_files/img_date.gif" style="width: 40px; height: 40px; margin: 0px; display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 5: 单行文本框时间 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">单行文本框(textbox)时间</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text" value="" style="width:16.1ch; height: 40px;">
+                                    <div style="display:inline-block; width: 40px; height: 40px; background: #FFFFFF; border: 1px solid #c6c6c6; margin-left: 4px; vertical-align: middle;">
+                                        <img src="./testuser_files/img_date_time.gif" style="width: 40px; height: 40px; margin: 0px; display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 6: 多部分文本框常规 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label required" style="display:block; padding-left:2px; padding-top:2px;">
+                                        <img class="required_label" width="8px" height="8px" align="absmiddle" border="0" src="./testuser_files/required_label.gif" alt="">多部分文本框(multiparttextbox)常规</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text fld_req" value="TYPE 1" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                    <input class="fld text fld_req" value="" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                </td>
+                            </tr>
+                            <!-- Row 7: 多部分文本框只读 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">多部分文本框(multiparttextbox)只读</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text fld_ro" readonly value="MAXADMIN" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                    <input class="fld text fld_ro" readonly value="MAXADMIN" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                </td>
+                            </tr>
+                            <!-- Row 8: 多部分文本框必填 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label required" style="display:block; padding-left:2px; padding-top:2px;">
+                                        <img class="required_label" width="8px" height="8px" align="absmiddle" border="0" src="./testuser_files/required_label.gif" alt="">多部分文本框(multiparttextbox)必填</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <input class="fld text fld_req" value="TYPE 1" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                    <input class="fld text fld_req" value="" style="width:16.1ch; height: 40px;">
+                                    <img src="./testuser_files/blank.gif" style="width: 4px; height: 40px; margin: 0px; display:inline; vertical-align: middle;">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 2: with Multiline Textbox and Checkbox -->
+        <div id="m62af6d19-so_compHolder" class="sectionBS" style="margin-top: 20px;">
+            <table id="m62af6d19-so_inner" class="so so-wide">
+                <tr id="m62af6d19-so_0">
+                    <td id="m62af6d19-hb" class="hbouter">
+                        <h2>
+                            <label class="text st">部分2标题(section)</label>
+                        </h2>
+                    </td>
+                </tr>
+                <tr id="m62af6d19-so_1">
+                    <td id="m62af6d19-se" class="section sectionb">
+                        <table class="tdtblw">
+                            <!-- Row 1: 多行文本框常规 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">多行文本框(multilinetextbox)常规</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <textarea class="fld text multilinetextbox ta" style="width: 1000px; height: 80px;"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Row 2: 多行文本框只读 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">多行文本框(multilinetextbox)只读</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <textarea class="fld text multilinetextbox ta fld_ro" readonly style="width: 1000px; height: 80px;">MAXADMIN</textarea>
+                                </td>
+                            </tr>
+                            <!-- Row 3: 多行文本框必填 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px;">
+                                    <label class="text label required" style="display:block; padding-left:2px; padding-top:2px;">
+                                        <img class="required_label" width="8px" height="8px" align="absmiddle" border="0" src="./testuser_files/required_label.gif" alt="">多行文本框(multilinetextbox)必填</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <textarea class="fld text multilinetextbox ta fld_req" style="width: 1000px; height: 80px;"></textarea>
+                                </td>
+                            </tr>
+                            <!-- Row 4: 勾选框常规 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">勾选框(checkbox)常规?</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <div class="bc">
+                                        <a role="checkbox" aria-checked="true">
+                                            <img src="./testuser_files/cb_checked.gif" style="width: 18px; height: 18px;">
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 5: 勾选框只读 -->
+                            <tr>
+                                <td align="right" style="vertical-align:middle; padding: 2px; padding-right: 12px;">
+                                    <label class="text label" style="display:block; padding-left:2px; padding-top:2px;">勾选框(checkbox)只读?</label>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <div class="bc">
+                                        <a role="checkbox" aria-checked="false">
+                                            <img src="./testuser_files/cb_uncheckedreadonly.gif" style="width: 18px; height: 18px;">
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Data Table Section with Toolbar -->
+        <div style="margin-top: 30px;">
+            <div class="hbouter" style="padding: 8px 12px; background: #ffffff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-weight: 600; font-size: 14px; color: #161616;">表格(table)</span>
+                    <span style="font-size: 13px; color: #525252;">(1 - 5 of 5)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <a href="#" title="New Row">
+                        <img src="./testuser_files/nav_icon_insertkey.gif" style="width: 40px; height: 40px;">
+                    </a>
+                    <a href="#" title="Clear Filter">
+                        <img src="./testuser_files/qf_clear_disabled.gif" style="opacity: 0.3; width: 40px; height: 40px;">
+                    </a>
+                    <a href="#" title="Open Filter CTRL+Z">
+                        <img src="./testuser_files/tablebtn_filter_off.gif" style="width: 40px; height: 40px;">
+                    </a>
+                    <a href="#" title="Download">
+                        <img src="./testuser_files/tablebtn_download.gif" style="width: 40px; height: 40px;">
+                    </a>
+                    <a href="#" title="Hide Table: 表格(table)">
+                        <img src="./testuser_files/minimize.gif" style="width: 40px; height: 40px;">
+                    </a>
+                    <button class="pb text" style="background: #0f62fe; color: white; border: none; padding: 8px 16px; cursor: pointer;">Select Groups</button>
+                </div>
+            </div>
+            
+            <table class="tbod" style="border-collapse: separate; width: 100%; background: white;">
+                <thead>
+                    <tr class="ttitr treven" style="background: #e0e0e0;">
+                        <th class="tc" style="padding: 12px 8px; width: 30px;"></th>
+                        <th class="tc" style="padding: 12px 8px; width: 180px;"><span>Name</span></th>
+                        <th class="tc" style="padding: 12px 8px; width: 300px;"><label>Description</label></th>
+                        <th class="tc" style="padding: 12px 8px;"><label>Default Application</label></th>
+                        <th class="tc" style="padding: 12px 8px;"><label>Independent of Other Groups?</label></th>
+                        <th class="tc" style="padding: 12px 8px; width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Row 1: MAXADMIN (默认选中) -->
+                    <tr class="tablerow trodd selected" style="border-bottom: 1px solid #e0e0e0;">
+                        <td class="tc" style="padding: 16px 8px; width: 50px;">
+                            <a><img src="./testuser_files/img_row_unselect.gif" style="width: 40px; height: 40px;"></a>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px;">
+                            <input class="fld text tt fld_ro" readonly type="text" value="MAXADMIN" style="width:100%; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                        </td>
+                        <td style="padding: 16px 8px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <input class="fld text tt fld_ro" readonly type="text" value="Maximo Administrators (Super Users)" style="flex: 1; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                                <img src="./testuser_files/img_menu.gif" style="width: 40px; height: 40px; margin-left: 8px;">
+                            </div>
+                        </td>
+                        <td style="padding: 16px 8px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <input class="fld text tt fld_ro" readonly type="text" value="Maximo Administrators (Super Users)" style="flex: 1; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                                <img src="./testuser_files/img_longdescription_off.gif" style="width: 40px; height: 40px; margin-left: 8px;">
+                            </div>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px; text-align: center;">
+                            <div class="bc">
+                                <a role="checkbox" aria-checked="true">
+                                    <img src="./testuser_files/table_cb_checkedreadonly.gif" style="width: 18px; height: 18px;">
+                                </a>
+                            </div>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px; width: 50px; text-align: center;">
+                            <a><img src="./testuser_files/btn_garbage.gif" style="width: 40px; height: 40px;"></a>
+                        </td>
+                    </tr>
+                    
+                    <!-- Row 2: MAXEVERYONE -->
+                    <tr class="tablerow treven" style="border-bottom: 1px solid #e0e0e0;">
+                        <td class="tc" style="padding: 16px 8px; width: 50px;">
+                            <a><img src="./testuser_files/img_row_unselect.gif" style="width: 40px; height: 40px;"></a>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px;">
+                            <input class="fld text tt fld_ro" readonly type="text" value="MAXEVERYONE" style="width:100%; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                        </td>
+                        <td style="padding: 16px 8px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <input class="fld text tt fld_ro" readonly type="text" value="All Maximo Users" style="flex: 1; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                                <img src="./testuser_files/img_menu.gif" style="width: 40px; height: 40px; margin-left: 8px;">
+                            </div>
+                        </td>
+                        <td style="padding: 16px 8px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <input class="fld text tt fld_ro" readonly type="text" value="All Maximo Users" style="flex: 1; border: none; border-bottom: 1px solid #8d8d8d; padding: 4px 0; height: 40px;">
+                                <img src="./testuser_files/img_longdescription_off.gif" style="width: 40px; height: 40px; margin-left: 8px;">
+                            </div>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px; text-align: center;">
+                            <div class="bc">
+                                <a role="checkbox" aria-checked="false">
+                                    <img src="./testuser_files/table_cb_uncheckedreadonly.gif" style="width: 18px; height: 18px;">
+                                </a>
+                            </div>
+                        </td>
+                        <td class="tc" style="padding: 16px 8px; width: 50px; text-align: center;">
+                            <a><img src="./testuser_files/btn_garbage.gif" style="width: 40px; height: 40px;"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Table Footer -->
+            <div style="background: #ffffff; border-top: 1px solid #e0e0e0; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; color: #525252;">1 - 5 of 5</span>
+                <div style="display: flex; gap: 8px;">
+                    <img src="./testuser_files/tablebtn_previous_off.gif" style="opacity: 0.3; width: 24px; height: 24px;">
+                    <img src="./testuser_files/tablebtn_next_off.gif" style="opacity: 0.3; width: 24px; height: 24px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 表格行选中效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.tablerow');
+            
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // 移除所有行的选中状态
+                    rows.forEach(r => r.classList.remove('selected'));
+                    // 给当前点击的行添加选中状态
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

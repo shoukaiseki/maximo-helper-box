@@ -1,0 +1,62 @@
+/*
+* Licensed Materials - Property of IBM
+* �Restricted Materials of IBM�
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2006,2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+
+ /*	This is the file in which we place all non-system css settings. Please section them by application/presentation
+  */
+
+/** Used by Scheduler and other MiniApps that need to adjust to the full width of a Tab Body **/
+/** BEGIN Layout Helpers **/
+.tab-force-max-width .tabBodyTable {
+    width: 100%!important;
+}
+
+.tab-no-padding .tabBodyTable {
+    margin: 0;
+    padding: 0;
+}
+/** END Layout Helpers **/
+
+.mapResizer {
+    width: 100%;
+    height: 10px;
+    background: #5e5b84;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: ns-resize;
+    z-index: 4;
+}
+
+#lvcTargetMapLayer_layer path {
+	animation: smoothpulse 5s infinite;
+    -webkit-animation: smoothpulse 5s infinite;
+    -moz-animation: smoothpulse 5s infinite;
+}
+
+#lvcTargetMapLayer_layer circle {
+	animation: smoothpulse 5s infinite;
+    -webkit-animation: smoothpulse 5s infinite;
+    -moz-animation: smoothpulse 5s infinite;
+}
+
+@keyframes smoothpulse {
+  0% {
+     	opacity: 1.0;
+  }
+  50% {
+     	opacity: .20;
+  }
+  100% {
+     	opacity: 1.0;
+  }
+}      
+
+

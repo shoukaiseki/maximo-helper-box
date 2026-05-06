@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo 9.1 Graphite UI - MAS8 Skin Components</title>
+    
+    <!-- Import Maximo MAS8 Skin CSS Files (Local Copy) -->
+    <link rel="stylesheet" type="text/css" href="css/maximo.css">
+    <link rel="stylesheet" type="text/css" href="css/labels-horizontal.css">
+    <link rel="stylesheet" type="text/css" href="css/labels-dynamic.css">
+    <link rel="stylesheet" type="text/css" href="css/labels-vertical.css">
+    <link rel="stylesheet" type="text/css" href="css/dynamic-base.css">
+    <link rel="stylesheet" type="text/css" href="css/extended.css">
+    
+    <style>
+        /* Demo page layout styles only - All Maximo styles come from external CSS files */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .demo-title {
+            font-size: 28px;
+            font-weight: 400;
+            color: #161616;
+            margin-bottom: 8px;
+        }
+        
+        .demo-subtitle {
+            font-size: 14px;
+            color: #525252;
+            margin-bottom: 24px;
+        }
+        
+        .demo-section-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #161616;
+            margin: 32px 0 16px;
+            padding-bottom: 8px;
+        }
+        
+        .demo-note {
+            font-size: 14px;
+            color: #525252;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: #ffffff;
+            border-left: 3px solid #0f62fe;
+        }
+        
+        .state-description {
+            font-size: 12px;
+            color: #717171;
+            margin-top: 4px;
+            font-style: italic;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Maximo 9.1 Graphite UI Components</h1>
+    <p style="margin: 0 16px 16px; color: #525252;">Based on skins-20260429-0534/mas8 CSS styles</p>
+    
+    <!-- Single Line Text Input -->
+    <h2>Text Input (Single Line)</h2>
+    <div class="component-note">
+        Maximo Graphite text inputs with three states: default (editable), required (with red asterisk), and read-only
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Text Input States</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label" for="input-default">Default (Editable)</label>
+                    <input id="input-default" class="fld" type="text" value="" placeholder="Enter text..." />
+                    <div class="state-description">Default state - editable with bottom border</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label required" for="input-required">Required Field</label>
+                    <input id="input-required" class="fld" type="text" value="Required Value" />
+                    <div class="state-description">Required state - marked with red asterisk</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label" for="input-readonly">Read Only</label>
+                    <input id="input-readonly" class="fld_ro" type="text" value="Read Only Value" readonly />
+                    <div class="state-description">Read-only state - non-editable</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Multi-line Text Area -->
+    <h2>Text Area (Multi-Line)</h2>
+    <div class="component-note">
+        Multi-line text areas for longer content input, with vertical resize capability
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Text Area States</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label" for="textarea-default">Default</label>
+                    <textarea id="textarea-default" class="fld" rows="3" placeholder="Enter multi-line text..."></textarea>
+                    <div class="state-description">Default multi-line text area</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label required" for="textarea-required">Required</label>
+                    <textarea id="textarea-required" class="fld" rows="3">Required multi-line text content</textarea>
+                    <div class="state-description">Required multi-line text area</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label" for="textarea-readonly">Read Only</label>
+                    <textarea id="textarea-readonly" class="fld_ro" rows="3" readonly>This is read-only multi-line text that cannot be edited by the user.</textarea>
+                    <div class="state-description">Read-only multi-line text area</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkboxes -->
+    <h2>Checkboxes</h2>
+    <div class="component-note">
+        Checkboxes for boolean value selection
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Checkbox States</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label">Checked State</label>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="checkbox" id="cb-checked" checked />
+                        <label for="cb-checked" class="checkbox-label">Checked</label>
+                    </div>
+                    <div class="state-description">Selected/checked state</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label">Unchecked State</label>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="checkbox" id="cb-unchecked" />
+                        <label for="cb-unchecked" class="checkbox-label">Unchecked</label>
+                    </div>
+                    <div class="state-description">Unselected/unchecked state</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label">Disabled State</label>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="checkbox" id="cb-disabled" disabled />
+                        <label for="cb-disabled" class="checkbox-label">Disabled</label>
+                    </div>
+                    <div class="state-description">Disabled state - non-interactive</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Buttons -->
+    <h2>Buttons</h2>
+    <div class="component-note">
+        Maximo Graphite buttons with primary and secondary variants
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Button Variants</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label">Primary Button</label>
+                    <button class="btn btn--primary">Primary Action</button>
+                    <div class="state-description">Primary button - gray gradient</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label">Secondary Button</label>
+                    <button class="btn btn--secondary">Secondary Action</button>
+                    <div class="state-description">Secondary button - white with border</div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label">Disabled State</label>
+                    <button class="btn btn--primary" disabled>Disabled</button>
+                    <div class="state-description">Disabled state - gray, non-interactive</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Data Table -->
+    <h2>Data Table</h2>
+    <div class="component-note">
+        Data table for displaying structured data with row selection
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Table with Selection</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="table-header">Select</th>
+                        <th class="table-header">User ID</th>
+                        <th class="table-header">Display Name</th>
+                        <th class="table-header">Status</th>
+                        <th class="table-header">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="selected">
+                        <td class="table-cell"><input type="checkbox" class="checkbox" checked /></td>
+                        <td class="table-cell">MAXADMIN</td>
+                        <td class="table-cell">Maximo Administrator</td>
+                        <td class="table-cell">ACTIVE</td>
+                        <td class="table-cell">TYPE 1</td>
+                    </tr>
+                    <tr>
+                        <td class="table-cell"><input type="checkbox" class="checkbox" /></td>
+                        <td class="table-cell">USER01</td>
+                        <td class="table-cell">Test User One</td>
+                        <td class="table-cell">ACTIVE</td>
+                        <td class="table-cell">TYPE 2</td>
+                    </tr>
+                    <tr>
+                        <td class="table-cell"><input type="checkbox" class="checkbox" /></td>
+                        <td class="table-cell">USER02</td>
+                        <td class="table-cell">Test User Two</td>
+                        <td class="table-cell">INACTIVE</td>
+                        <td class="table-cell">TYPE 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <h2>Tabs</h2>
+    <div class="component-note">
+        Tabs for organizing related content with clear active state indication
+    </div>
+    
+    <div class="tabs">
+        <ul class="tablist" role="tablist">
+            <li role="presentation" class="tab tab--selected">
+                <a role="tab" tabindex="0" class="tab-link" aria-expanded="true">Active Tab</a>
+            </li>
+            <li role="presentation" class="tab">
+                <a role="tab" tabindex="-1" class="tab-link" aria-expanded="false">Inactive Tab 1</a>
+            </li>
+            <li role="presentation" class="tab">
+                <a role="tab" tabindex="-1" class="tab-link" aria-expanded="false">Inactive Tab 2</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-content" style="padding: 16px;">
+                <p>This is the content of the active tab. Maximo Graphite tabs use a 3px blue underline to indicate the selected tab, providing clear visual feedback to users.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Complete Form Example -->
+    <h2>Complete Form Example</h2>
+    <div class="component-note">
+        A comprehensive form demonstrating multiple Maximo components working together
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">Header Information</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label" for="form-id">ID</label>
+                    <input id="form-id" class="fld_ro" type="text" value="FORM-001" readonly />
+                </div>
+                <div class="sectioncol">
+                    <label class="label" for="form-status">Status</label>
+                    <input id="form-status" class="fld_ro" type="text" value="DRAFT" readonly />
+                </div>
+                <div class="sectioncol">
+                    <label class="label required" for="form-type">Type</label>
+                    <input id="form-type" class="fld" type="text" value="Standard" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="section-header">User Details</div>
+            <div class="sectionrow">
+                <div class="sectioncol">
+                    <label class="label required" for="form-name">Full Name</label>
+                    <input id="form-name" class="fld" type="text" value="" placeholder="Enter full name..." />
+                    
+                    <label class="label" for="form-email">Email Address</label>
+                    <input id="form-email" class="fld" type="email" value="" placeholder="email@example.com" />
+                    
+                    <label class="label" for="form-phone">Phone Number</label>
+                    <input id="form-phone" class="fld" type="tel" value="" placeholder="+1 (555) 123-4567" />
+                </div>
+                <div class="sectioncol">
+                    <label class="label" for="form-department">Department</label>
+                    <input id="form-department" class="fld" type="text" value="" />
+                    
+                    <label class="label" for="form-title">Job Title</label>
+                    <input id="form-title" class="fld" type="text" value="" />
+                    
+                    <label class="label">Preferences</label>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="checkbox" id="pref-1" checked />
+                        <label for="pref-1" class="checkbox-label">Email Notifications</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="checkbox" id="pref-2" />
+                        <label for="pref-2" class="checkbox-label">SMS Notifications</label>
+                    </div>
+                </div>
+                <div class="sectioncol">
+                    <label class="label" for="form-notes">Additional Notes</label>
+                    <textarea id="form-notes" class="fld" rows="5" placeholder="Enter any additional information or notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="sectionb">
+            <div class="form-actions">
+                <button class="btn btn--secondary">Cancel</button>
+                <button class="btn btn--secondary">Reset</button>
+                <button class="btn btn--primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

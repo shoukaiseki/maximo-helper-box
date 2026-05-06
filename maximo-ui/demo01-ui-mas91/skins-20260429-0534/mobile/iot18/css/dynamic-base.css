@@ -1,0 +1,40 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2019,2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+	.leafspacer td.verticalSpacer { 
+	    padding-top: 10px;
+	    display: flex;
+	}
+
+	.leafspacer td { padding-top: 10px;}
+
+	.text { font-size: 1.091rem;}
+
+	.st { font-size: 1.091rem; }
+	
+	.hb, .hbouter { height: 2.5rem; }
+	
+	.pb, .pb.default
+	{
+	    padding: 10px 15px;
+	    font-size: 1.091rem !important;
+	}
+	
+	/* .dButton, .checkbox, .ti, .tooltipMarker { zoom: 1.0; } */
+	
+	.tc {
+		height: 2.5rem;;
+		font-size: 1.091rem;
+	}
+	
+	.ttitr th { height: 25px; }
+	
+	
+	.so { margin: 0px 0px 13px; }

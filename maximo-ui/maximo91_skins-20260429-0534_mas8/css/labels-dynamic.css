@@ -1,0 +1,264 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2019,2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+
+/* DO NOT USE DIRECTIONAL CSS IN THIS FILE */
+
+	@media screen and (max-width: 1650px) {
+
+		.leafspacer td.verticalSpacer { 
+	    	display: flex;
+	    	padding-top: 10px;
+	    	text-align: initial;
+		}
+	
+		.leafspacer td.verticalSpacer:last-of-type {
+ 		   padding-top: 2px;
+        align-items: center !important;
+		}
+		
+		td#SystemNavAppContentg-sc {
+		}
+
+	}
+	
+	@media screen and (min-width: 1650px) {
+		.leafspacer td.verticalSpacer:first-of-type {
+    		padding-right: 5px;
+		}
+		
+		.leafspacer td.verticalSpacer:first-of-type > label{
+			display: inline-block !important;
+		}
+		
+		.rbgl
+		{
+		    width: 100%;
+		    display: inline-block !important;
+		    text-align: right;
+		}		
+		
+		.richtextcontrol.leafspacer {
+	    	vertical-align: top !important;
+		}
+		
+	}
+
+	@media screen and (min-width: 10px) and (max-width: 1200px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 11px !important;
+		}
+		
+		.sectioncol {
+ 		   padding: 0px 5px 0px 0px !important;
+		}
+		
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+
+	@media screen and (min-width: 1201px) and (max-width: 1250px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 11px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+
+	
+	@media screen and (min-width: 1251px) and (max-width: 1275px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 11.25px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1276px) and (max-width: 1300px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 11.75px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1301px) and (max-width: 1350px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 12px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1351px) and (max-width: 1400px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 12.5px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1401px) and (max-width: 1450px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 13px !important;
+		}
+		.pt {
+			font-size: 16px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1451px) and (max-width: 1500px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 13.6px !important;
+		}
+		.pt {
+			font-size: 16px !important;
+		}
+	}
+		
+	@media screen and (min-width: 1501px) and (max-width: 1600px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 14px !important;
+		}
+		.pt {
+			font-size: 16px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1601px) and (max-width: 1650px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 15px !important;
+		}
+		
+		.hcns {
+			font-size: 15px !important;
+		}
+		
+		.pt {
+			font-size: 17px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1651px) and (max-width: 1700px) {
+		.fld, .text, .tt, .required {
+			font-size: 12px !important;
+		}
+		.pt {
+			font-size: 14px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1701px) and (max-width: 1800px) {
+		.fld, .text, .tt, .required {
+			font-size: 13px !important;
+		}
+		.pt {
+			font-size: 15px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1801px) and (max-width: 1850px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 14px !important;
+		}
+		.pt {
+			font-size: 16px !important;
+		}
+	}
+
+	@media screen and (min-width: 1851px) and (max-width: 1900px) {
+		.hcns {
+			font-size: 14px !important;
+		}
+		.fld, .text, .tc, .tt, .required {
+			font-size: 14.5px !important;
+		}
+		.pt {
+			font-size: 16px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1901px) and (max-width: 1950px) {
+		.hcns {
+			font-size: 14px !important;
+		}
+		.fld, .text, .tc, .tt, .required {
+			font-size: 15px !important;
+		}
+		.pt {
+			font-size: 17px !important;
+		}
+	}
+	
+	@media screen and (min-width: 1951px) and (max-width: 2000px) {
+		.hcns {
+			font-size: 14px !important;
+		}
+		.fld, .text, .tc, .tt, .required {
+			font-size: 15.5px !important;
+		}
+		.pt {
+			font-size: 17px !important;
+		}
+	}
+
+	@media screen and (min-width: 2001px) and (max-width: 2050px) {
+		.hcns {
+			font-size: 14px !important;
+		}
+		.fld, .text, .tc, .tt, .required {
+			font-size: 16px !important;
+		}
+		.pt {
+			font-size: 18px !important;
+		}
+	}
+
+	@media screen and (min-width: 2051px) and (max-width: 2100px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 16.5px !important;
+		}
+		.pt {
+			font-size: 18px !important;
+		}
+	}
+
+	@media screen and (min-width: 2101px) and (max-width: 2150px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 17px !important;
+		}
+		.pt {
+			font-size: 18px !important;
+		}
+	}
+	
+	@media screen and (min-width: 2151px) and (max-width: 2200px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 17.5px !important;
+		}
+		.pt {
+			font-size: 19px !important;
+		}
+	}
+	
+	@media screen and (min-width: 2200px) {
+		.fld, .text, .tc, .tt, .required {
+			font-size: 18px !important;
+		}
+		.pt {
+			font-size: 19px !important;
+		}
+	}

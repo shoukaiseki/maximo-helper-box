@@ -19,3 +19,25 @@ Form Fields 的背景色应该是 transparent,而他的上一级基本上是#f1f
 
 都是放到 section 里面的(请查看maximo91_export_png/user.xml),这是应用程序设计器导出的xml,
 tab id="main" 这部分就是 maximo91_export/user_detail_static.html 的显示效果
+你现在帮我把 maximo91-graphite-style.html 再优化下,
+maximo91-graphite-style.html是组件演示用的,显示maximo各个组件,各种状态下的不同显示效果
+比如单行文本框,列表,按钮,多行文本框,多部分文本框,状态又有只读,必填,常规三种,显示效果也都有点不一样
+
+
+帮我写个页面,以maximo91/testuser.html 的样式为组件样式基准
+
+
+
+还是有差距,可以试下用 maximouiweb\webclient\skins\skins-20260429-0534\mas8 下面的样式创建一个
+maximo91_skins-20260429-0534_mas8 的目录,再建个maximo-style.html
+
+
+样式文件显示效果是对上了,就是 maximouiweb\webclient\skins\skins-20260429-0534\mas8 下面的样式
+
+不过还需优化下,参考maximo91/testuser.html,单行文本框高度,
+
+
+
+根据demo01-ui下面的 SC_SE.html 字段属性,创建新文件,放到{根目录}/demo01-ui-mas91目录下面
+样式根据 maximo91/testuser.html 的样式,css优先选择 demo01-ui-mas91\skins-20260429-0534(是从 maximouiweb\webclient\skins\skins-20260429-0534复制过来的) 下面的css,
+不要改其他的文件

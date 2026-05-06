@@ -1,0 +1,51 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2019,2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+
+/* DO NOT USE DIRECTIONAL CSS IN THIS FILE */
+
+	@media screen and (max-width: 1650px) {
+
+		.leafspacer td.verticalSpacer { 
+	    	display: flex;
+	    	padding-top: 10px;
+	    	text-align: initial;
+		}
+	
+		.leafspacer td.verticalSpacer:last-of-type {
+ 		   padding-top: 2px;
+		}
+		
+		td#SystemNavAppContentg-sc {
+		}
+
+	}
+	
+	@media screen and (min-width: 1650px) {
+		.leafspacer td.verticalSpacer:first-of-type {
+    		padding-right: 5px;
+		}
+		
+		.leafspacer td.verticalSpacer:first-of-type > label{
+			display: inline-block !important;
+		}
+		
+		.rbgl
+		{
+		    width: 100%;
+		    display: inline-block !important;
+		    text-align: right;
+		}		
+		
+		.richtextcontrol.leafspacer {
+	    	vertical-align: top !important;
+		}
+		
+	}

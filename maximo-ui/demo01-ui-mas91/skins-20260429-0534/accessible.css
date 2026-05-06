@@ -1,0 +1,182 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP. 2014,2025 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+
+.dbutton_anchor {
+	display: inline-block;	
+}
+
+a.dbutton_anchor_cb:focus img {
+		outline: 2px solid #0f62fe !important;
+}
+
+a.dbutton_anchor_cb:focus {
+		outline: none !important;
+}
+
+.dbutton_anchor_cb {
+	vertical-align: middle;
+}
+
+body.screenReader input.fld:focus {
+    outline: 1px solid #4176bd;
+    outline-offset: -1px;
+}
+
+.sdesc {
+	color: #000;
+}
+
+.accessibleTitleDiv:hover {
+	opacity: 0.2;
+}
+
+.accessibleTitleDiv.no-pointer:before, .accessibleTitleDiv.no-pointer:after {
+    display: none;
+}
+
+.tab_li_listtab a.on {
+	padding-left: 36px !important;
+    background: url(iot18/images/btn_iot18_previous.gif) no-repeat 3px 14px #fff !important;
+	vertical-align: middle;
+	color: #4178BE;
+	font-family: "MaximoBase-Bold";
+	font-size: 14px;
+	height: 42px;
+	border-bottom: 3px solid transparent !important;
+}
+
+::-webkit-input-placeholder {
+   color: #000;
+   opacity: 1;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #000;  
+   opacity: 1;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #000;  
+   opacity: 1;
+}
+
+:-ms-input-placeholder {  
+   color: #000;  
+   opacity: 1;
+}
+
+/* headerbarborder */
+body.screenReader .hbb
+{
+	color: #000;
+}
+
+.dbutton_anchor {
+	width: 34px;
+	overflow: #000;
+}
+
+.dbutton_anchor img {
+	margin: 0px;
+}
+
+.dbutton_spacer {
+	width: 11px;
+}
+
+.dButton {
+	margin: 0px !important;
+}
+
+.navTitle:focus {
+	outline: 1px solid #5177be;
+}
+
+.ps.hbsh > a {
+    overflow: hidden;
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+}
+
+.accessibleTitleDiv {
+	z-index: 50000;
+  position: absolute;
+  display: none;
+  border: 1px solid #000;
+  padding: 5px;
+  background: #fff;
+  color: #000;
+  font-size: 12px;
+  margin-top: 10px;
+  transform: translateX(-50%);
+  transition: left .1s, top .1s;
+  box-shadow: rgb(153, 153, 153) 3px 3px 2px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.accessibleTitleDiv:after, .accessibleTitleDiv:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  transition: left .1s;
+}
+
+
+.accessibleTitleDiv_10:before, .accessibleTitleDiv_10:after {
+  left: 15%;
+}
+
+.accessibleTitleDiv_25:before, .accessibleTitleDiv_25:after {
+  left: 25%;
+}
+
+.accessibleTitleDiv_50:before, .accessibleTitleDiv_50:after{
+	
+}
+
+.accessibleTitleDiv_75:before, .accessibleTitleDiv_75:after {
+  left: 75%;
+}
+
+.accessibleTitleDiv_90:before, .accessibleTitleDiv_90:after {
+  left: 90%;
+}
+
+.accessibleTitleDiv:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #fff;
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.accessibleTitleDiv:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-bottom-color: #000;
+  border-width: 8px;
+  margin-left: -8px;
+}
+
+.ssaccessibleTitleDiv {
+	position: absolute;
+	display: none;
+	border: 1px solid #000;
+	padding: 5px;
+	background: #fff;
+	color: #000;
+	font-size: 12px;
+}

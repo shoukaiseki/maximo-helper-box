@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="48px" viewBox="0 0 64 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>btn_tab_end_fade_over</title>
+    <defs>
+        <linearGradient x1="98.7707605%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#F4F4F4" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E5E5E5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icons---svg" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="btn_tab_end_fade_over" fill-rule="nonzero">
+            <g id="Group" transform="translate(16.000000, 0.000000)">
+                <rect id="bg" fill="#E5E5E5" x="0" y="0" width="48" height="48"></rect>
+                <g id="Actions-/-Navigation-/-chevron--right-/-16" transform="translate(21.300000, 19.000000)" fill="#161616">
+                    <polygon id="Fill" points="5.7 5 0.7 10 -8.8817842e-16 9.3 4.3 5 -8.8817842e-16 0.7 0.7 0"></polygon>
+                </g>
+            </g>
+            <g id="utilities-/-overflow-indicator-/-horizontal-/-02-medium-/-ui-02" transform="translate(8.000000, 24.000000) scale(-1, 1) translate(-8.000000, -24.000000) " fill="url(#linearGradient-1)">
+                <rect id="utilities-/-overflow-indicator-/-vertical-/-small-/-ui-02" x="0" y="0" width="16" height="48"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

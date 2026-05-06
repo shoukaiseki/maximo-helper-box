@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商评价单列表 - SC SE</title>
+    
+    <!-- Import Maximo MAS8 Skin CSS Files -->
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/maximo.css">
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/labels-horizontal.css">
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/labels-dynamic.css">
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/labels-vertical.css">
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/dynamic-base.css">
+    <link rel="stylesheet" type="text/css" href="skins-20260429-0534/mas8/css/extended.css">
+    
+    <style>
+        /* Demo page layout styles only - All Maximo styles come from external CSS files */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            background: #f1f1f1;
+        }
+        
+        .demo-title {
+            font-size: 28px;
+            font-weight: 400;
+            color: #161616;
+            margin-bottom: 8px;
+        }
+        
+        .demo-subtitle {
+            font-size: 14px;
+            color: #525252;
+            margin-bottom: 24px;
+        }
+        
+        /* Table styles enhancement */
+        .tbod {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-top: 0;
+        }
+        
+        .tbod td {
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #161616;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tbod td[numeric] {
+            text-align: right;
+        }
+        
+        .ttitr th {
+            background: #e0e0e0;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #161616;
+        }
+        
+        .trodd {
+            background: #ffffff;
+        }
+        
+        .treven {
+            background: #fafafa;
+        }
+        
+        .tablerow:hover {
+            background: #f4f4f4;
+        }
+        
+        .hbouter {
+            background: #e0e0e0;
+            padding: 12px;
+            border-bottom: 1px solid #d0d0d0;
+        }
+        
+        .hbouter .st {
+            font-size: 16px;
+            font-weight: 600;
+            color: #161616;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">供应商评价单列表</h1>
+        <p class="demo-subtitle">SC SE - Supplier Evaluation List</p>
+        
+        <!-- Data Table -->
+        <div class="section">
+            <div class="sectionb">
+                <!-- Table Header Bar (Toolbar) -->
+                <div class="hbouter">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="hb">
+                                    <h2 class="st">供应商评价单列表</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Data Table -->
+                <table class="tbod">
+                    <thead>
+                        <tr class="ttitr">
+                            <th>
+                                <span class="tht">评价单号</span>
+                            </th>
+                            <th>
+                                <span class="tht">模板编号</span>
+                            </th>
+                            <th>
+                                <span class="tht">供应商</span>
+                            </th>
+                            <th>
+                                <span class="tht">评价日期</span>
+                            </th>
+                            <th>
+                                <span class="tht">评价人员</span>
+                            </th>
+                            <th>
+                                <span class="tht">状态</span>
+                            </th>
+                            <th numeric>
+                                <span class="tht">总分</span>
+                            </th>
+                            <th>
+                                <span class="tht">结果</span>
+                            </th>
+                            <th>
+                                <span class="tht">审核人员</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tablerow trodd">
+                            <td>EVA-001</td>
+                            <td>SQA-001</td>
+                            <td>XX零件供应商</td>
+                            <td>2026-04-15</td>
+                            <td>李</td>
+                            <td>分项打分中</td>
+                            <td numeric>系统自动汇总</td>
+                            <td>合格/不合格</td>
+                            <td>张</td>
+                        </tr>
+                        <tr class="tablerow treven">
+                            <td>EVA-002</td>
+                            <td>SQA-001</td>
+                            <td>YY物流供应商</td>
+                            <td>2026-04-10</td>
+                            <td>王</td>
+                            <td>已完成</td>
+                            <td numeric>85</td>
+                            <td>合格</td>
+                            <td>张</td>
+                        </tr>
+                        <tr class="tablerow trodd">
+                            <td>EVA-003</td>
+                            <td>SQA-002</td>
+                            <td>ZZ服务供应商</td>
+                            <td>2026-03-20</td>
+                            <td>赵</td>
+                            <td>待审核</td>
+                            <td numeric>78</td>
+                            <td>不合格</td>
+                            <td>李</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

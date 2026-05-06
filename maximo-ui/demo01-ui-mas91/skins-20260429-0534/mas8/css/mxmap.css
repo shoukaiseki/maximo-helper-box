@@ -1,0 +1,270 @@
+.mapTbSep{
+	background: url(../../../../skins/tivoli09/images/toolbar/toolbarsep.gif) no-repeat 2px 2px;
+	height:30px;
+	width:5px;
+	vertical-align:middle;
+}
+	
+.basicMapToolbarBtn{
+   background-repeat:no-repeat;
+   width: 29px;
+   height: 29px;
+   align:center;
+   background-position: 3px 3px;
+}
+
+.tundra .dijitToolbar .dijitButtonChecked, .tundra .dijitToolbar .dijitToggleButtonChecked {
+    background-color: #FAFAFA !important;
+    border: 1px solid #A1A1A1 !important;
+}
+
+.fullScreenMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_fullScreen.png");
+}
+
+.refreshMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_refresh.png");
+}
+
+.myLocationMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_MyLocation_recenter.png");
+}
+
+.locationHistoryToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_locationHistory.png");
+}
+
+.itineraryMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_routeDirections.png");
+}
+
+.unassignedWorkOrderMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_unassignedWOs.png");
+}
+
+.weatherAlertsMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_weatherAlerts.png");
+}
+
+.menuItemSelected{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/checkBox_selected.png");
+   background-position: left center;
+   min-height: 29px;
+}
+ 	
+.menuItemUnselected{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/checkBox_unselected.png");
+   background-position: left center;
+   min-height: 29px;
+}
+
+.nearbyResourcesMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_nearByResources.png");
+}
+
+.layersMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_layers.png");
+}
+
+.workOrderSymbologyMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_WO_Layers.png");
+}
+
+.assetLocationMapToolbarBtn{
+   background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/toolbar/tb_assetLocation.png");
+}
+
+.findLocationToolbarBtn{
+	background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/dialog/query_btn.png");
+}
+
+.ovwHighlight{
+	filter: alpha(opacity = 50);	
+	border: 1px solid blue !important;
+}
+
+.ovwcontainer{
+	padding-left: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+.infoPanelCloseBtn{
+		
+		margin-top: 10px;
+}
+
+.infoPanelCloseBtn .dijitButtonNode{
+		min-width: 65px;
+		height: 19px;
+		padding: 0px;
+		vertical-align: middle;
+}
+.infoPanelCloseBtn .dijitbuttoncontents{
+		min-width: 65px;
+		height: 19px;
+		vertical-align: middle;
+}
+
+.infoPanelCloseBtn .dijitButtonText{
+		margin-top: 2px;
+}
+
+.addresscandidateRowStyle{
+	background-color: #F1F1F1;
+}
+.addresscandidateRowStyle:hover{
+	background-color: #D7DEE5;
+}
+
+.addressCandidateTable{
+	border-top: 1px solid #CCCED0;
+	border-bottom: 1px solid #CCCED0;
+	border-left: 1px solid #CCCED0;
+	padding:0px;
+	margin:0px;
+}
+
+/* Issue 12-11998 */
+.gmnoprint {
+	-webkit-transform: translate3d(0px,0px,0px);  
+}
+
+.nonModal_underlay {
+	display:none
+}
+
+td > table > tbody > tr > .verticalSpacer > .map {
+	padding: 0px;
+}
+
+.findLocationBar {
+	background-color: #FFFFFF;
+	position: absolute;
+	width: auto;
+	border-radius: 1em;
+	height: 34px;
+}
+
+.spatialFindLocationBar {
+	left: 75px;
+	top: 35px;
+}
+
+.gMapsFindLocationBar {
+	left: 10px;
+	top: 35px;
+}
+
+.bmapsFindLocationBar {
+	left: 10px;
+	top: 35px;
+}
+
+#findLocationToolDiv .dijitButtonDisabled .findLocationToolFindButton{
+	background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/dialog/queryDisabled_btn.png");
+	background-repeat: no-repeat;
+}
+
+#findLocationToolDiv .findLocationToolInputTxt{
+	width: 25em;
+	border: none;
+	background-color: transparent;
+	position: relative;
+	box-sizing: border-box;
+	padding-left: 1em;
+	background-image: none;
+}
+
+.mapAddressLabel{
+	position: absolute;
+	right: 2em;
+	bottom: 3em;
+	z-index: 1000;
+}
+
+.spatialMapAddressLabel{
+	position: absolute;
+	right: 8px;
+	bottom: 20px;
+	z-index: 999;
+	overflow: hidden;
+}
+
+.bMapAddressLabel{
+	position: absolute;
+	right: 120px;
+	top: 10px;
+	z-index: 999;
+	overflow: hidden;
+}
+.gMapAddressLabel{
+	position: absolute;
+	right: 60px;
+	top: 10px;
+	z-index: 999;
+	overflow: hidden;
+}
+
+
+.findLocationToolButton{
+	width: 22px;
+    height: 22px;
+}
+
+#findLocationToolDiv .dijitButtonNode{
+	background-color: transparent;
+	background: none;
+	padding: 0px;
+	margin: 0.5em;
+	border: none;
+	background-image: none;
+}
+
+.findLocationBar .dijitInputInner{
+	background-color: #FFFFFF !important;
+}
+
+.findLocationToolFindButton{
+	background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/dialog/query_btn.png");
+}
+
+
+.findLocationToolCloseButton{
+	background-image: url("../../../../javascript/ibm/tivoli/fwm/mxmap/resources/mas8/dialog/tb_closeDialog.png");
+	background-repeat: no-repeat;
+}
+
+.findLocationBar .dijitButtonNode{
+	border: none;
+}
+
+.spatialAttributesLabel{
+	position: absolute;
+	left: 30px;
+	top: 10px;
+	z-index: 1;
+	overflow: hidden;
+}
+
+.gMapAttributesLabel{
+	position: absolute;
+	left: 15%;
+	top: 10px;
+	z-index: 999;
+	overflow: hidden;
+}
+.bMapAttributesLabel{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	z-index: 999;
+	overflow: hidden;
+}
+
+.mapComboTool{
+	width: 22px;
+}
+
+.findLocationToolInputTxt input[type=text] {
+	height: 25px !important;
+}

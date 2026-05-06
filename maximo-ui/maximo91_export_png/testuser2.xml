@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<presentation id="testuser" ismobile="false" mboname="MAXUSER" resultstableid="results_showlist" version="6.0.0" viewport="1041x600">
+	<page id="mainrec" scroll="false">
+		<include controltoclone="pageHeader" id="INCLUDE-pageHeader"/>
+		<clientarea id="clientarea">
+			<tabgroup id="maintabs" style="form">
+				<tab default="true" id="results" label="List" type="list">
+					<menubar event="search" id="actiontoolbar1" sourcemethod="getAppSearchOptions"/>
+					<table id="results_showlist" inputmode="readonly" label="TABLE TITLE" mboname="MAXUSER" selectmode="multiple">
+						<tablebody displayrowsperpage="20" filterable="true" filterexpanded="true" id="results_showlist_tablebody">
+							<tablecol dataattribute="USERID" filterable="false" id="results_showlist_column_select" mxevent="toggleselectrow" mxevent_desc="Select Row {0}" sortable="false" type="event"/>
+							<tablecol dataattribute="USERID" id="results_showlist_column_link" mxevent="selectrecord" mxevent_desc="Go To %1" type="link" usefieldsizegroup="false"/>
+							<tablecol dataattribute="USERID" id="results_showlist_column1"/>
+							<tablecol filterable="false" id="results_bookmark" mxevent="BOOKMARK" mxevent_desc="Add to Bookmarks" mxevent_icon="btn_addtobookmarks.gif" sortable="false" type="event"/>
+						</tablebody>
+					</table>
+				</tab>
+				<tab id="main" label="Main" type="insert">
+					<section id="maintab_section" label="部分(section)标签">
+						<sectionrow id="1778047058572">
+							<sectioncol id="1778047067016">
+								<textbox label="单行文本框(textbox)必填"  dataattribute="type" id="main_header_r1c3_1" lookup="valuelist"/>
+								<textbox dataattribute="DEFSITE" id="maintab_attr2" label="单行文本框(textbox)常规"/>
+								<textbox dataattribute="USERID" id="maintab_attr1" inputmode="readonly" label="单行文本框(textbox)只读"/>
+							</sectioncol>
+						</sectionrow>
+						<sectionrow id="1778047083384">
+							<sectioncol id="1778047083390">
+								<multiparttextbox label="多部分文本框(multiparttextbox)常规" applink="storeroom,ipc" dataattribute="defstoreroom" descdataattribute="defstoreroom.description" descinputmode="readonly" id="main_site_r1c1_3a" lookup="storeroom" menutype="normal"/>
+								<multiparttextbox  label="多部分文本框(multiparttextbox)只读" dataattribute="userid" descdataattribute="NEWPERSONID" id="1778046936163a"/>
+								<multiparttextbox  label="多部分文本框(multiparttextbox)必填" dataattribute="userid" descdataattribute="NEWPERSONID" descinputmode="required" id="1778046936163b" inputmode="required"/>
+								<multiparttextbox  label="多行文本框(multiparttextbox)只读" dataattribute="userid" descdataattribute="NEWPERSONID" descinputmode="readonly" id="1778046936163c" inputmode="readonly"/>
+							</sectioncol>
+						</sectionrow>
+						<sectionrow id="1778047119393">
+							<sectioncol id="1778047119400"/>
+						</sectionrow>
+						<sectionrow id="1778047122182">
+							<sectioncol id="1778047122188"/>
+						</sectionrow>
+						<sectionrow id="1778047124107">
+							<sectioncol id="1778047124114"/>
+						</sectionrow>
+						<sectionrow id="1778047125602">
+							<sectioncol id="1778047125607">
+								<table id="main_groups_table" label="表格(table)" relationship="GROUPUSER">
+									<tablebody displayrowsperpage="15" filterable="true" id="main_groups_table_tablebody">
+										<tablecol filterable="false" id="main_groups_table_tablebody_1" mxevent="toggledetailstate" mxevent_desc="Show Detail" sortable="false" type="event"/>
+										<tablecol applink="securgroup" dataattribute="groupname" id="main_groups_table_tablebody_2" lookup="maxgroup" menutype="normal"/>
+										<tablecol dataattribute="maxgroup.description" id="main_groups_table_tablebody_3" longdescreadonly="true" lookup="longdesc">
+											<textbox id="main_groups_table_tablebody_3a" inputmode="readonly"/>
+										</tablecol>
+										<tablecol dataattribute="maxgroup.DFLTAPP" id="main_groups_table_tablebody_6" inputmode="readonly" lookup="defaultstartapps"/>
+										<tablecol dataattribute="maxgroup.independent" id="main_groups_table_tablebody_4">
+											<checkbox dataattribute="maxgroup.independent" id="main_groups_table_tablebody_4_box" inputmode="readonly"/>
+										</tablecol>
+										<tablecol filterable="false" id="main_groups_table_tablebody_5" mxevent="toggledeleterow" mxevent_desc="Mark Row for Delete" mxevent_icon="btn_garbage.gif" sortable="false" type="event"/>
+									</tablebody>
+									<tabledetails id="main_groups_table_details">
+										<section id="outersec" label="Details">
+											<sectionrow id="outersec_row1">
+												<sectioncol id="outersec_row1_col1">
+													<section id="main_groups_table_details_sec1">
+														<multiparttextbox applink="securgroup" dataattribute="groupname" defaultfocus="true" descdataattribute="maxgroup.description" descinputmode="readonly" id="main_groups_table_details_sec1_1" lookup="maxgroup" menutype="normal"/>
+														<multiparttextbox dataattribute="maxgroup.DFLTAPP" descdataattribute="maxgroup.STARTUPAPPLICATION.description" id="main_groups_table_details_sec1_3" inputmode="readonly"/>
+													</section>
+												</sectioncol>
+												<sectioncol id="outersec_row1_col2">
+													<section id="main_groups_table_details_sec2">
+														<checkbox dataattribute="maxgroup.independent" id="main_groups_table_details_sec1_2" inputmode="readonly"/>
+													</section>
+												</sectioncol>
+											</sectionrow>
+										</section>
+									</tabledetails>
+									<buttongroup id="main_groups_table_2">
+										<pushbutton id="main_groups_table_2_2" label="Select Groups" mxevent="maxgroupmulti"/>
+										<pushbutton default="true" id="main_groups_table_2_1" label="New Row" mxevent="addrow"/>
+									</buttongroup>
+								</table>
+							</sectioncol>
+						</sectionrow>
+						<textbox dataattribute="MEMO" id="maintab_attr3"/>
+						<textbox dataattribute="NP_STATUSMEMO" id="maintab_attr4"/>
+						<checkbox dataattribute="SYNCHPASSWORDS" id="maintab_attr5"/>
+						<textbox dataattribute="DBPASSWORD" id="maintab_attr6"/>
+						<textbox dataattribute="DBPASSWORDCHECK" id="maintab_attr7"/>
+						<textbox dataattribute="DEFSTOREROOM" id="maintab_attr8"/>
+						<textbox dataattribute="PASSWORD" id="maintab_attr9"/>
+						<checkbox dataattribute="EMAILPSWD" id="maintab_attr10"/>
+						<textbox dataattribute="STOREROOMSITE" id="maintab_attr11"/>
+						<textbox dataattribute="PWHINTANSWER" id="maintab_attr12"/>
+						<textbox dataattribute="PASSWORDOLD" id="maintab_attr13"/>
+						<textbox dataattribute="DEFSITE" id="maintab_attr14"/>
+						<textbox dataattribute="FAILEDLOGINS" id="maintab_attr15"/>
+						<textbox dataattribute="PWEXPIRATION" id="maintab_attr16" lookup="datelookup"/>
+						<textbox dataattribute="STATUS" id="maintab_attr17"/>
+						<checkbox dataattribute="SYSUSER" id="maintab_attr18"/>
+						<checkbox dataattribute="FORCEEXPIRATION" id="maintab_attr19"/>
+						<textbox dataattribute="IM_PASSWORD" id="maintab_attr20"/>
+						<checkbox dataattribute="SCREENREADER" id="maintab_attr21"/>
+						<textbox dataattribute="PASSWORDCHECK" id="maintab_attr22"/>
+						<checkbox dataattribute="INACTIVESITES" id="maintab_attr23"/>
+						<textbox dataattribute="GENERATEDPSWD" id="maintab_attr24"/>
+						<checkbox dataattribute="QUERYWITHSITE" id="maintab_attr25"/>
+						<textbox dataattribute="DATABASEUSERID" id="maintab_attr26"/>
+						<checkbox dataattribute="ISLOCKED" id="maintab_attr28"/>
+						<textbox dataattribute="IBMID" id="maintab_attr29"/>
+						<textbox dataattribute="LICMETRICTYPE" id="maintab_attr30"/>
+						<textbox dataattribute="TIMEOUTNP" id="maintab_attr31"/>
+						<textbox dataattribute="TYPE" id="maintab_attr32"/>
+						<textbox dataattribute="LOGINID" id="maintab_attr33"/>
+						<textbox dataattribute="PASSWORDINPUT" id="maintab_attr34"/>
+						<textbox dataattribute="MAXUSERID" id="maintab_attr35"/>
+						<textbox dataattribute="PWHINTQUESTION" id="maintab_attr36"/>
+						<checkbox dataattribute="STATUSIFACE" id="maintab_attr37"/>
+						<textbox dataattribute="ESIGPASS" id="maintab_attr38"/>
+						<textbox dataattribute="ESIGOLDPASS" id="maintab_attr39"/>
+						<textbox dataattribute="ESIGPASSVER" id="maintab_attr40"/>
+						<textbox dataattribute="DEFAULTREPFACSITEID" id="maintab_attr41"/>
+						<textbox dataattribute="DEFAULTREPFAC" id="maintab_attr42"/>
+						<checkbox dataattribute="ISCONSULTANT" id="maintab_attr43"/>
+						<textbox dataattribute="SIDENAV" id="maintab_attr44"/>
+						<textbox dataattribute="MASISSUER" id="maintab_attr45"/>
+						<textbox dataattribute="COGNOSSYNCSTATUS" id="maintab_attr46"/>
+						<checkbox dataattribute="SYNCPROFILE" id="maintab_attr47"/>
+						<textbox dataattribute="ENTITLEMENT" id="maintab_attr48"/>
+						<textbox dataattribute="ISAUTHORIZED" id="maintab_attr49"/>
+						<textbox dataattribute="EXPIRESAT" id="maintab_attr50" lookup="datelookup"/>
+						<textbox dataattribute="INACTIVITYTIMEOUT" id="maintab_attr51"/>
+						<checkbox dataattribute="SYSTEMADMIN" id="maintab_attr52"/>
+						<checkbox dataattribute="APIKEYADMIN" id="maintab_attr53"/>
+						<checkbox dataattribute="IDPADMIN" id="maintab_attr54"/>
+						<textbox dataattribute="TRIRIGAACCESS" id="maintab_attr55"/>
+						<textbox dataattribute="IOTROLE" id="maintab_attr56"/>
+						<textbox dataattribute="CREATEDDATE" id="maintab_attr57" lookup="datelookup"/>
+						<textbox dataattribute="CREATEDBY" id="maintab_attr58"/>
+						<textbox dataattribute="OWNER" id="maintab_attr59"/>
+						<textbox dataattribute="MASSYNCSTATUS" id="maintab_attr60"/>
+						<textbox dataattribute="MASERRORCODE" id="maintab_attr61"/>
+						<textbox dataattribute="CHANGEDATE" id="maintab_attr62" lookup="datelookup"/>
+						<textbox dataattribute="CHANGEBY" id="maintab_attr63"/>
+						<checkbox dataattribute="APPLYGDPRONDELETE" id="maintab_attr64"/>
+					</section>
+				</tab>
+			</tabgroup>
+		</clientarea>
+		<include controltoclone="pageFooter" id="INCLUDE-pageFooter"/>
+	</page>
+
+	<dialog beanclass="psdi.webclient.system.beans.QbeBean" id="searchmore" inputmode="query" label="More Search Fields">
+		<section id="searchmore_1">
+			<textbox dataattribute="USERID" id="searchmore_attr1"/>
+			<textbox dataattribute="NEWPERSONID" id="searchmore_attr2"/>
+			<textbox dataattribute="MEMO" id="searchmore_attr3"/>
+			<textbox dataattribute="NP_STATUSMEMO" id="searchmore_attr4"/>
+			<checkbox dataattribute="SYNCHPASSWORDS" id="searchmore_attr5"/>
+			<textbox dataattribute="DBPASSWORD" id="searchmore_attr6"/>
+			<textbox dataattribute="DBPASSWORDCHECK" id="searchmore_attr7"/>
+			<textbox dataattribute="DEFSTOREROOM" id="searchmore_attr8"/>
+			<textbox dataattribute="PASSWORD" id="searchmore_attr9"/>
+			<checkbox dataattribute="EMAILPSWD" id="searchmore_attr10"/>
+			<textbox dataattribute="STOREROOMSITE" id="searchmore_attr11"/>
+			<textbox dataattribute="PWHINTANSWER" id="searchmore_attr12"/>
+			<textbox dataattribute="PASSWORDOLD" id="searchmore_attr13"/>
+			<textbox dataattribute="DEFSITE" id="searchmore_attr14"/>
+			<textbox dataattribute="FAILEDLOGINS" id="searchmore_attr15"/>
+			<textbox dataattribute="PWEXPIRATION" id="searchmore_attr16" lookup="datelookup"/>
+			<textbox dataattribute="STATUS" id="searchmore_attr17"/>
+			<checkbox dataattribute="SYSUSER" id="searchmore_attr18"/>
+			<checkbox dataattribute="FORCEEXPIRATION" id="searchmore_attr19"/>
+			<textbox dataattribute="IM_PASSWORD" id="searchmore_attr20"/>
+			<checkbox dataattribute="SCREENREADER" id="searchmore_attr21"/>
+			<textbox dataattribute="PASSWORDCHECK" id="searchmore_attr22"/>
+			<checkbox dataattribute="INACTIVESITES" id="searchmore_attr23"/>
+			<textbox dataattribute="GENERATEDPSWD" id="searchmore_attr24"/>
+			<checkbox dataattribute="QUERYWITHSITE" id="searchmore_attr25"/>
+			<textbox dataattribute="DATABASEUSERID" id="searchmore_attr26"/>
+			<checkbox dataattribute="ISLOCKED" id="searchmore_attr28"/>
+			<textbox dataattribute="IBMID" id="searchmore_attr29"/>
+			<textbox dataattribute="LICMETRICTYPE" id="searchmore_attr30"/>
+			<textbox dataattribute="TIMEOUTNP" id="searchmore_attr31"/>
+			<textbox dataattribute="TYPE" id="searchmore_attr32"/>
+			<textbox dataattribute="LOGINID" id="searchmore_attr33"/>
+			<textbox dataattribute="PASSWORDINPUT" id="searchmore_attr34"/>
+			<textbox dataattribute="MAXUSERID" id="searchmore_attr35"/>
+			<textbox dataattribute="PWHINTQUESTION" id="searchmore_attr36"/>
+			<checkbox dataattribute="STATUSIFACE" id="searchmore_attr37"/>
+			<textbox dataattribute="ESIGPASS" id="searchmore_attr38"/>
+			<textbox dataattribute="ESIGOLDPASS" id="searchmore_attr39"/>
+			<textbox dataattribute="ESIGPASSVER" id="searchmore_attr40"/>
+			<textbox dataattribute="DEFAULTREPFACSITEID" id="searchmore_attr41"/>
+			<textbox dataattribute="DEFAULTREPFAC" id="searchmore_attr42"/>
+			<checkbox dataattribute="ISCONSULTANT" id="searchmore_attr43"/>
+			<textbox dataattribute="SIDENAV" id="searchmore_attr44"/>
+			<textbox dataattribute="MASISSUER" id="searchmore_attr45"/>
+			<textbox dataattribute="COGNOSSYNCSTATUS" id="searchmore_attr46"/>
+			<checkbox dataattribute="SYNCPROFILE" id="searchmore_attr47"/>
+			<textbox dataattribute="ENTITLEMENT" id="searchmore_attr48"/>
+			<textbox dataattribute="ISAUTHORIZED" id="searchmore_attr49"/>
+			<textbox dataattribute="EXPIRESAT" id="searchmore_attr50" lookup="datelookup"/>
+			<textbox dataattribute="INACTIVITYTIMEOUT" id="searchmore_attr51"/>
+			<checkbox dataattribute="SYSTEMADMIN" id="searchmore_attr52"/>
+			<checkbox dataattribute="APIKEYADMIN" id="searchmore_attr53"/>
+			<checkbox dataattribute="IDPADMIN" id="searchmore_attr54"/>
+			<textbox dataattribute="TRIRIGAACCESS" id="searchmore_attr55"/>
+			<textbox dataattribute="IOTROLE" id="searchmore_attr56"/>
+			<textbox dataattribute="CREATEDDATE" id="searchmore_attr57" lookup="datelookup"/>
+			<textbox dataattribute="CREATEDBY" id="searchmore_attr58"/>
+			<textbox dataattribute="OWNER" id="searchmore_attr59"/>
+			<textbox dataattribute="MASSYNCSTATUS" id="searchmore_attr60"/>
+			<textbox dataattribute="MASERRORCODE" id="searchmore_attr61"/>
+			<textbox dataattribute="CHANGEDATE" id="searchmore_attr62" lookup="datelookup"/>
+			<textbox dataattribute="CHANGEBY" id="searchmore_attr63"/>
+			<checkbox dataattribute="APPLYGDPRONDELETE" id="searchmore_attr64"/>
+		</section>
+		<buttongroup id="searchmore_buttongroup">
+			<pushbutton default="true" id="searchmore_buttongroup_1" label="Find" mxevent="dialogok"/>
+			<pushbutton id="qbe_restoreappdefault_button" label="Restore Application Defaults" mxevent="qbeclear"/>
+			<pushbutton id="qbe_revisebutton" label="Revise" menutype="SEARCHMOREREVISE" targetid="searchmore"/>
+			<pushbutton id="searchmore_buttongroup_3" label="Cancel" mxevent="qbecancel"/>
+		</buttongroup>
+	</dialog>
+
+	<dialog beanclass="psdi.webclient.system.beans.ViewBookmarksBean" id="searchbook" label="My Bookmarks" mboname="MAXUSER">
+		<table id="bookmarks_table" inputmode="readonly" selectmode="single">
+			<tablebody displayrowsperpage="20" filterable="true" id="bookmarks_table_tablebody">
+				<tablecol dataattribute="USERID" id="bookmarks_tablecolumn_1" mxevent="selectrecord" type="link"/>
+				<tablecol dataattribute="description" id="bookmarks_tablecolumn_2"/>
+				<tablecol filterable="false" id="bookmarks_tablecolumn_3" mxevent="instantdelete" mxevent_desc="Delete" mxevent_icon="btn_delete.gif" sortable="false" type="event"/>
+			</tablebody>
+		</table>
+		<buttongroup id="bookmarks_2">
+			<pushbutton default="true" id="bookmarks_2_1" label="OK" mxevent="dialogok"/>
+		</buttongroup>
+	</dialog>
+	<configurationblock id="datastore_configurationblock">
+	</configurationblock>
+</presentation>

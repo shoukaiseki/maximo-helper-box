@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>modimg_operationalDashboard</title>
+    <g id="modimg_operationalDashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Actions-/-Controls-/-pause--outline-/-16-Copy-2" transform="translate(1.000000, 1.000000)" fill="#FFFFFF">
+            <path d="M11,9.5 L12,9.5 L12,12 L11,12 L11,9.5 Z M9,7 L10,7 L10,12 L9,12 L9,7 Z M4.5,12 C3.11997342,11.9983469 2.00165306,10.8800266 2,9.5 L3,9.5 C3,10.3284271 3.67157288,11 4.5,11 C5.32842712,11 6,10.3284271 6,9.5 C6,8.67157288 5.32842712,8 4.5,8 L4.5,7 C5.88071187,7 7,8.11928813 7,9.5 C7,10.8807119 5.88071187,12 4.5,12 Z M13,0 L1,0 C0.447943738,0.00055122983 0.00055122983,0.447943738 0,1 L0,13 C0.00055122983,13.5520563 0.447943738,13.9994488 1,14 L13,14 C13.5519422,13.9991739 13.9991739,13.5519422 14,13 L14,1 C13.9994488,0.447943738 13.5520563,0.00055122983 13,0 Z M13,4.5 L6,4.5 L6,1 L13,1 L13,4.5 Z M5,1 L5,4.5 L1,4.5 L1,1 L5,1 Z M1,13 L1,5.5 L13,5.5 L13.001,13 L1,13 Z" id="Fill"></path>
+        </g>
+    </g>
+</svg>
