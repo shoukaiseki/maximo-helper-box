@@ -19,7 +19,7 @@
 ## 技术栈
 
 - **框架**: Solon 3.10.4
-- **MCP协议**: solon-ai-mcp (STREAMABLE/SSE 传输)
+- **MCP协议**: solon-ai-mcp (SSE 传输)
 - **数据库**: IBM DB2 (for Maximo)
 - **数据访问**: solon-data-sqlutils (轻量 JDBC 工具)
 - **连接池**: HikariCP
@@ -79,15 +79,14 @@ mvn clean package -DskipTests
 java -jar target/maximo-db2-mcp.jar
 ```
 
-服务默认监听 `8081` 端口，MCP 端点路径为 `/mcp`。
+服务默认监听 `21001` 端口，MCP 端点路径为 `/sse`。
 
 ### 5. MCP 连接信息
 
 服务启动后，可通过以下地址访问：
 
-- **MCP 端点**: `http://localhost:8081/mcp`
+- **MCP 端点**: `http://localhost:21001/sse`
 - **传输协议**: SSE (Server-Sent Events)
-- **服务类型**: STREAMABLE
 
 #### Claude Desktop 配置示例
 
@@ -97,7 +96,7 @@ java -jar target/maximo-db2-mcp.jar
 {
   "mcpServers": {
     "maximo-db2": {
-      "url": "http://localhost:8081/mcp",
+      "url": "http://localhost:21001/sse",
       "type": "sse"
     }
   }
@@ -111,7 +110,7 @@ java -jar target/maximo-db2-mcp.jar
   "mcpServers": {
     "maximo-db2": {
       "type": "sse",
-      "url": "http://localhost:8080/mcp"
+      "url": "http://localhost:21001/sse"
     }
   }
 }
@@ -230,8 +229,7 @@ maximo-db2-mcp/
 
 ### Q: 如何更换 MCP 传输方式？
 修改 `@McpServerEndpoint` 注解中的 `channel` 参数：
-- `McpChannel.STREAMABLE` - SSE 流式（推荐）
-- `McpChannel.SSE` - 标准 SSE
+- `McpChannel.SSE` - 标准 SSE（当前使用）
 - `McpChannel.STDIO` - 标准输入输出
 
 ### Q: 查询超时怎么办？

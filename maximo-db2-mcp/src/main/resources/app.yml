@@ -1,12 +1,15 @@
-server.port: 8081
+server.port: 21001
 
 solon.app:
   name: "maximo-db2-mcp"
   group: "maximo"
 
-# 引入数据库配置(敏感信息独立管理)
 #solon.include: app-db.yml
-solon.include: app-sks.yml
+# 引入数据库配置(敏感信息独立管理)
+solon.config.load:
+  - "app-db.yml"
+#  - "app-db-example.yml"
+
 
 # ===================================================
 # MCP 服务配置

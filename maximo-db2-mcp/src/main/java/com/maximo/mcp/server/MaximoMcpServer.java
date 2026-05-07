@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  * MAXOBJECT（对象定义）、MAXATTRIBUTE（字段定义）、
  * MAXRELATIONSHIP（关联关系）、MAXAPPS/APPSPECIFICS（应用XML）
  */
-@McpServerEndpoint(channel = McpChannel.STREAMABLE, mcpEndpoint = "/mcp")
+@McpServerEndpoint(channel = McpChannel.SSE, mcpEndpoint = "/sse")
 public class MaximoMcpServer {
 
     @Inject("maximo")
@@ -46,7 +46,7 @@ public class MaximoMcpServer {
     //  工具 1：查询对象定义（MAXOBJECT）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 对象定义信息（MAXOBJECT 表）。支持按对象名称模糊搜索，返回对象的类名、表名、描述等基本信息")
+//    @ToolMapping(description = "查询 Maximo 对象定义信息（MAXOBJECT 表）。支持按对象名称模糊搜索，返回对象的类名、表名、描述等基本信息")
     public String queryMaxobjects(
             @Param(name = "objectName", description = "对象名称关键词，支持 % 通配符（例如：%WO%、WORKORDER、%ASSET%）") String objectName,
             @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
@@ -61,7 +61,7 @@ public class MaximoMcpServer {
     //  工具 2：查询字段/属性定义（MAXATTRIBUTE）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 属性/字段定义（MAXATTRIBUTE 表）。支持按对象名称和属性名称模糊搜索，返回字段类型、长度、是否必填等信息")
+//    @ToolMapping(description = "查询 Maximo 属性/字段定义（MAXATTRIBUTE 表）。支持按对象名称和属性名称模糊搜索，返回字段类型、长度、是否必填等信息")
     public String queryMaxattributes(
             @Param(name = "objectName", description = "所属对象名称关键词（支持 % 通配符）") String objectName,
             @Param(name = "attributeName", description = "属性名称关键词（支持 % 通配符），为空时返回所有属性") String attributeName,
@@ -92,7 +92,7 @@ public class MaximoMcpServer {
     //  工具 3：查询关联关系（MAXRELATIONSHIP）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 关联关系定义（MAXRELATIONSHIP 表）。支持按源对象名称或关系名称模糊搜索，返回关联类型、目标对象、关联条件等信息")
+//    @ToolMapping(description = "查询 Maximo 关联关系定义（MAXRELATIONSHIP 表）。支持按源对象名称或关系名称模糊搜索，返回关联类型、目标对象、关联条件等信息")
     public String queryMaxrelationships(
             @Param(name = "className", description = "源对象类名关键词（支持 % 通配符）") String className,
             @Param(name = "relationshipName", description = "关联名称关键词（支持 % 通配符），为空时返回该对象所有关联") String relationshipName,
@@ -125,7 +125,7 @@ public class MaximoMcpServer {
     //  工具 4：查询应用注册信息（MAXAPPS）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 应用注册信息（MAXAPPS 表）。返回应用的名称、描述、主对象等信息")
+//    @ToolMapping(description = "查询 Maximo 应用注册信息（MAXAPPS 表）。返回应用的名称、描述、主对象等信息")
     public String queryAppXml(
             @Param(name = "appName", description = "应用名称关键词，支持 % 通配符（例如：%WO%、CHANGE%、%ASSET%）") String appName,
             @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
@@ -145,7 +145,7 @@ public class MaximoMcpServer {
     //  工具 5：查询应用 XML 详细内容（MAXPRESENTATION）
     // ========================================================================
 
-    @ToolMapping(description = "查询 Maximo 应用的 XML 详细配置内容（MAXPRESENTATION 表）。返回应用的完整演示配置 XML")
+//    @ToolMapping(description = "查询 Maximo 应用的 XML 详细配置内容（MAXPRESENTATION 表）。返回应用的完整演示配置 XML")
     public String queryAppSpecificsXml(
             @Param(name = "app", description = "应用名称关键词，支持 % 通配符") String app,
             @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
@@ -164,7 +164,7 @@ public class MaximoMcpServer {
     //  工具 6：通用只读 SQL 查询（带安全校验）
     // ========================================================================
 
-    @ToolMapping(description = "通用只读 SQL 查询。仅允许 SELECT 语句，自动限制行数，返回 JSON 格式结果集")
+    @ToolMapping(description = "通用只读 SQL 查询。仅允许 SELECT 语句，自动限制行数，返回 JSON 格式结果集,在最后会加个for read only")
     public String queryBySql(
             @Param(name = "sql", description = "要执行的 SELECT 查询语句（只读，禁止 INSERT/UPDATE/DELETE/DROP 等操作）") String sql,
             @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
@@ -183,6 +183,13 @@ public class MaximoMcpServer {
             }
         }
 
+        // 如果 SQL 不是以 FOR READ ONLY 结尾，则添加（不区分大小写，考虑多个空格）
+        String trimmedSql = sql.trim();
+        // 使用正则表达式检查是否以 FOR READ ONLY 结尾（不区分大小写，允许多个空格）
+        if (!trimmedSql.toUpperCase().replaceAll("\\s+", " ").endsWith("FOR READ ONLY")) {
+            sql = sql + " FOR READ ONLY";
+        }
+
         return queryAsJson(sql, new Object[]{}, limit);
     }
 
@@ -191,7 +198,7 @@ public class MaximoMcpServer {
     //  工具 7：数据库概览统计
     // ========================================================================
 
-    @ToolMapping(description = "获取 Maximo 数据库概览信息。统计 MAXOBJECT、MAXATTRIBUTE、MAXRELATIONSHIP、MAXAPPS 等核心表的记录数")
+//    @ToolMapping(description = "获取 Maximo 数据库概览信息。统计 MAXOBJECT、MAXATTRIBUTE、MAXRELATIONSHIP、MAXAPPS 等核心表的记录数")
     public String getDatabaseOverview() {
         StringBuilder result = new StringBuilder();
         result.append("{\"overview\": [\n");
