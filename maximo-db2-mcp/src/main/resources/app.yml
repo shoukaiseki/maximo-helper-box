@@ -21,3 +21,20 @@ solon.logging:
   level:
     root: "info"
     com.maximo: "debug"
+# log
+solon.logging.appender:
+  console:
+    level: DEBUG
+    enable: true #是否启用
+    pattern: "%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] \n %msg%n"
+  file:
+    name: "logs/${solon.app.name}"
+    level: DEBUG
+    enable: true #是否启用
+    extension: ".log"   #v2.2.18 后支持（例：.log, .log.gz, .log.zip）
+    maxFileSize: "10 MB"
+    maxHistory: "7"
+    pattern: "%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n"
+  cloud:
+    level: INFO
+    enable: false #是否启用

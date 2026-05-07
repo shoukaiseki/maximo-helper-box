@@ -7,6 +7,8 @@ import org.noear.solon.annotation.Inject;
 import org.noear.solon.annotation.Param;
 import org.noear.solon.core.util.LogUtil;
 import org.noear.snack.ONode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -29,6 +31,8 @@ import java.util.regex.Pattern;
  */
 @McpServerEndpoint(channel = McpChannel.SSE, mcpEndpoint = "/sse")
 public class MaximoMcpServer {
+
+    public static final Logger logger = LoggerFactory.getLogger(MaximoMcpServer.class);
 
     @Inject("maximo")
     private DataSource dataSource;
@@ -226,10 +230,12 @@ public class MaximoMcpServer {
     //  辅助方法
     // ========================================================================
 
+
     /**
      * 执行 SQL 查询并以 JSON 字符串返回结果
      */
     private String queryAsJson(String sql, Object[] params, Integer limit) {
+        logger.info("Executing SQL query: " + sql);
         int maxRows = (limit != null && limit > 0) ? Math.min(limit, 1000) : DEFAULT_LIMIT;
         List<Map<String, Object>> rows = new ArrayList<>();
 

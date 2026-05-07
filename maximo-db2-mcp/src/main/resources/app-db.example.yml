@@ -4,7 +4,7 @@
 
 # ===================================================
 maximo.db:
-  jdbcUrl: "jdbc:db2://127.0.0.1:50000/MAXIMO"
+  jdbcUrl: "jdbc:db2://127.0.0.1:50000/MAXIMO:currentSchema=MAXIMO;"
   driverClassName: "com.ibm.db2.jcc.DB2Driver"
   username: "localhost"
   password: "123456"

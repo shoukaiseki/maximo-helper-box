@@ -43,6 +43,11 @@ nbdist/
 !*/build/*.xml
 
 ######################################################################
+# Logs Directory
+logs/
+*.log.gz
+
+######################################################################
 # Sensitive Configuration
 app-db.yml
 src/main/resources/app-db.yml

@@ -57,13 +57,15 @@ cd maximo-db2-mcp
 2. 编辑 `src/main/resources/app-db.yml`，配置数据库连接信息：
    ```yaml
    maximo.db:
-     jdbcUrl: "jdbc:db2://<host>:<port>/<database>"
+     jdbcUrl: "jdbc:db2://<host>:<port>/<database>:currentSchema=<schema>;"
      driverClassName: "com.ibm.db2.jcc.DB2Driver"
      username: "<your-username>"
      password: "<your-password>"
      maximumPoolSize: 10
      minimumIdle: 2
    ```
+   
+   **重要：** `currentSchema` 参数指定 Maximo 数据所在的 schema（例如：`MAXIMO`、`MAXDB`），请根据实际情况修改。
 
 3. `app.yml` 已通过 `solon.include: app-db.yml` 自动引入数据库配置，无需修改。
 
@@ -72,6 +74,21 @@ cd maximo-db2-mcp
 ```bash
 mvn clean package -DskipTests
 ```
+
+### 3.1 运行单元测试（可选）
+
+```bash
+# 运行所有测试
+mvn test
+
+# 运行指定测试类
+mvn test -Dtest=MaximoMcpServerTest
+
+# 运行指定测试方法
+mvn test -Dtest=MaximoMcpServerTest#testQueryBySql_ValidSelect
+```
+
+**注意：** 运行测试需要配置好 `app-db.yml` 中的数据库连接信息，测试会实际连接数据库。
 
 ### 4. 启动服务
 
@@ -184,6 +201,9 @@ maximo-db2-mcp/
 ├── .gitignore                           # Git 忽略规则
 ├── run-solon.bat                        # Windows 启动脚本
 ├── README.md                            # 项目说明文档
+├── logs/                                # 日志文件目录（自动生成）
+│   ├── maximo-db2-mcp.log              # 主日志文件
+│   └── maximo-db2-mcp-error.log        # 错误日志文件
 ├── src/
 │   └── main/
 │       ├── resources/
@@ -234,6 +254,21 @@ maximo-db2-mcp/
 
 ### Q: 查询超时怎么办？
 可在 `app.yml` 中调整连接池参数，或使用 `limit` 参数减少返回数据量。
+
+### Q: 提示找不到表（SQLCODE=-204）怎么办？
+这是因为未指定正确的 schema。请在 `app-db.yml` 的 `jdbcUrl` 中添加 `currentSchema` 参数：
+```yaml
+jdbcUrl: "jdbc:db2://host:port/database:currentSchema=MAXIMO;"
+```
+将 `MAXIMO` 替换为你实际的 schema 名称。
+
+### Q: 日志文件在哪里？
+日志文件位于项目根目录的 `logs/` 文件夹下：
+- `maximo-db2-mcp.log` - 主日志文件（按天滚动，保留30天）
+- `maximo-db2-mcp-error.log` - 错误日志文件（单独记录ERROR级别日志）
+
+### Q: 如何修改日志格式或级别？
+编辑 `app.yml` 中的 `solon.logging` 配置项来调整日志级别。
 
 ## License
 

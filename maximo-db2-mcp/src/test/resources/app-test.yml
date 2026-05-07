@@ -1,0 +1,14 @@
+server.port: 21002
+
+solon.app:
+  name: "maximo-db2-mcp-test"
+  group: "maximo"
+
+solon.config.load:
+  - "app-db.yml"
+
+# 测试环境日志级别
+solon.logging:
+  level:
+    root: "DEBUG"
+    com.maximo: "DEBUG"

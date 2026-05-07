@@ -75,6 +75,13 @@
             <version>11.5.9.0</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>solon-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
