@@ -8,12 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>批量复选框勾选助手</h1>
+        <h1>maximo91-chrome插件</h1>
         
         <div class="control-group">
             <label for="selector-type">选择器类型:</label>
             <select id="selector-type">
-                <option value="cds-checkbox">CDS 复选框 (cds--checkbox)</option>
+                <option value="cds-checkbox">安全组授权多选 (cds--checkbox)</option>
                 <option value="custom">自定义选择器</option>
                 <option value="all">所有复选框</option>
             </select>
@@ -30,6 +30,13 @@
             <button id="toggle-selection" class="btn btn-warning">反选</button>
         </div>
 
+        <div class="control-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="auto-loop" />
+                <span>循环操作（最多20次，无变化时自动检查5次）</span>
+            </label>
+        </div>
+
         <div class="stats">
             <p>找到 <span id="checkbox-count">0</span> 个复选框</p>
             <p>已勾选 <span id="checked-count">0</span> 个</p>
@@ -37,6 +44,7 @@
 
         <div class="actions">
             <button id="refresh-count" class="btn btn-info">刷新统计</button>
+            <button id="help-btn" class="btn btn-help">📖 帮助文档</button>
         </div>
     </div>
 

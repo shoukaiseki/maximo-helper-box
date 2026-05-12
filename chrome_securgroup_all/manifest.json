@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "批量复选框勾选助手",
+  "name": "maximo91-chrome插件",
   "version": "1.0.6",
   "description": "帮助批量勾选页面上的复选框，特别适用于 cds--checkbox 类型的复选框",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html"
