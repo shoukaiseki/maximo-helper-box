@@ -4,29 +4,54 @@
     <p class="subtitle">基于 Maximo 设计规范的 Vue 3 组件库</p>
     
     <div class="nav-links">
-      <router-link to="/components-demo" class="nav-card">
-        <h3>📦 组件演示</h3>
-        <p>查看所有 Maximo 组件的使用示例</p>
+      <router-link to="/purchase-order-list" class="nav-card">
+        <h3>📋 采购订单列表</h3>
+        <p>采购订单管理列表页面</p>
       </router-link>
       
-      <router-link to="/button-demo" class="nav-card">
-        <h3>🔘 按钮组件</h3>
-        <p>MaximoButton 和 MaximoButtonGroup 组件演示</p>
+      <router-link to="/purchase-order-detail" class="nav-card">
+        <h3>📄 采购订单详情</h3>
+        <p>包含3个子表和多标签页的详情页面</p>
       </router-link>
       
-      <router-link to="/parts-application-list" class="nav-card">
-        <h3>📋 零件登记申请列表</h3>
-        <p>零件登记申请管理页面</p>
+      <router-link to="/supplier-list" class="nav-card">
+        <h3>🏭 供应商管理列表</h3>
+        <p>供应商信息管理列表</p>
       </router-link>
       
-      <router-link to="/parts-application-detail" class="nav-card">
-        <h3>📝 零件登记申请详情</h3>
-        <p>零件登记申请详情表单页面</p>
+      <router-link to="/supplier-detail" class="nav-card">
+        <h3>🏭 供应商详情</h3>
+        <p>包含3个子表、附件和复选框的详情页面</p>
       </router-link>
       
-      <router-link to="/inquiry-detail" class="nav-card">
-        <h3>💰 询价单详情</h3>
-        <p>询价单详细信息页面</p>
+      <router-link to="/employee-list" class="nav-card">
+        <h3>👥 员工管理列表</h3>
+        <p>员工信息管理列表</p>
+      </router-link>
+      
+      <router-link to="/employee-detail" class="nav-card">
+        <h3> 员工详情 ⭐</h3>
+        <p>综合示例：使用所有15个组件的详情页面</p>
+      </router-link>
+      
+      <router-link to="/work-order-list" class="nav-card">
+        <h3>🔧 设备维护工单列表</h3>
+        <p>设备维护工单管理列表</p>
+      </router-link>
+      
+      <router-link to="/work-order-detail" class="nav-card">
+        <h3>🔨 设备维护工单详情</h3>
+        <p>包含3个子表、附件和多行文本框的详情页面</p>
+      </router-link>
+      
+      <router-link to="/asset-list" class="nav-card">
+        <h3>️ 资产管理列表</h3>
+        <p>资产信息管理列表</p>
+      </router-link>
+      
+      <router-link to="/asset-detail" class="nav-card">
+        <h3>🏗️ 资产详情</h3>
+        <p>包含3个子表、附件和复选框的详情页面</p>
       </router-link>
     </div>
   </div>

@@ -14,17 +14,30 @@
 
 ## 组件列表
 
-- **MaximoButton**: Maximo 风格按钮组件
-- **MaximoTable**: Maximo 风格表格组件
+### 布局组件
+- **MaximoSection**: Maximo 风格区块组件
+- **MaximoSectionRow**: Maximo 风格行布局组件
+- **MaximoSectionCol**: Maximo 风格列布局组件
+
+### 表单组件
 - **MaximoTextbox**: Maximo 风格文本框组件
 - **MaximoLabel**: Maximo 风格标签组件
 - **MaximoCheckbox**: Maximo 风格复选框组件
-- **MaximoSection**: Maximo 风格区块组件
-- **MaximoTabs**: Maximo 风格标签页组件
-- **MaximoButtonGroup**: Maximo 风格按钮组组件
 - **MaximoMultilineTextbox**: Maximo 风格多行文本框组件
 - **MaximoMultipartTextbox**: Maximo 风格多部分文本框组件
+
+### 数据展示组件
+- **MaximoTable**: Maximo 风格表格组件
+- **MaximoTableDetail**: Maximo 风格表格详情组件
 - **MaximoAttachments**: Maximo 风格附件组件
+
+### 导航组件
+- **MaximoTabs**: Maximo 风格标签页容器组件
+- **MaximoTab**: Maximo 风格单个标签页组件
+
+### 操作组件
+- **MaximoButton**: Maximo 风格按钮组件
+- **MaximoButtonGroup**: Maximo 风格按钮组组件
 
 ## 项目结构
 
