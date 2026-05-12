@@ -4,3 +4,16 @@
 ```
 <div class="cds--form-item cds--checkbox-wrapper" style="user-select: auto;"><input label="" type="checkbox" class="cds--checkbox" id="mk_y5_items_INSERT_selectionCheckBoxInput" checked="" tabindex="-1" style="user-select: auto;"><label for="mk_y5_items_INSERT_selectionCheckBoxInput" class="cds--checkbox-label" title="" style="user-select: auto;"><span class="cds--checkbox-label-text" dir="auto" style="user-select: auto;"></span></label><div class="cds--checkbox__validation-msg" style="user-select: auto;"></div></div>
 ```
+
+
+
+我的mcp配置
+```
+  "chrome-sks-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
+      ]
+    }
+```

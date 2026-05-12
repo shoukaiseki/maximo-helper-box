@@ -1,0 +1,28 @@
+{
+  "name": "maximo-helper-box-ui",
+  "description": "A Vue.js component library inspired by IBM Maximo ERP system UI",
+  "version": "1.0.0",
+  "type": "module",
+  "keywords": [
+    "vue",
+    "maximo",
+    "erp",
+    "components",
+    "ui"
+  ],
+  "author": "Maximo Helper Box Contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.32",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.6",
+    "vite": "^8.0.10"
+  }
+}

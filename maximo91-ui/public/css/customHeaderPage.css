@@ -1,0 +1,30 @@
+/*
+* Licensed Materials - Property of IBM
+* "Restricted Materials of IBM"
+* 5724-U18, 5737-M66
+* (C) COPYRIGHT IBM CORP.   2021 All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with
+* IBM Corp.
+*
+*/
+.mx--custom-header {
+  /*
+  * Use this for static classes and styles for the customHeaderPage 
+  * This file is intended for client modifications, but they must be maintained by the client as we do not guarantee 
+  * that it will not change or be overwritten in fix packs or upgrades.
+  */
+  padding: 0.5rem 1rem;
+  min-height: 1rem;
+  background: #acacac;
+  display: flex; 
+  align-items: center;
+}
+
+.mx--custom-header > div,
+.mx--custom-header > h4 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-inline-end: 0.5rem;
+}
