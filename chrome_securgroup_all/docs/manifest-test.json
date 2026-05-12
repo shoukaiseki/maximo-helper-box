@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "插件测试-最简单版本",
+  "version": "1.0.0",
+  "description": "测试插件是否能加载",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-simple.js"]
+    }
+  ]
+}

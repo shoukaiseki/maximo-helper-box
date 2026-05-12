@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo 安全组批量授权助手 - 帮助文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #007cba;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        h2 {
+            color: #007cba;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+        
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #007cba;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .back-btn:hover {
+            background-color: #005a87;
+        }
+        
+        .emoji {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="window.close()">← 关闭</a>
+        
+        <h1><span class="emoji">📘</span> Maximo 安全组批量授权助手</h1>
+        <p class="subtitle">专为 Maximo 9.1 系统设计的 Chrome 浏览器插件</p>
+        
+        <h2><span class="emoji">📋</span> 插件简介</h2>
+        <p>这是一个专为 <strong>Maximo 9.1</strong> 系统设计的 Chrome 浏览器插件，主要用于在<strong>安全组批量授权</strong>场景中快速勾选/取消勾选大量复选框。</p>
+        
+        <div class="info">
+            <strong>适用场景：</strong>
+            <ul>
+                <li>Maximo 安全组（Security Groups）批量授权</li>
+                <li>需要勾选大量权限复选框的场景</li>
+                <li>支持动态加载的长列表页面</li>
+                <li>任何使用 <code>cds--checkbox</code> 组件的页面</li>
+            </ul>
+        </div>
+        
+        <h2><span class="emoji">🚀</span> 快速开始</h2>
+        
+        <h3>1. 安装插件</h3>
+        <ol>
+            <li>打开 Chrome 浏览器</li>
+            <li>访问 <code>chrome://extensions/</code></li>
+            <li>开启右上角的 <strong>"开发者模式"</strong></li>
+            <li>点击 <strong>"加载已解压的扩展程序"</strong></li>
+            <li>选择插件所在目录（包含 <code>manifest.json</code> 的文件夹）</li>
+            <li>插件安装成功！</li>
+        </ol>
+        
+        <h3>2. 验证安装</h3>
+        <p>在 Chrome 工具栏找到插件图标，点击图标，应该能看到操作界面。</p>
+        
+        <h2><span class="emoji">💡</span> 核心功能</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>功能</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="emoji">🔘</span> 全选</td>
+                    <td>勾选当前页面所有复选框</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">⭕</span> 取消全选</td>
+                    <td>取消当前页面所有复选框的勾选</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">🔄</span> 反选</td>
+                    <td>反转所有复选框的勾选状态</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">♻️</span> 循环操作</td>
+                    <td>自动滚动并处理所有复选框（最多20次）</td>
+                </tr>
+                <tr>
+                    <td><span class="emoji">📊</span> 实时统计</td>
+                    <td>显示复选框总数和已勾选数量</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2><span class="emoji">🎯</span> Maximo 安全组批量授权操作步骤</h2>
+        
+        <div class="highlight">
+            <strong>问题背景：</strong>在 Maximo 系统中，为安全组授权时，可能需要勾选数百个权限项。手动逐个勾选效率极低，且容易遗漏。
+        </div>
+        
+        <h3>详细步骤：</h3>
+        
+        <ol>
+            <li>
+                <strong>进入安全组授权页面</strong>
+                <pre>系统管理 → 安全组 → 选择安全组 → 应用程序选项卡 → 授权</pre>
+            </li>
+            
+            <li>
+                <strong>打开插件</strong>
+                <p>点击 Chrome 工具栏上的插件图标</p>
+            </li>
+            
+            <li>
+                <strong>启用循环操作</strong>
+                <ul>
+                    <li>✅ 勾选 "循环操作（最多20次，无变化时自动检查5次）"</li>
+                    <li>这个选项会持久保存，下次打开插件仍然有效</li>
+                </ul>
+            </li>
+            
+            <li>
+                <strong>执行全选</strong>
+                <ul>
+                    <li>点击 <strong>"全选"</strong> 按钮</li>
+                    <li>插件会自动：
+                        <ul>
+                            <li>勾选当前可见的所有复选框</li>
+                            <li>检查是否还有未勾选的</li>
+                            <li>如果有，自动滚动页面加载更多</li>
+                            <li>重复上述过程，直到所有复选框都被勾选</li>
+                            <li>最后进行5次验证确认</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>
+                <strong>查看结果</strong>
+                <ul>
+                    <li>右键点击插件图标 → "审查弹出内容"</li>
+                    <li>在控制台中查看详细执行日志</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <div class="success">
+            <strong>预期效果：</strong>
+            <pre>[POPUP] 🔄 开始循环全选，最大循环次数: 20
+[POPUP] === 第 1 次循环 ===
+[POPUP] 📊 检查结果: 总数=50, 已勾选=50, 未勾选=0
+[POPUP] ✅ 检测到所有复选框已勾选，开始验证确认...
+[POPUP] 🔍 === 第 1 次验证检查 ===
+[POPUP] ⏱️ 等待1秒后进行第 1 次验证...
+[POPUP] 📊 第 1 次验证结果: 总数=50, 已勾选=50, 未勾选=0
+[POPUP] ✅ 第 1 次验证通过：仍然全部勾选
+...
+[POPUP] ✅ 验证完成：连续5次确认全部勾选
+[POPUP] 📊 最终结果: 共循环 1 次，已勾选 50/50 个复选框</pre>
+        </div>
+        
+        <h2><span class="emoji">🔧</span> 循环操作机制</h2>
+        
+        <h3>工作流程</h3>
+        <ol>
+            <li>执行全选/取消操作</li>
+            <li>等待 500ms 让页面响应</li>
+            <li>检查页面状态</li>
+            <li>如果还有未处理的：
+                <ul>
+                    <li>滚动页面加载更多</li>
+                    <li>等待 800ms</li>
+                    <li>回到步骤 1</li>
+                </ul>
+            </li>
+            <li>如果全部完成：
+                <ul>
+                    <li>开始 5 次验证（每次间隔 1 秒）</li>
+                    <li>5 次都通过 → 结束</li>
+                    <li>发现还有未处理 → 继续外层循环</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h3>智能验证</h3>
+        <ul>
+            <li><strong>检测时机：</strong>只有当检测到"已完成"时才进行验证</li>
+            <li><strong>验证次数：</strong>最多5次，每次间隔1秒</li>
+            <li><strong>验证逻辑：</strong>
+                <ul>
+                    <li>如果5次都确认完成 → 结束循环</li>
+                    <li>如果发现还有未处理的 → 继续循环处理</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h2><span class="emoji">📊</span> 日志查看</h2>
+        
+        <div class="info">
+            <strong>重要提示：</strong>Chrome 插件的 popup 日志不会显示在页面的控制台中，需要单独查看。
+        </div>
+        
+        <h3>方法：审查弹出内容</h3>
+        <ol>
+            <li>右键点击浏览器工具栏上的插件图标</li>
+            <li>选择<strong>"审查弹出内容"</strong>（Inspect popup）</li>
+            <li>会打开一个新的 DevTools 窗口</li>
+            <li>在这个窗口的 Console 标签中就能看到 <code>[POPUP]</code> 的日志了</li>
+        </ol>
+        
+        <h2><span class="emoji">❓</span> 常见问题</h2>
+        
+        <h3>Q1: 为什么有些复选框没有被勾选？</h3>
+        <p><strong>可能原因：</strong></p>
+        <ul>
+            <li>没有启用"循环操作"功能</li>
+            <li>页面还在加载中</li>
+            <li>复选框不在可视区域内</li>
+        </ul>
+        <p><strong>解决方案：</strong></p>
+        <ul>
+            <li>✅ 确保勾选了"循环操作"</li>
+            <li>等待页面完全加载</li>
+            <li>查看日志确认执行情况</li>
+        </ul>
+        
+        <h3>Q2: 循环操作会一直运行吗？</h3>
+        <p><strong>不会！</strong>有以下保护机制：</p>
+        <ul>
+            <li>最大循环次数：20次</li>
+            <li>验证机制：连续5次确认完成才结束</li>
+            <li>如果5次验证后发现还有未处理的，会继续循环</li>
+        </ul>
+        
+        <h3>Q3: 如何知道插件是否在工作？</h3>
+        <p><strong>观察以下迹象：</strong></p>
+        <ul>
+            <li>页面自动滚动</li>
+            <li>复选框被逐个勾选</li>
+            <li>控制台有日志输出</li>
+            <li>插件界面上的统计数据在更新</li>
+        </ul>
+        
+        <h3>Q4: 可以在其他网站使用吗？</h3>
+        <p><strong>可以！</strong>虽然主要针对 Maximo 开发，但插件适用于：</p>
+        <ul>
+            <li>任何使用 <code>cds--checkbox</code> 组件的网站</li>
+            <li>任何有大量复选框需要批量操作的场景</li>
+        </ul>
+        
+        <h3>Q5: 插件安全吗？</h3>
+        <p><strong>完全安全！</strong></p>
+        <ul>
+            <li>✅ 开源代码，可审查</li>
+            <li>✅ 只操作当前页面的 DOM</li>
+            <li>✅ 不收集任何用户数据</li>
+            <li>✅ 不使用网络请求</li>
+            <li>✅ 权限最小化（仅需要 activeTab、scripting、storage）</li>
+        </ul>
+        
+        <h2><span class="emoji">🛠️</span> 技术细节</h2>
+        
+        <h3>事件触发策略</h3>
+        <p>为了确保 React 等框架能正确捕获复选框状态变化，插件采用了多重事件触发：</p>
+        <ol>
+            <li><strong>原生 setter</strong>：绕过框架拦截直接设置值</li>
+            <li><strong>Label 点击</strong>：点击 label 元素触发 React 事件</li>
+            <li><strong>Input 事件</strong>：触发 input 事件</li>
+            <li><strong>Change 事件</strong>：触发 change 事件</li>
+            <li><strong>Click 事件</strong>：模拟真实点击</li>
+            <li><strong>Mouse 事件</strong>：触发 mousedown/mouseup</li>
+        </ol>
+        <p>这种策略确保了在各种框架下都能正常工作。</p>
+        
+        <h3>选择器说明</h3>
+        <p>默认选择器：<code>input.cds--checkbox</code></p>
+        <p>这是 Carbon Design System 的复选框组件类名，Maximo 9.1 广泛使用此组件库。</p>
+        
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; text-align: center; color: #666;">
+            <p><strong>祝您使用愉快！</strong> <span class="emoji">🎉</span></p>
+        </div>
+    </div>
+</body>
+</html>
