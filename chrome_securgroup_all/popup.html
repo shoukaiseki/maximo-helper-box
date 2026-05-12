@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量复选框勾选助手</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>批量复选框勾选助手</h1>
+        
+        <div class="control-group">
+            <label for="selector-type">选择器类型:</label>
+            <select id="selector-type">
+                <option value="cds-checkbox">CDS 复选框 (cds--checkbox)</option>
+                <option value="custom">自定义选择器</option>
+                <option value="all">所有复选框</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="custom-selector-group" style="display: none;">
+            <label for="custom-selector">自定义 CSS 选择器:</label>
+            <input type="text" id="custom-selector" placeholder="例如: input[type='checkbox']" />
+        </div>
+
+        <div class="button-group">
+            <button id="select-all" class="btn btn-primary">全选</button>
+            <button id="deselect-all" class="btn btn-secondary">取消全选</button>
+            <button id="toggle-selection" class="btn btn-warning">反选</button>
+        </div>
+
+        <div class="stats">
+            <p>找到 <span id="checkbox-count">0</span> 个复选框</p>
+            <p>已勾选 <span id="checked-count">0</span> 个</p>
+        </div>
+
+        <div class="actions">
+            <button id="refresh-count" class="btn btn-info">刷新统计</button>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
