@@ -49,7 +49,7 @@ npm install java-bridge
 ```json
 {
   "jvmPath": "D:\\usr\\java\\jdk-17.0.19x64\\bin\\server\\jvm.dll",
-  "jarDirectory": "E:\\gitwork\\maximo9.1\\maximolib",
+  "jarDirectory": "E:\\gitwork\\maximoi\\maximolib",
   "additionalJars": []
 }
 ```
@@ -162,7 +162,7 @@ npm install java-bridge
 ```json
 {
   "jvmPath": "D:\\usr\\java\\jdk-17.0.19x64\\bin\\server\\jvm.dll",
-  "jarDirectory": "E:\\gitwork\\maximo9.1\\maximolib",
+  "jarDirectory": "E:\\gitwork\\maximoi\\maximolib",
   "additionalJars": [],
   "selectedClasses": [
     "psdi.mbo.MboRemote",
@@ -1135,7 +1135,7 @@ Thread.currentThreadSync().setContextClassLoaderSync(urlClassLoader);
 
 **现象：**
 ```
-java.net.MalformedURLException: no protocol: E:\gitwork\maximo9.1\maximolib\businessobjects.jar
+java.net.MalformedURLException: no protocol: E:\gitwork\maximoi\maximolib\businessobjects.jar
 ```
 
 **原因：**
