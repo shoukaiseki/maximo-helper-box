@@ -1,0 +1,102 @@
+# Maximo 表结构导出配置
+
+# 数据库配置
+db:
+  url: "jdbc:db2://localhost:50000/MAXIMO:currentSchema=MAXIMO;"
+  username: "db2inst1"
+  password: "Maximo123"
+  driver: "com.ibm.db2.jcc.DB2Driver"
+
+# 导出配置
+export:
+  template:
+    dir: "./templates"
+  output:
+    dir: "./output"
+    table-structure: "maximo_tables.xlsx"
+    table-structure-jxls: "maximo_tables_jxls.xlsx"
+    domains-jxls: "maximo_domains_jxls.xlsx"
+
+# 语言配置
+language:
+  code: "ZH"
+
+# 对象过滤配置
+object:
+  filter: "IBM%"
+  include:
+    - "ITEM"
+
+# SQL 查询语句
+queries:
+  # 查询对象列表
+  maxobjects: |
+    select
+           l.DESCRIPTION as l_description,
+           OBJECTNAME, MAXOBJECT.DESCRIPTION
+    from MAXOBJECT
+    left join L_MAXOBJECT as l on (MAXOBJECTID=l.OWNERID and l.LANGCODE='ZH')
+    where objectname like 'IBM%' or OBJECTNAME in ('ITEM')
+
+  # 查询对象属性
+  maxattributes: |
+    select
+        MAXATTRIBUTE.title, l.TITLE as l_title, ATTRIBUTENAME, ATTRIBUTENO, DOMAINID, ISPOSITIVE,
+        LENGTH, MAXTYPE, REQUIRED, PRIMARYKEYCOLSEQ, SAMEASOBJECT, SCALE,
+        l.REMARKS as l_remarks, MAXATTRIBUTE.REMARKS
+    from MAXATTRIBUTE
+             left join L_MAXATTRIBUTE as l on (MAXATTRIBUTEID=l.OWNERID and l.LANGCODE='ZH')
+    where OBJECTNAME=?
+    order by ATTRIBUTENAME
+
+  # 查询关联关系
+  maxrelationships: |
+    select
+          NAME, CHILD, WHERECLAUSE, CARDINALITY, REMARKS
+    from MAXRELATIONSHIP
+    where PARENT=?
+
+  # 查询索引
+  maxsysindexes: |
+    select * from MAXSYSINDEXES where tbname=?
+
+  # 查询索引列
+  maxsyskeys: |
+    select * from MAXSYSKEYS where IXNAME in (select name from MAXSYSINDEXES where tbname=?)
+
+  # 查询域信息
+  maxdomains: |
+    select
+           l.DESCRIPTION as l_description,
+           MAXDOMAIN.DOMAINID,
+           MAXDOMAIN.DESCRIPTION,
+           MAXDOMAIN.DOMAINTYPE,
+           MAXDOMAIN.MAXTYPE,
+           MAXDOMAIN.LENGTH,
+           MAXDOMAIN.SCALE
+    from MAXDOMAIN
+      left join l_maxdomain as l on (maxdomainid=l.ownerid and l.langcode='zh')
+    where domainid like 'IBM%'
+    order by DOMAINID
+
+  # 查询数值域值
+  numericdomain: |
+    select l.DESCRIPTION as l_description,
+           NUMERICDOMAIN.*
+    from NUMERICDOMAIN
+    left join L_NUMERICDOMAIN as l on (NUMERICDOMAINID=l.OWNERID and l.LANGCODE='ZH')
+    where DOMAINID=?
+
+  # 查询文本域值
+  alndomain: |
+    select L.DESCRIPTION as L_DESCRIPTION, ALNDOMAIN.*
+    from ALNDOMAIN
+    left join L_ALNDOMAIN as l on (ALNDOMAINID=l.OWNERID and l.LANGCODE='ZH')
+    where domainid=?
+
+  # 查询同义词域值
+  synonymdomain: |
+    select l.DESCRIPTION as L_DESCRIPTION, SYNONYMDOMAIN.*
+    from SYNONYMDOMAIN
+    left join L_SYNONYMDOMAIN as l on (SYNONYMDOMAINID=l.OWNERID and l.LANGCODE='ZH')
+    where domainid=?
