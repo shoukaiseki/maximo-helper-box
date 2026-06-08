@@ -23,7 +23,7 @@ public class ExcelExporterApp {
 
         try {
             String configFile = parseConfigFile(args);
-            AppConfig config = ConfigLoader.loadConfifig(configFile);
+            AppConfig config = ConfigLoader.loadConfig(configFile);
             logger.info("Configuration loaded successfully from: {}", configFile);
 
             logger.info("=== JXLS Export Mode ===");

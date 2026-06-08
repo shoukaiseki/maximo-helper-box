@@ -53,6 +53,8 @@ public class JxlsExportService {
                     attrMap.put("scale", attr.getScale());
                     attrMap.put("remarks", attr.getRemarks() != null ? attr.getRemarks() : "");
                     attrMap.put("lRemarks", attr.getLRemarks() != null ? attr.getLRemarks() : "");
+                    attrMap.put("defaultValue", attr.getDefaultValue() != null ? attr.getDefaultValue() : "");
+                    attrMap.put("autoKeyName", attr.getAutoKeyName() != null ? attr.getAutoKeyName() : "");
                     attrList.add(attrMap);
                 }
                 objMap.put("attributes", attrList);

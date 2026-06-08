@@ -30,14 +30,14 @@ public class JxlsTemplateGenerator {
 
             Row areaRow = sheet.createRow(rowIndex++);
             Cell areaCell = areaRow.createCell(0);
-            setCellComment(areaCell, "jx:area(lastCell=\"N20\")");
+            setCellComment(areaCell, "jx:area(lastCell=\"P20\")");
             areaCell.setCellValue("表结构模板");
             areaCell.setCellStyle(titleStyle);
 
             Row titleRow = sheet.createRow(rowIndex++);
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellStyle(titleStyle);
-            setCellComment(titleCell, "jx:each(items=\"objects\", var=\"obj\", lastCell=\"N18\")");
+            setCellComment(titleCell, "jx:each(items=\"objects\", var=\"obj\", lastCell=\"P18\")");
             titleCell.setCellValue("表名: ${obj.objectName}");
             
             Row descRow = sheet.createRow(rowIndex++);
@@ -52,7 +52,7 @@ public class JxlsTemplateGenerator {
 
             Row attrHeaderRow = sheet.createRow(rowIndex++);
             String[] attrHeaders = {"中文标题", "英文标题", "属性名", "属性号", "域", "正向", "长度", 
-                                   "数据类型", "必需", "主键序列", "等同对象", "小数位数", "中文备注", "英文备注"};
+                                   "数据类型", "必需", "主键序列", "等同对象", "小数位数", "默认值", "自动键名", "中文备注", "英文备注"};
             for (int i = 0; i < attrHeaders.length; i++) {
                 Cell cell = attrHeaderRow.createCell(i);
                 cell.setCellValue(attrHeaders[i]);
@@ -62,10 +62,10 @@ public class JxlsTemplateGenerator {
 
             Row attrDataRow = sheet.createRow(rowIndex++);
             Cell attrEachCell = attrDataRow.createCell(0);
-            setCellComment(attrEachCell, "jx:each(items=\"obj.attributes\", var=\"attr\", lastCell=\"N5\")");
+            setCellComment(attrEachCell, "jx:each(items=\"obj.attributes\", var=\"attr\", lastCell=\"P5\")");
             String[] fields = {"lTitle", "title", "attributeName", "attributeNo", "domainId", 
                               "isPositive", "length", "maxType", "required", 
-                              "primaryKeyColSeq", "sameAsObject", "scale", "remarks", "lRemarks"};
+                              "primaryKeyColSeq", "sameAsObject", "scale", "defaultValue", "autoKeyName", "lRemarks", "remarks"};
             for (int i = 0; i < fields.length; i++) {
                 Cell cell = attrDataRow.createCell(i);
                 cell.setCellValue("${attr." + fields[i] + "}");

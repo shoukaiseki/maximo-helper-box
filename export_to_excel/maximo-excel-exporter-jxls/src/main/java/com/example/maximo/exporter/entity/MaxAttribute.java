@@ -24,4 +24,6 @@ public class MaxAttribute {
     private Integer scale;
     private String lRemarks;
     private String remarks;
+    private String defaultValue;
+    private String autoKeyName;
 }

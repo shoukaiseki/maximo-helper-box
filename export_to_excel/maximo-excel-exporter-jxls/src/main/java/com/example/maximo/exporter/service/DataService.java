@@ -196,6 +196,8 @@ public class DataService {
                 .scale(rs.getInt("SCALE"))
                 .lRemarks(lRemarks)
                 .remarks(finalRemarks)
+                .defaultValue(rs.getString("DEFAULTVALUE"))
+                .autoKeyName(rs.getString("AUTOKEYNAME"))
                 .build();
     }
 
