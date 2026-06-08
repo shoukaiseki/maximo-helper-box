@@ -16,13 +16,15 @@ import java.sql.SQLException;
 public class ExcelExporterApp {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelExporterApp.class);
+    private static final String DEFAULT_CONFIG = "application.yml";
 
     public static void main(String[] args) {
         logger.info("Starting Maximo Excel Exporter (JXLS Version)");
 
         try {
-            AppConfig config = ConfigLoader.loadConfig("application.yml");
-            logger.info("Configuration loaded successfully");
+            String configFile = parseConfigFile(args);
+            AppConfig config = ConfigLoader.loadConfifig(configFile);
+            logger.info("Configuration loaded successfully from: {}", configFile);
 
             logger.info("=== JXLS Export Mode ===");
 
@@ -67,6 +69,22 @@ public class ExcelExporterApp {
             logger.error("Error occurred: {}", e.getMessage(), e);
             System.exit(1);
         }
+    }
+
+    private static String parseConfigFile(String[] args) {
+        String configFile = DEFAULT_CONFIG;
+        
+        for (int i = 0; i < args.length; i++) {
+            if ("--config".equals(args[i]) || "-c".equals(args[i])) {
+                if (i + 1 < args.length) {
+                    configFile = args[i + 1];
+                    logger.info("Using config file from command line: {}", configFile);
+                    break;
+                }
+            }
+        }
+        
+        return configFile;
     }
 
     private static BasicDataSource createDataSource(AppConfig config) {

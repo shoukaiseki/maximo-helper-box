@@ -4,7 +4,12 @@ import org.yaml.snakeyaml.Yaml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class ConfigLoader {
@@ -19,9 +24,18 @@ public class ConfigLoader {
     public static AppConfig loadConfig(String configFile) {
         logger.info("Loading configuration from: {}", configFile);
         
-        try (InputStream input = ConfigLoader.class.getClassLoader().getResourceAsStream(configFile)) {
-            if (input == null) {
-                throw new RuntimeException("Configuration file not found: " + configFile);
+        InputStream input = null;
+        try {
+            Path filePath = Paths.get(configFile);
+            if (Files.exists(filePath)) {
+                input = new FileInputStream(new File(configFile));
+                logger.info("Loading config from file system: {}", configFile);
+            } else {
+                input = ConfigLoader.class.getClassLoader().getResourceAsStream(configFile);
+                if (input == null) {
+                    throw new RuntimeException("Configuration file not found: " + configFile);
+                }
+                logger.info("Loading config from classpath: {}", configFile);
             }
             
             Yaml yaml = new Yaml();
@@ -31,6 +45,14 @@ public class ConfigLoader {
         } catch (Exception e) {
             logger.error("Failed to load configuration", e);
             throw new RuntimeException("Failed to load configuration", e);
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (Exception e) {
+                    logger.warn("Error closing input stream", e);
+                }
+            }
         }
     }
 
