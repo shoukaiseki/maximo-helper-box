@@ -211,8 +211,8 @@ public class JxlsTemplateGenerator {
             Cell valueEachCell = valueDataRow.createCell(0);
             setCellComment(valueEachCell, "jx:each(items=\"domain.domainValues\", var=\"value\", lastCell=\"C8\")");
             valueDataRow.createCell(0).setCellValue("${value.value}");
-            valueDataRow.createCell(1).setCellValue("${value.description}");
-            valueDataRow.createCell(2).setCellValue("${value.lDescription}");
+            valueDataRow.createCell(1).setCellValue("${value.lDescription}");
+            valueDataRow.createCell(2).setCellValue("${value.description}");
             for (int i = 0; i < 3; i++) {
                 valueDataRow.getCell(i).setCellStyle(dataStyle);
             }
