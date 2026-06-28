@@ -7,14 +7,12 @@ import { importMaxObject, importMaxPresentation, loadConfig } from 'sks-maximo-u
 importMaxObject({fileName: "DBMESSAGEJSON/0618.json",logname:"MESSAGEJSON操作成功消息"})
 importMaxObject({fileName: "DBMESSAGEJSON/0624001.json",logname:""})
 
-importMaxDomain({fileName: "DBDOMIANJSON/SKSSTATUS.json",logname:"SKS状态"})
-// 
+importMaxDomain({fileName: "DBDOMIANJSON/DEMO_STATUS.json",logname:"演示状态"})
+
 importMaxObject({fileName: "DBCONFIGJSON/TEST01.json",logname:"测试配置01"})
 importMaxObject({fileName: "DBCONFIGJSON/TEST02.json",logname:"测试配置02"})
 importMaxObject({fileName: "DBCONFIGJSON/AUTOSCRIPT01.json",logname:"AUTOSCRIPT01"})
-importMaxObject({fileName: "DBCONFIGJSON/IBM_VWPUBQUERY.json",logname:"IBM_VWPUBQUERY"})
-
-importMaxObject({fileName: "DBCONFIGJSON/260626004.json",logname:""})
+importMaxObject({fileName: "DBCONFIGJSON/DEMO_VIEW.json",logname:"演示视图"})
 
 importMaxPresentation({fileName: "DBMAXAPPXML/autoscript.xml",logname:""})
 importMaxPresentation({fileName: "DBMAXAPPXML/ibm_autoscript_history.xml",logname:"ibm_autoscript_history"})

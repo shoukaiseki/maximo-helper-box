@@ -1,0 +1,23 @@
+{
+  "maxObjects": [
+     {
+      "persistent": false,
+      "entity": null,
+      "object": "DEMO_VIEW",
+      "level": "SITE",
+      "langCode": "EN",
+      "userDefined": true,
+      "description": "演示查询视图",
+      "mainObject": false,
+      "attributes": [
+        { "attribute": "VIEWID", "description": "主键ID", "title": "主键ID", "type": "BIGINT", "length": 19, "required": true, "persistent": false, "canAutonumber": true },
+        {"attribute": "ORGID",  "sameAsAttribute": "ORGID",  "length": 8, "description": "组织",  "title": "组织", "type": "UPPER", "required": false, "sameAsObject": "ORGANIZATION",  "persistent": false },
+        {"attribute": "SITEID",  "sameAsAttribute": "SITEID",  "length": 8, "description": "地点",  "title": "地点", "type": "UPPER", "required": false, "sameAsObject": "SITE",   "persistent": false },
+        { "attribute": "FLAG01", "description": "标志位1", "title": "标志位1", "type": "YORN", "length": 1, "required": false, "persistent": false, "searchType": "EXACT" },
+        { "attribute": "FLAG02", "description": "标志位2", "title": "标志位2", "type": "YORN", "length": 1, "required": false, "persistent": false, "searchType": "EXACT" },
+        {"attribute": "TIME01", "description": "时间字段1", "title": "时间字段1", "type": "DATETIME", "length": 10, "required": false, "persistent": false},
+        {"attribute": "TIME02", "description": "时间字段2", "title": "时间字段2", "type": "DATETIME", "length": 10, "required": false, "persistent": false}
+      ]
+    }
+  ]
+}

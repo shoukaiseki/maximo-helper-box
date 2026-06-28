@@ -1,8 +1,8 @@
 [
   {
-    "domainid": "SKS_STATUS",
+    "domainid": "DEMO_STATUS",
     "domaintype": "ALN",
-    "description": "状态",
+    "description": "演示状态",
     "maxtype": "UPPER",
     "internal": 0,
     "length": 30,
