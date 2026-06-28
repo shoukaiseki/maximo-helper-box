@@ -1,0 +1,23 @@
+{
+  "maxObjects": [
+     {
+      "persistent": false,
+      "entity": null,
+      "object": "IBM_VWPUBQUERY",
+      "level": "SITE",
+      "langCode": "EN",
+      "userDefined": true,
+      "description": "通用查询虚拟表",
+      "mainObject": false,
+      "attributes": [
+        { "attribute": "IBM_VWPUBQUERYID", "description": "主键ID", "title": "主键ID", "type": "BIGINT", "length": 19, "required": true, "persistent": false, "canAutonumber": true },
+        {"attribute": "ORGID",  "sameAsAttribute": "ORGID",  "length": 8, "description": "组织",  "title": "组织", "type": "UPPER", "required": false, "sameAsObject": "ORGANIZATION",  "persistent": false },
+        {"attribute": "SITEID",  "sameAsAttribute": "SITEID",  "length": 8, "description": "地点",  "title": "地点", "type": "UPPER", "required": false, "sameAsObject": "SITE",   "persistent": false },
+        { "attribute": "YORN01", "description": "布尔类型1", "title": "布尔类型1", "type": "YORN", "length": 1, "required": false, "persistent": false, "searchType": "EXACT" },
+        { "attribute": "YORN02", "description": "布尔类型2", "title": "布尔类型2", "type": "YORN", "length": 1, "required": false, "persistent": false, "searchType": "EXACT" },
+        {"attribute": "DATE01", "description": "日期时间类型1", "title": "日期时间类型1", "type": "DATETIME", "length": 10, "required": false, "persistent": false},
+        {"attribute": "DATE02", "description": "日期时间类型2", "title": "日期时间类型2", "type": "DATETIME", "length": 10, "required": false, "persistent": false}
+      ]
+    }
+  ]
+}

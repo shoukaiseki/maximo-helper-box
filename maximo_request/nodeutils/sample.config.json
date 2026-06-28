@@ -1,0 +1,23 @@
+{
+  "logLevel": "INFO",
+  "envs": {
+    "local": {
+      "baseUrl": "http://127.0.0.1:9080/maximo",
+      "apiKey": "your-local-api-key",
+      "maxauth": "",
+      "authType": "apiKey"
+    },
+    "dev": {
+      "baseUrl": "https://mdev/maximo",
+      "apiKey": "your-dev-api-key",
+      "maxauth": "",
+      "authType": "apiKey"
+    },
+    "hd": {
+      "baseUrl": "http://xxxxx:9080/maximo",
+      "apiKey": "your-hd-api-key",
+      "maxauth": "",
+      "authType": "apiKey"
+    }
+  }
+}

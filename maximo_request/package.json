@@ -1,0 +1,19 @@
+{
+  "name": "sks-maximo-utils",
+  "version": "1.0.0",
+  "description": "Maximo helper tools for updating table structures and data",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "sks-maximo": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["maximo", "sks"],
+  "author": "shoukaiseki",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

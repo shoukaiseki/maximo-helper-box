@@ -1,0 +1,32 @@
+{
+  "maxObjects": [
+    {
+      "object": "AUTOSCRIPT",
+      "internal": true,
+      "ignoreObjectMain": true,
+      "relationships": [
+        {
+          "relationship": "IBM_AUTOSCRIPT_HISTORY",
+          "child": "IBM_AUTOSCRIPT_HISTORY",
+          "whereClause": "AUTOSCRIPT=:AUTOSCRIPT",
+          "remarks": "历史记录,以及备份",
+          "cardinality": "MULTIPLE"
+        },
+        {
+          "relationship": "IBM_AUTOSCRIPT_HISTORY_CRON",
+          "child": "IBM_AUTOSCRIPT_HISTORY",
+          "whereClause": "AUTOSCRIPT=:AUTOSCRIPT",
+          "remarks": "定时任务备份",
+          "cardinality": "MULTIPLE"
+        },
+        {
+          "relationship": "IBM_AUTOSCRIPT_HISTORY_BACKUP",
+          "child": "IBM_AUTOSCRIPT_HISTORY",
+          "whereClause": "AUTOSCRIPT=:AUTOSCRIPT",
+          "remarks": "保存时备份",
+          "cardinality": "MULTIPLE"
+        }
+      ]
+    }
+  ]
+}

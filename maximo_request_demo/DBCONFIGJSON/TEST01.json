@@ -1,0 +1,340 @@
+{
+  "maxObjects": [
+    {
+      "object": "TEST_TYPE",
+      "description": "测试字段类型表",
+      "attributes": [
+        {
+          "searchType": "NONE",
+          "length": 46,
+          "description": "类型01",
+          "scale": 0,
+          "positive": false,
+          "title": "类型01",
+          "type": "ALN",
+          "required": false,
+          "attribute": "FIELD_01"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 32,
+          "description": "类型02",
+          "scale": 0,
+          "positive": false,
+          "title": "类型02",
+          "type": "INTEGER",
+          "required": false,
+          "attribute": "FIELD_02"
+        },
+        {
+          "searchType": "NONE",
+          "length": 64,
+          "description": "类型03",
+          "scale": 0,
+          "positive": false,
+          "title": "类型03",
+          "type": "UPPER",
+          "required": false,
+          "attribute": "FIELD_03"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 8,
+          "description": "类型04",
+          "scale": 0,
+          "positive": false,
+          "title": "类型04",
+          "type": "DURATION",
+          "required": false,
+          "attribute": "FIELD_04"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 8,
+          "description": "类型05",
+          "scale": 0,
+          "positive": false,
+          "title": "类型05",
+          "type": "DURATION",
+          "required": false,
+          "attribute": "FIELD_05"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 10,
+          "description": "类型06",
+          "scale": 2,
+          "positive": false,
+          "title": "类型06",
+          "type": "AMOUNT",
+          "required": false,
+          "attribute": "FIELD_06"
+        },
+        {
+          "searchType": "NONE",
+          "length": 200,
+          "description": "类型07",
+          "scale": 0,
+          "positive": false,
+          "title": "类型07",
+          "type": "ALN",
+          "required": false,
+          "attribute": "FIELD_07"
+        },
+        {
+          "searchType": "WILDCARD",
+          "length": 64,
+          "description": "类型08",
+          "scale": 0,
+          "positive": false,
+          "title": "类型08",
+          "type": "UPPER",
+          "required": false,
+          "attribute": "FIELD_08"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 10,
+          "description": "类型09",
+          "scale": 2,
+          "positive": false,
+          "title": "类型09",
+          "type": "AMOUNT",
+          "required": false,
+          "attribute": "FIELD_09"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 10,
+          "description": "类型10",
+          "scale": 0,
+          "positive": false,
+          "title": "类型10",
+          "type": "DATETIME",
+          "required": false,
+          "attribute": "FIELD_10"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 10,
+          "description": "类型11",
+          "scale": 0,
+          "positive": false,
+          "title": "类型11",
+          "type": "DATETIME",
+          "required": false,
+          "attribute": "FIELD_11"
+        },
+        {
+          "searchType": "NONE",
+          "length": 1,
+          "description": "类型12",
+          "scale": 0,
+          "positive": false,
+          "title": "类型12",
+          "type": "YORN",
+          "required": false,
+          "attribute": "FIELD_12"
+        },
+        {
+          "searchType": "NONE",
+          "length": 1,
+          "description": "类型13",
+          "scale": 0,
+          "positive": false,
+          "title": "类型13",
+          "type": "YORN",
+          "required": false,
+          "attribute": "FIELD_13"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 15,
+          "description": "类型14",
+          "scale": 2,
+          "positive": false,
+          "title": "类型14",
+          "type": "DECIMAL",
+          "required": false,
+          "attribute": "FIELD_14"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 12,
+          "description": "类型15",
+          "scale": 0,
+          "positive": false,
+          "title": "类型15",
+          "type": "INTEGER",
+          "required": false,
+          "attribute": "FIELD_15"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 19,
+          "description": "类型16",
+          "scale": 0,
+          "positive": false,
+          "title": "类型16",
+          "type": "BIGINT",
+          "required": false,
+          "attribute": "FIELD_16"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 4,
+          "description": "类型17",
+          "scale": 0,
+          "positive": false,
+          "title": "类型17",
+          "type": "DATE",
+          "required": false,
+          "attribute": "FIELD_17"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 15,
+          "description": "类型18",
+          "scale": 2,
+          "positive": false,
+          "title": "类型18",
+          "type": "DECIMAL",
+          "required": false,
+          "attribute": "FIELD_18"
+        },
+        {
+          "searchType": "WILDCARD",
+          "length": 110,
+          "description": "类型19",
+          "scale": 0,
+          "positive": false,
+          "title": "类型19",
+          "type": "ALN",
+          "required": false,
+          "attribute": "FIELD_19"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 4,
+          "description": "类型22",
+          "scale": 0,
+          "positive": false,
+          "title": "类型22",
+          "type": "DATE",
+          "required": false,
+          "attribute": "FIELD_22"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 19,
+          "description": "类型23",
+          "scale": 0,
+          "positive": false,
+          "title": "类型23",
+          "type": "BIGINT",
+          "required": false,
+          "attribute": "FIELD_23"
+        },
+        {
+          "searchType": "NONE",
+          "length": 999999,
+          "description": "类型24",
+          "scale": 0,
+          "positive": false,
+          "title": "类型24",
+          "type": "CLOB",
+          "required": false,
+          "attribute": "FIELD_24"
+        },
+        {
+          "searchType": "NONE",
+          "length": 999999,
+          "description": "类型25",
+          "scale": 0,
+          "positive": false,
+          "title": "类型25",
+          "type": "CLOB",
+          "required": false,
+          "attribute": "FIELD_25"
+        },
+        {
+          "searchType": "NONE",
+          "length": 999999,
+          "description": "类型26",
+          "scale": 0,
+          "positive": false,
+          "title": "类型26",
+          "type": "BLOB",
+          "required": false,
+          "attribute": "FIELD_26"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 128,
+          "description": "类型27",
+          "scale": 0,
+          "positive": false,
+          "title": "类型27",
+          "type": "CRYPTOX",
+          "required": false,
+          "attribute": "FIELD_27"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 128,
+          "description": "类型28",
+          "scale": 0,
+          "positive": false,
+          "title": "类型28",
+          "type": "CRYPTO",
+          "required": false,
+          "attribute": "FIELD_28"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 15,
+          "description": "类型29",
+          "scale": 4,
+          "positive": false,
+          "title": "类型29",
+          "type": "FLOAT",
+          "required": false,
+          "attribute": "FIELD_29"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 4,
+          "description": "类型30",
+          "scale": 0,
+          "positive": false,
+          "title": "类型30",
+          "type": "TIME",
+          "required": false,
+          "attribute": "FIELD_30"
+        },
+        {
+          "searchType": "EXACT",
+          "length": 6,
+          "description": "类型31",
+          "scale": 0,
+          "positive": false,
+          "title": "类型31",
+          "type": "SMALLINT",
+          "required": false,
+          "attribute": "FIELD_31"
+        },
+        {
+          "searchType": "WILDCARD",
+          "length": 100,
+          "description": "类型32",
+          "scale": 0,
+          "positive": false,
+          "title": "类型32",
+          "type": "LOWER",
+          "required": false,
+          "attribute": "FIELD_32"
+        }
+      ]
+    }
+  ]
+}

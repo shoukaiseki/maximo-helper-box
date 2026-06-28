@@ -1,0 +1,76 @@
+{
+  "maxObjects": [
+    {
+      "object": "DEMO_MAIN",
+      "description": "演示主表",
+      "persistent": true,
+      "addRowstamp": true,
+      "level": "SITE",
+      "attributes": [
+        { "attribute": "SITEID", "description": "站点ID", "title": "站点", "type": "UPPER", "length": 8, "required": false, "persistent": true, "sameAsObject": "SITE", "sameAsAttribute": "SITEID", "searchType": "WILDCARD" },
+        { "attribute": "ORGID", "description": "组织ID", "title": "组织", "type": "UPPER", "length": 8, "required": false, "persistent": true, "sameAsObject": "ORGANIZATION", "sameAsAttribute": "ORGID", "searchType": "WILDCARD" },
+        { "attribute": "MAINNUM", "description": "主记录编号", "title": "主记录编号", "type": "UPPER", "length": 30, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "TYPECODE", "description": "类型代码", "title": "类型", "type": "ALN", "length": 20, "required": false, "persistent": true, "defaultValue": "TYPEA", "searchType": "WILDCARD" },
+        { "attribute": "ACTDATE", "description": "活动日期", "title": "活动日期", "type": "DATE", "length": 4, "scale": 0, "searchType": "EXACT" },
+        { "attribute": "STATUS", "description": "状态", "title": "状态", "type": "UPPER", "length": 30, "required": false, "persistent": true, "domain": "DEMO_STATUS","defaultValue": "DRAFT", "searchType": "WILDCARD" },
+        { "attribute": "SUPPLIER", "description": "供应商编号", "title": "供应商编号", "type": "UPPER", "length": 50, "required": false, "persistent": true, "sameAsObject": "COMPANIES", "sameAsAttribute": "COMPANY", "searchType": "WILDCARD" },
+        { "description": "客户编码", "mustBe": false, "title": "客户编码", "type": "ALN", "attribute": "CLIENTNUM", "persistent": true, "column": "CLIENTNUM", "searchType": "WILDCARD", "sameAsObject": "DEMO_CLIENT", "sameAsAttribute": "CLIENTNUM", "length": 20, "positive": false, "domain": null, "localizable": false, "longDescriptionOwner": false },
+        { "attribute": "CATEGORY1", "description": "分类1", "title": "分类1", "type": "ALN", "persistent": true, "searchType": "WILDCARD", "length": 20, "domain": "DEMO_CAT1", "sameAsObject": "ITEM", "sameAsAttribute": "IBM_TYPE3", "autonumber": null },
+        { "attribute": "CATEGORY2", "description": "分类2", "title": "分类2", "type": "ALN", "persistent": true, "searchType": "WILDCARD", "length": 20, "domain": "DEMO_CAT2", "sameAsObject": "ITEM", "sameAsAttribute": "IBM_TYPE2", "autonumber": null },
+        { "attribute": "REQUESTOR", "description": "申请人", "title": "申请人", "type": "UPPER", "length": 50, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "REQDATE", "description": "申请日期", "title": "申请日期", "type": "DATETIME", "length": 10, "required": false, "persistent": true },
+        { "attribute": "CREATEBY", "description": "创建人", "title": "创建人", "type": "UPPER", "length": 50, "required": false, "persistent": true, "sameAsObject": "PERSON", "sameAsAttribute": "PERSONID", "defaultValue": "&PERSONID&", "searchType": "WILDCARD" },
+        { "attribute": "CREATETIME", "description": "创建时间", "title": "创建时间", "type": "DATETIME", "length": 10, "required": false, "persistent": true, "defaultValue": "&SYSDATE&" },
+        { "attribute": "CHANGEBY", "description": "修改人", "title": "修改人", "type": "UPPER", "length": 50, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "CHANGEDATE", "description": "修改时间", "title": "修改时间", "type": "DATETIME", "length": 10, "required": false, "persistent": true },
+        { "attribute": "REMARK", "description": "备注", "title": "备注", "type": "ALN", "length": 255, "required": false, "persistent": true, "searchType": "WILDCARD" }
+      ]
+    },
+    {
+      "object": "DEMO_LINE",
+      "description": "演示明细表",
+      "persistent": true,
+      "addRowstamp": true,
+      "level": "SITE",
+      "attributes": [
+        { "attribute": "SITEID", "description": "站点ID", "title": "站点", "type": "UPPER", "length": 8, "required": false, "persistent": true, "sameAsObject": "SITE", "sameAsAttribute": "SITEID", "searchType": "WILDCARD" },
+        { "attribute": "ORGID", "description": "组织ID", "title": "组织", "type": "UPPER", "length": 8, "required": false, "persistent": true, "sameAsObject": "ORGANIZATION", "sameAsAttribute": "ORGID", "searchType": "WILDCARD" },
+        { "attribute": "RELNUM", "description": "关联编号", "title": "关联编号", "type": "UPPER", "length": 30, "sameAsObject": "PRLINEREPLY", "sameAsAttribute": "REPIDNUM","required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "MAINNUM", "description": "主记录编号", "title": "主记录编号", "type": "UPPER", "length": 30, "sameAsObject": "DEMO_MAIN", "sameAsAttribute": "MAINNUM","required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "LINENUM", "description": "明细编号", "title": "明细编号", "type": "UPPER", "length": 30, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "SN", "description": "序号", "title": "序号", "type": "INTEGER", "length": 12, "required": false, "persistent": true },
+        { "attribute": "ITEMNUM", "description": "项目编号", "title": "项目编号", "type": "UPPER", "length": 20, "persistent": true, "sameAsObject": "ITEM", "sameAsAttribute": "ITEMNUM", "searchType": "WILDCARD" },
+        {"attribute": "UNIT1", "description": "单位1", "title": "单位1", "sameAsObject": "MEASUREUNIT", "sameAsAttribute": "MEASUREUNITID", "searchType": "WILDCARD"},
+        {"attribute": "UNIT2", "description": "单位2", "title": "单位2", "sameAsObject": "MEASUREUNIT", "sameAsAttribute": "MEASUREUNITID", "searchType": "WILDCARD"},
+        { "attribute": "STATUS", "description": "状态", "title": "状态", "type": "ALN", "length": 20, "required": false, "persistent": true, "defaultValue": "DRAFT", "searchType": "WILDCARD" },
+        { "attribute": "CREATEBY", "description": "创建人", "title": "创建人", "type": "UPPER", "length": 50, "required": false, "persistent": true, "sameAsObject": "PERSON", "sameAsAttribute": "PERSONID", "defaultValue": "&PERSONID&", "searchType": "WILDCARD" },
+        { "attribute": "CREATETIME", "description": "创建时间", "title": "创建时间", "type": "DATETIME", "length": 10, "required": false, "persistent": true, "defaultValue": "&SYSDATE&" },
+        { "attribute": "CHANGEBY", "description": "修改人", "title": "修改人", "type": "UPPER", "length": 50, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "CHANGEDATE", "description": "修改时间", "title": "修改时间", "type": "DATETIME", "length": 10, "required": false, "persistent": true },
+        { "attribute": "REMARK", "description": "备注", "title": "备注", "type": "ALN", "length": 255, "required": false, "persistent": true, "searchType": "WILDCARD" },
+        { "attribute": "QTY", "description": "数量", "title": "数量",  "type": "DECIMAL" ,"length": 15, "scale": 2, "sameAsObject": "INVENTORY",  "sameAsAttribute": "ORDERQTY"}
+      ],
+      "relationships": [
+        {
+          "relationship": "DEMO_MAIN",
+          "child": "DEMO_MAIN",
+          "whereClause": "MAINNUM = :MAINNUM and SITEID = :SITEID",
+          "remarks": "演示主记录"
+        }
+      ]
+    },
+    {
+      "object": "DEMO_MAIN",
+      "description": "演示主表",
+      "ignoreObjectMain": true,
+      "relationships": [
+        {
+          "relationship": "DEMO_LINE",
+          "child": "DEMO_LINE",
+          "whereClause": "MAINNUM = :MAINNUM and SITEID = :SITEID",
+          "remarks": "演示明细"
+        }
+      ]
+    }
+  ]
+}

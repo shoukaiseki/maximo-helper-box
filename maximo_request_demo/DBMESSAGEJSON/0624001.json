@@ -1,0 +1,5 @@
+{
+  "messages": [
+    { "msgGroup": "ibm_system", "msgKey": "appbean_mbo_null", "value": "出错,请重新进入应用", "displayMethod": "MSGBOX", "options": ["close"], "prefix": "BMXZZ", "suffix": "E" }
+  ]
+}

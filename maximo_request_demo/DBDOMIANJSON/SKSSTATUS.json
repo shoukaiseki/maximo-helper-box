@@ -1,0 +1,46 @@
+[
+  {
+    "domainid": "SKS_STATUS",
+    "domaintype": "ALN",
+    "description": "状态",
+    "maxtype": "UPPER",
+    "internal": 0,
+    "length": 30,
+    "nevercache": false,
+    "alndomain": [
+      {
+        "value": "DRAFT",
+        "description": "草稿"
+      },
+      {
+        "value": "WAPPR",
+        "description": "待审核"
+      },
+      {
+        "value": "APPR",
+        "description": "已批准"
+      },
+      {
+        "value": "CANCEL",
+        "description": "已作废"
+      },
+      {
+        "value": "COMP",
+        "description": "已完成"
+      },
+      {
+        "value": "HISTEDIT",
+        "description": "编辑历史记录"
+      },
+      {
+        "value": "CLOSE",
+        "description": "关闭"
+      },
+      {
+        "value": "REVISE",
+        "description": "重新修改"
+      }
+
+    ]
+  }
+]

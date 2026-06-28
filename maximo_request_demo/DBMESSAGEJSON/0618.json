@@ -1,0 +1,7 @@
+{
+  "messages": [
+    { "msgGroup": "ibm_system", "msgKey": "option_ok", "value": "操作成功", "displayMethod": "TEXT", "options": ["close"], "prefix": "BMXZZ", "suffix": "E" },
+    { "msgGroup": "ibm_system", "msgKey": "msgbox_ok", "value": "msgbox操作成功", "displayMethod": "MSGBOX", "options": ["close"], "prefix": "BMXZZ", "suffix": "E" },
+    { "msgGroup": "ibm_system", "msgKey": "status_ok", "value": "STATUS操作成功", "displayMethod": "STATUS", "options": ["close"], "prefix": "BMXZZ", "suffix": "E" }
+  ]
+}
