@@ -44,7 +44,7 @@ export async function importMaxObject({fileName, logname}) {
         
         logger.info(`[${logname}]收到响应`);
         logger.info(`[${logname}]响应类型:`, typeof response);
-        logger.info(`[${logname}]响应内容:`, response);
+        logger.debug(`[${logname}]响应内容:`, response);
         
         // 检查响应 - requestHttp的响应拦截器已返回res.data
         if (response !== null && response !== undefined) {
@@ -113,7 +113,7 @@ export async function importMaxPresentation({fileName, logname}) {
         
         logger.info(`[${logname}]收到响应`);
         logger.info(`[${logname}]响应类型:`, typeof response);
-        logger.info(`[${logname}]响应内容:`, response);
+        logger.debug(`[${logname}]响应内容:`, response);
         
         if (response !== null && response !== undefined) {
             logger.warn(`[${logname}]导入成功`)
@@ -175,9 +175,9 @@ export async function importMaxDomain({fileName, logname}) {
             data: fileContent  // 将文件内容作为请求体发送
         })
         
-        logger.info(`[${logname}]收到响应`);
-        logger.info(`[${logname}]响应类型:`, typeof response);
-        logger.info(`[${logname}]响应内容:`, response);
+        logger.warn(`[${logname}]收到响应`);
+        logger.warn(`[${logname}]响应类型:`, typeof response);
+        logger.debug(`[${logname}]响应内容:`, response);
         
         // 检查响应 - requestHttp的响应拦截器已返回res.data
         if (response !== null && response !== undefined) {
@@ -237,7 +237,7 @@ export async function saveScriptHistory({autoscript, source, version = '', alias
             }
         });
         
-        logger.info(`[${autoscript}]脚本历史记录保存成功`);
+        logger.warn(`[${autoscript}]脚本历史记录保存成功`);
         return response !== null && response !== undefined;
     } catch (error) {
         logger.error(`[${autoscript}]保存脚本历史记录失败:`, error.message);
@@ -276,8 +276,8 @@ export async function importMaxScript({fileName, logname}) {
         
         const actualLogname = logname || autoscript;
         logger.info(`[${actualLogname}]成功读取配置文件: ${fileName}`);
-        logger.info(`[${actualLogname}]脚本名称: ${autoscript}`);
-        logger.info(`[${actualLogname}]脚本语言: ${scriptLanguage}`);
+        logger.warn(`[${actualLogname}]脚本名称: ${autoscript}`);
+        logger.warn(`[${actualLogname}]脚本语言: ${scriptLanguage}`);
         
         const dirname = fileName.substring(0, fileName.lastIndexOf('/')) || fileName.substring(0, fileName.lastIndexOf('\\')) || '';
         const scriptFileName = dirname ? `${dirname}/${autoscript}${scriptExt}` : `${autoscript}${scriptExt}`;
@@ -525,7 +525,7 @@ export async function importMaxAutoKey({fileName, logname}) {
         
         logger.info(`[${logname}]收到响应`);
         logger.info(`[${logname}]响应类型:`, typeof response);
-        logger.info(`[${logname}]响应内容:`, response);
+        logger.debug(`[${logname}]响应内容:`, response);
         
         if (response !== null && response !== undefined) {
             logger.warn(`[${logname}]导入成功`)
