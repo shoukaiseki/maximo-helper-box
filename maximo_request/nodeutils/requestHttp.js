@@ -121,7 +121,21 @@ function createService() {
     }
   }, error => {
     logger.error('[Response Error] 请求错误:', error.message);
-    logger.debug('[Response Error] 错误对象:', error);
+    try{
+      if(error){
+        logger.debug('[Response Error] 错误对象:', error);
+        if (error.data) {
+          logger.info('[Response Error] 错误error.data:', error.data);
+        }
+        if (error.response&&error.response.data) {
+          logger.info('[Response Error] 错误error.response.data:', error.response.data);
+          if(error.response.data['oslc:Error']&&error.response.data['oslc:Error']['oslc:extendedError']&&error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']){
+            logger.info('[Response Error] 错误error.response.data:', error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']);
+
+          }
+        }
+      }
+    }catch(e){}
 
     let { message } = error;
     if (message == "Network Error") {

@@ -6,12 +6,12 @@ Maximo 表结构和数据更新工具集。
 
 ### 全局安装（CLI 使用）
 ```bash
-npm install -g sks-maximo-utils
+npm install -g shoukaiseki-maximo-utils
 ```
 
 ### 项目中安装（引用使用）
 ```bash
-npm install sks-maximo-utils
+npm install shoukaiseki-maximo-utils
 ```
 
 ## 使用方式
@@ -37,9 +37,11 @@ import {
   importMaxObject, 
   importMaxPresentation, 
   importMaxDomain,
+  importMaxAutoKey,
+  importMaxScript,
   loadConfig,
   logger
-} from 'sks-maximo-utils';
+} from 'shoukaiseki-maximo-utils';
 
 // 加载配置（可选，默认 local）
 loadConfig('local');
@@ -52,6 +54,14 @@ importMaxPresentation({ fileName: "SCREENSXML/test.xml", logname: "应用" });
 
 // 导入域配置
 importMaxDomain({ fileName: "DBDOMAINJSON/domain.json", logname: "域" });
+
+// 导入 AutoKey 配置
+importMaxAutoKey({ fileName: "AUTOKEYJSON/autokey.json", logname: "自动编码" });
+
+// 导入自动化脚本（自动保存历史记录）
+// fileName为JSON配置文件，同目录下需有同名.js文件
+// 例如：scripts/TEST.json 和 scripts/TEST.js
+importMaxScript({ fileName: "scripts/TEST.json" });
 ```
 
 ## 配置文件
@@ -100,6 +110,8 @@ importMaxDomain({ fileName: "DBDOMAINJSON/domain.json", logname: "域" });
 | importMaxObject | 导入 Maximo 对象配置（JSON） |
 | importMaxPresentation | 导入应用 XML 配置 |
 | importMaxDomain | 导入域配置 |
+| importMaxAutoKey | 导入 AutoKey 配置 |
+| importMaxScript | 导入自动化脚本（自动保存历史记录） |
 
 ### 其他方法
 
@@ -120,7 +132,7 @@ npm install
 npm link
 
 # 在其他项目中链接测试
-npm link sks-maximo-utils
+npm link shoukaiseki-maximo-utils
 ```
 
 ## License
