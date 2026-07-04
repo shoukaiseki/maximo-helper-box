@@ -1,0 +1,79 @@
+[
+  {
+    "app": "IBM_PO",
+    "menus": [
+      {
+        "_delete":true,
+        "menuType": "APPMENU",
+        "sks:ELEMENTTYPE:remark": "元素类型",
+        "elementType": "HEADER",
+        "keyValue": "AM26",
+        "description": "附件库/文件夹",
+        "position": 290,
+        "subPosition": 0,
+        "visible": true,
+        "image": ""
+      },
+      {
+        "_delete":true,
+        "menuType": "APPMENU",
+        "elementType": "OPTION",
+        "keyValue": "MANAGELIB",
+        "description": "管理库",
+        "position": 290,
+        "subPosition": 10,
+        "visible": "Y",
+        "image": ""
+      },
+      {
+        "_delete":true,
+        "menuType": "APPMENU",
+        "elementType": "OPTION",
+        "keyValue": "MANAGEFOLD",
+        "description": "管理文件夹",
+        "position": 290,
+        "subPosition": 20,
+        "visible": "Y",
+        "image": ""
+      },
+      {
+        "_delete":true,
+        "menuType": "APPMENU",
+        "elementType": "OPTION",
+        "keyValue": "ASSOCFOLD",
+        "description": "关联文件夹",
+        "position": 290,
+        "subPosition": 30,
+        "visible": true,
+        "image": ""
+      }
+    ]
+  },
+  {
+    "app": "IBM_PO",
+    "sigoptions": [
+      {
+        "_delete":true,
+        "optionName": "MANAGELIB",
+        "description": "管理库",
+        "esigEnabled": false,
+        "visible": true,
+        "alsoGrants": "",
+        "alsoRevokes": "",
+        "prerequisite": "",
+        "langCode": "EN",
+        "_flags": [{ "flagName": "SOME_FLAG", "value": "entry_name" }]
+      },
+      {
+        "_delete":true,
+        "optionName": "MANAGEFOLD",
+        "description": "管理文件夹"
+      },
+      {
+        "_delete":true,
+        "optionName": "ASSOCFOLD",
+        "description": "关联文件夹"
+      }
+    ]
+  }
+]

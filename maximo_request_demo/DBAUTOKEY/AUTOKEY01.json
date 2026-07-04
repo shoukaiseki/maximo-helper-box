@@ -1,0 +1,84 @@
+[
+  {
+    "sks:remark": "系统级自动键 - 只创建1个，orgid/siteid/setid 都为null",
+    "autokeyname": "TEST_SYS_001",
+    "siteorgtype": "SYSTEM",
+    "seed": 1000,
+    "prefix": "SYS"
+  },
+  {
+    "sks:remark": "系统级自动键 - SYSTEMORG 也会创建系统级",
+    "autokeyname": "TEST_SYS_002",
+    "siteorgtype": "SYSTEMORG",
+    "seed": 1000,
+    "prefix": "SYS"
+  },
+  {
+    "sks:remark": "组织级自动键 - 为所有组织创建同名自动键",
+    "autokeyname": "TEST_ORG_001",
+    "siteorgtype": "ORG",
+    "seed": 2000,
+    "prefix": "ORG"
+  },
+  {
+    "sks:remark": "组织级自动键 - ORGSITE 也会为所有组织创建",
+    "autokeyname": "TEST_ORG_002",
+    "siteorgtype": "ORGSITE",
+    "seed": 2000,
+    "prefix": "ORG"
+  },
+  {
+    "sks:remark": "组织级自动键 - SITE 也会为所有组织创建",
+    "autokeyname": "TEST_ORG_003",
+    "siteorgtype": "SITE",
+    "seed": 2000,
+    "prefix": "ORG"
+  },
+  {
+    "sks:remark": "指定组织级自动键 - 只为指定组织创建",
+    "autokeyname": "TEST_ORG_SKS",
+    "orgid": "SKSORG",
+    "seed": 3000,
+    "prefix": "WO"
+  },
+  {
+    "sks:remark": "项目集级自动键 - 为所有项目集创建同名自动键",
+    "autokeyname": "TEST_ITEMSET_001",
+    "siteorgtype": "ITEMSET",
+    "seed": 5000,
+    "prefix": "I"
+  },
+  {
+    "sks:remark": "公司集级自动键 - 为所有公司集创建同名自动键",
+    "autokeyname": "TEST_COMPSET_001",
+    "siteorgtype": "COMPANYSET",
+    "seed": 6000,
+    "prefix": "C"
+  },
+  {
+    "sks:remark": "站点级自动键 - 只为指定站点创建",
+    "autokeyname": "TEST_SITE_SKS",
+    "siteid": "SKS",
+    "seed": 7000,
+    "prefix": "WO"
+  },
+  {
+    "sks:remark": "站点级自动键 - 自动从站点获取组织ID",
+    "autokeyname": "TEST_SITE_SKS2",
+    "siteid": "SKS",
+    "seed": 8000,
+    "prefix": "ASSET"
+  },
+  {
+    "sks:remark": "删除 - 删除指定站点的自动键",
+    "autokeyname": "TEST_001",
+    "siteid": "SKS",
+    "_delete": true
+  },
+  {
+    "sks:remark": "删除所有 - 删除所有同名自动键（不区分级别）",
+    "autokeyname": "TEST_001",
+    "_deleteAll": true,
+    "_delete": true
+  }
+]

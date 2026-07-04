@@ -5,34 +5,50 @@ import { checkAndCreateConfig, getConfigDir, loadConfig } from './nodeutils/conf
 const args = process.argv.slice(2);
 const env = args[0];
 
-if (!env) {
-  // 不带参数：检查配置并打开目录
-  const configPath = checkAndCreateConfig();
-  const configDir = getConfigDir();
+if (!env || ['-h', '--help', '-?', '--version', '-v'].includes(env)) {
+  console.log(`sks-maximo v${require('./package.json').version}`);
+  console.log('');
+  console.log('用法:');
+  console.log('  sks-maximo              # 检查配置文件并打开配置目录');
+  console.log('  sks-maximo <env>        # 加载指定环境配置');
+  console.log('');
+  console.log('环境:');
+  console.log('  local                   # 使用本地环境配置');
+  console.log('  dev                     # 使用开发环境配置');
+  console.log('  hd                      # 使用测试环境配置');
+  console.log('');
+  console.log('选项:');
+  console.log('  -h, --help              # 显示帮助信息');
+  console.log('  -v, --version           # 显示版本信息');
+  console.log('');
+  console.log('配置文件位置: ~/.sks/nodeutils/config.json');
   
-  console.log(`配置文件位置: ${configPath}`);
-  console.log(`正在打开配置目录...`);
-  
-  // 根据操作系统打开目录
-  const platform = process.platform;
-  let command;
-  
-  if (platform === 'win32') {
-    command = `explorer "${configDir}"`;
-  } else if (platform === 'darwin') {
-    command = `open "${configDir}"`;
-  } else {
-    command = `xdg-open "${configDir}"`;
-  }
-  
-  exec(command, (error) => {
-    if (error) {
-      console.error(`打开目录失败: ${error.message}`);
-      console.log(`请手动打开: ${configDir}`);
+  if (!env) {
+    const configPath = checkAndCreateConfig();
+    const configDir = getConfigDir();
+    
+    console.log(`\n配置文件位置: ${configPath}`);
+    console.log(`正在打开配置目录...`);
+    
+    const platform = process.platform;
+    let command;
+    
+    if (platform === 'win32') {
+      command = `explorer "${configDir}"`;
+    } else if (platform === 'darwin') {
+      command = `open "${configDir}"`;
+    } else {
+      command = `xdg-open "${configDir}"`;
     }
-  });
+    
+    exec(command, (error) => {
+      if (error) {
+        console.error(`打开目录失败: ${error.message}`);
+        console.log(`请手动打开: ${configDir}`);
+      }
+    });
+  }
 } else {
-  // 带参数：加载配置
   loadConfig(env);
 }
 

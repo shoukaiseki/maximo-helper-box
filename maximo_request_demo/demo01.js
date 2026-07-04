@@ -1,6 +1,5 @@
 // 全局安装后使用包名
-import { importMaxObject, importMaxPresentation, loadConfig } from 'sks-maximo-utils';
-
+import {importMaxScript,importMaxAppInfo, importMaxAutoKey,importMaxObject,importMaxDomain, importMaxPresentation, loadConfig } from 'sks-maximo-utils';
 
 
 
@@ -14,7 +13,11 @@ importMaxObject({fileName: "DBCONFIGJSON/TEST02.json",logname:"测试配置02"})
 importMaxObject({fileName: "DBCONFIGJSON/AUTOSCRIPT01.json",logname:"AUTOSCRIPT01"})
 importMaxObject({fileName: "DBCONFIGJSON/DEMO_VIEW.json",logname:"演示视图"})
 
+importMaxAutoKey({fileName: "DBAUTOKEY/AUTOKEY01.json",logname:"自动键01"})
+
 importMaxPresentation({fileName: "DBMAXAPPXML/autoscript.xml",logname:""})
 importMaxPresentation({fileName: "DBMAXAPPXML/ibm_autoscript_history.xml",logname:"ibm_autoscript_history"})
 
+await importMaxAppInfo({fileName: "DBMAXAPPINFO/PR002.json",logname:"删除PR文件夹相关签名选项"}) //删除的,不要启用,测试用的
+await importMaxAppInfo({fileName: "DBMAXAPPINFO/PR001.json",logname:"新增PR文件夹相关签名选项"})
 //node demo01.js loc;node demo01.js hd;node demo01.js dev
