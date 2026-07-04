@@ -77,6 +77,10 @@ export function loadConfig(env = null) {
 
     // logLevel 优先使用环境配置，否则使用全局配置
     const logLevel = envConfig.logLevel || globalLogLevel;
+    
+    // langcode 优先使用环境配置，否则使用全局配置，默认 zh
+    const langcode = envConfig.langcode || allConfigs.langcode || 'zh';
+    globalConfig.langcode = langcode;
 
     // 规范化 baseUrl
     if (globalConfig.baseUrl) {
@@ -111,19 +115,23 @@ function copySampleConfig(configPath) {
     // 如果 sample.config.json 不存在，创建默认配置
     const defaultConfig = {
       "logLevel": "INFO",
+      "langcode": "zh",
       "envs": {
         "local": {
           "baseUrl": "http://127.0.0.1:9080/maximo",
+          "langcode": "zh",
           "apiKey": "your-api-key-here",
           "maxauth": ""
         },
         "dev": {
           "baseUrl": "https://mdev/maximo",
+          "langcode": "zh",
           "apiKey": "your-api-key-here",
           "maxauth": ""
         },
         "hd": {
           "baseUrl": "http://xxxxx:9080/maximo",
+          "langcode": "zh",
           "apiKey": "your-api-key-here",
           "maxauth": ""
         }

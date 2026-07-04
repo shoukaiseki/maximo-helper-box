@@ -1,6 +1,8 @@
 import request from '../nodeutils/requestHttp.js'
 import { readFileContent, readJsonFile, readXmlFile } from './fileUtils.js'
 import logger from './logger.js';
+import { getConfig } from './config.js';
+import os from 'os'
 
 /**
  * 导入Maximo对象配置
@@ -35,7 +37,7 @@ export async function importMaxObject({fileName, logname}) {
             method: 'post',
             params: {
                 develop: true,
-                _langcode: 'zh',
+                _langcode: getConfig().langcode,
             },
             data: fileContent  // 将文件内容作为请求体发送
         })
@@ -104,7 +106,7 @@ export async function importMaxPresentation({fileName, logname}) {
                 'Content-Type': 'application/xml'
             },
             params: {
-                _langcode: 'zh',
+                _langcode: getConfig().langcode,
             },
             data: fileContent
         })
@@ -168,7 +170,7 @@ export async function importMaxDomain({fileName, logname}) {
             method: 'post',
             params: {
                 develop: true,
-                _langcode: 'zh',
+                _langcode: getConfig().langcode,
             },
             data: fileContent  // 将文件内容作为请求体发送
         })
@@ -224,7 +226,7 @@ export async function saveScriptHistory({autoscript, source, version = '', alias
             url: '/api/script/SKS_AUTOSCRIPT_HISTORY_SAVE',
             method: 'post',
             params: {
-                _langcode: 'zh',
+                _langcode: getConfig().langcode,
             },
             data: {
                 autoscript,
@@ -295,7 +297,7 @@ export async function importMaxScript({fileName, logname}) {
             source: fileContent,
             version: 'deploy',
             aliasname: '_script_',
-            hostname: require('os').hostname()
+            hostname: os.hostname()
         });
         
         const ignoreFields = ['BINARYSCRIPTSOURCE', 'AUTOSCRIPTID'];
@@ -323,7 +325,7 @@ export async function importMaxScript({fileName, logname}) {
         }
         
         logger.info(`[${actualLogname}]步骤1: 检查脚本是否存在...`);
-        const checkUrl = `os/MXAPIAUTOSCRIPT?lean=1&oslc.select=autoscript&oslc.where=autoscript="${autoscript}"`;
+        const checkUrl = `api/os/MXAPIAUTOSCRIPT?lean=1&oslc.select=autoscript&oslc.where=autoscript="${autoscript}"`;
         
         let scriptExists = false;
         let scriptHref = null;
@@ -354,11 +356,20 @@ export async function importMaxScript({fileName, logname}) {
         let deployUrl;
         let deployMethod = 'POST';
         
+        var headers={};
         if (scriptExists && scriptHref) {
             deployUrl = scriptHref;
-            deployMethod = 'PATCH';
+            deployMethod = 'POST';
+            headers =  {
+                'Content-Type': 'application/merge-patch+json',
+                'x-method-override': 'PATCH'
+            };
+            
         } else {
-            deployUrl = 'os/MXAPIAUTOSCRIPT';
+            deployUrl = 'api/os/MXAPIAUTOSCRIPT';
+            headers =  {
+                'Content-Type': 'application/json'
+            };
         }
         
         const deployBody = {};
@@ -369,6 +380,13 @@ export async function importMaxScript({fileName, logname}) {
                     continue;
                 }
                 if (key.toLowerCase().startsWith('sks:')) {
+                    continue;
+                }
+                if (key.toLowerCase().startsWith('sks:')
+                    || key.toLowerCase() === 'changedate'
+                    || key.toLowerCase() === 'statusdate'
+                ) {
+                    // 跳过 sks: 开头的字段
                     continue;
                 }
                 
@@ -428,6 +446,9 @@ export async function importMaxScript({fileName, logname}) {
         if (deployBody['spi:active'] === undefined) {
             deployBody['spi:active'] = customFields.active;
         }
+        if (deployBody['spi:version'] === undefined || deployBody['spi:version'] === '') {
+            deployBody['spi:version'] = '1.0.0';
+        }
         if (customFields.source) {
             deployBody['spi:source'] = customFields.source;
         } else {
@@ -438,11 +459,8 @@ export async function importMaxScript({fileName, logname}) {
         const deployResult = await request({
             url: deployUrl,
             method: deployMethod,
-            headers: deployMethod === 'PATCH' ? {
-                'Content-Type': 'application/merge-patch+json',
-                'x-method-override': 'PATCH'
-            } : {
-                'Content-Type': 'application/json'
+            headers:  {
+                ...headers
             },
             data: deployBody
         });
@@ -500,7 +518,7 @@ export async function importMaxAutoKey({fileName, logname}) {
             method: 'post',
             params: {
                 develop: true,
-                _langcode: 'zh',
+                _langcode: getConfig().langcode,
             },
             data: fileContent
         })
@@ -508,6 +526,67 @@ export async function importMaxAutoKey({fileName, logname}) {
         logger.info(`[${logname}]收到响应`);
         logger.info(`[${logname}]响应类型:`, typeof response);
         logger.info(`[${logname}]响应内容:`, response);
+        
+        if (response !== null && response !== undefined) {
+            logger.warn(`[${logname}]导入成功`)
+            return true
+        } else {
+            logger.error(`[${logname}]导入失败，响应为空或null`)
+            logger.error(`[${logname}]响应值:`, response)
+            return false
+        }
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            // 服务器返回了错误状态码
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return false
+    }
+}
+
+
+/**
+ * 导入Maximo应用信息配置
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 配置文件名（JSON或XML）
+ * @param {string} options.logname - 日志打印名称
+ * @returns {Promise<boolean>} 是否导入成功
+ */
+export async function importMaxAppInfo({fileName, logname}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        let fileContent = null;
+        fileContent = readFileContent(fileName);
+        
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return false;
+        }
+        
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+        logger.info(`[${logname}]准备导入应用信息: ${logname || '未指定'}`);
+        
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS_IMP_MAXAPPINFO',
+            method: 'post',
+            params: {
+                develop: true,
+                _langcode: getConfig().langcode,
+            },
+            data: fileContent
+        })
+        
+        logger.info(`[${logname}]收到响应`);
+        logger.info(`[${logname}]响应类型:`, typeof response);
+        logger.debug(`[${logname}]响应内容:`, response);
         
         if (response !== null && response !== undefined) {
             logger.warn(`[${logname}]导入成功`)

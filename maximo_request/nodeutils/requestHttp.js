@@ -1,5 +1,8 @@
 import http from 'http';
 import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 import axios from 'axios';
 import { getConfig } from './config.js';
 import logger from './logger.js';
@@ -21,6 +24,78 @@ function limitLogOutput(data, maxLength = 200) {
   } else {
     const truncated = str.substring(0, maxLength) + `...(${str.length}个字)`;
     return { truncated: true, data: truncated };
+  }
+}
+
+function getLogDir() {
+  return path.join(os.homedir(), '.sks', 'nodeutils', 'logs');
+}
+
+function saveRequestLog(config, globalConfig) {
+  try {
+    const logDir = getLogDir();
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+
+    const method = config.method?.toUpperCase() || 'GET';
+    let url = `${config.url}`;
+    
+    if (config.params && Object.keys(config.params).length > 0) {
+      const paramsStr = Object.entries(config.params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+      url += url.includes('?') ? `&${paramsStr}` : `?${paramsStr}`;
+    }
+
+    let httpContent = `### ${method} ${url}\n`;
+    httpContent += `${method} ${url}\n`;
+
+    const skipHeaders = ['user-agent', 'content-length', 'host', 'accept-encoding', 'connection'];
+    Object.entries(config.headers || {}).forEach(([key, value]) => {
+      const lowerKey = key.toLowerCase();
+      if (!skipHeaders.includes(lowerKey)) {
+        httpContent += `${key}: ${value}\n`;
+      }
+    });
+
+    httpContent += '\n';
+    if (config.data) {
+      if (typeof config.data === 'string') {
+        httpContent += config.data;
+      } else {
+        httpContent += JSON.stringify(config.data, null, 2);
+      }
+    }
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `request-${method}-${timestamp}.http`;
+    const filePath = path.join(logDir, fileName);
+    fs.writeFileSync(filePath, httpContent, 'utf-8');
+
+    logger.error(`[HTTP Log] 请求日志已保存: ${filePath}`);
+  } catch (error) {
+    logger.error('[HTTP Log] 保存请求日志失败:', error.message);
+  }
+}
+
+function saveResponseLog(response) {
+  try {
+    const logDir = getLogDir();
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const method = response.config.method?.toUpperCase() || 'GET';
+    const fileName = `response-${method}-${timestamp}.json`;
+    const filePath = path.join(logDir, fileName);
+
+    fs.writeFileSync(filePath, JSON.stringify(response.data, null, 2), 'utf-8');
+
+    logger.error(`[HTTP Log] 响应日志已保存: ${filePath}`);
+  } catch (error) {
+    logger.error('[HTTP Log] 保存响应日志失败:', error.message);
   }
 }
 
@@ -62,8 +137,8 @@ function createService() {
     if (!config.params) {
       config.params = {};
     }
-    if (!(config.url.concat('_langcode') || config.params['_langcode'])) {
-      config.params['_langcode'] = 'zh';
+    if (!config.params['_langcode']) {
+      config.params['_langcode'] = globalConfig.langcode || 'zh';
     }
     var url = `${config.method} ${globalConfig.baseUrl}${config.url}`;
     if (config.params && Object.keys(config.params).length > 0) {
@@ -89,6 +164,9 @@ function createService() {
     }
     logger.info(httpContent);
     logger.info('[Request] 请求准备完成，发送请求...');
+    
+    saveRequestLog(config, globalConfig);
+    
     return config;
   }, error => {
     logger.debug(error);
@@ -98,7 +176,9 @@ function createService() {
   // 响应拦截器
   service.interceptors.response.use(res => {
     logger.info('[Response] 收到响应，状态码:', res.status);
-    logger.info('[Response] 响应数据:', res.data);
+    logger.debug('[Response] 响应数据:', res.data);
+    
+    saveResponseLog(res);
 
     // 未设置状态码则默认成功状态
     const code = res.data?.code || res.status || 200;

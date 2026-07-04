@@ -39,6 +39,7 @@ import {
   importMaxDomain,
   importMaxAutoKey,
   importMaxScript,
+  importMaxAppInfo,
   loadConfig,
   logger
 } from 'shoukaiseki-maximo-utils';
@@ -62,6 +63,9 @@ importMaxAutoKey({ fileName: "AUTOKEYJSON/autokey.json", logname: "自动编码"
 // fileName为JSON配置文件，同目录下需有同名.js文件
 // 例如：scripts/TEST.json 和 scripts/TEST.js
 importMaxScript({ fileName: "scripts/TEST.json" });
+
+// 导入应用信息配置
+importMaxAppInfo({ fileName: "MAXAPPINFO/appinfo.json", logname: "应用信息" });
 ```
 
 ## 配置文件
@@ -72,18 +76,21 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 ```json
 {
   "logLevel": "INFO",
+  "langcode": "zh",
   "envs": {
     "local": {
       "baseUrl": "http://127.0.0.1:9080/maximo",
       "apiKey": "your-api-key",
       "maxauth": "",
-      "authType": "apiKey"
+      "authType": "apiKey",
+      "langcode": "zh"
     },
     "dev": {
       "baseUrl": "https://mdev/maximo",
       "apiKey": "your-api-key",
       "maxauth": "",
-      "authType": "apiKey"
+      "authType": "apiKey",
+      "langcode": "zh"
     }
   }
 }
@@ -94,12 +101,13 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 | 字段 | 说明 |
 |------|------|
 | logLevel | 全局日志级别：TRACE, DEBUG, INFO, WARN, ERROR, FATAL |
+| langcode | 全局语言代码，默认 zh |
 | baseUrl | Maximo 服务地址 |
 | apiKey | API 认证密钥 |
 | maxauth | Maxauth 认证值 |
 | authType | 认证类型：apiKey 或 maxauth |
 
-环境配置中可单独设置 `logLevel`，优先级高于全局配置。
+环境配置中可单独设置 `logLevel` 和 `langcode`，优先级高于全局配置。
 
 ## API
 
@@ -112,15 +120,23 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 | importMaxDomain | 导入域配置 |
 | importMaxAutoKey | 导入 AutoKey 配置 |
 | importMaxScript | 导入自动化脚本（自动保存历史记录） |
+| importMaxAppInfo | 导入应用信息配置 |
 
 ### 其他方法
 
 | 方法 | 说明 |
 |------|------|
 | loadConfig(env) | 加载指定环境配置 |
+| saveScriptHistory(options) | 保存脚本历史记录 |
 | readFileContent(fileName) | 读取文件内容 |
 | readJsonFile(fileName) | 读取并解析 JSON 文件 |
 | fileExists(fileName) | 检查文件是否存在 |
+
+### 日志文件
+
+请求和响应日志会自动保存到 `~/.sks/nodeutils/logs/` 目录：
+- `request-*.http` - 请求日志（IntelliJ IDEA HTTP Client 格式）
+- `response-*.json` - 响应日志
 
 ## 开发
 
