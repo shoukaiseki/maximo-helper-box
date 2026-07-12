@@ -177,7 +177,7 @@ export async function importMaxDomain({fileName, logname}) {
         
         logger.warn(`[${logname}]收到响应`);
         logger.warn(`[${logname}]响应类型:`, typeof response);
-        logger.debug(`[${logname}]响应内容:`, response);
+        logger.warn(`[${logname}]响应内容:`, response);
         
         // 检查响应 - requestHttp的响应拦截器已返回res.data
         if (response !== null && response !== undefined) {
@@ -606,5 +606,74 @@ export async function importMaxAppInfo({fileName, logname}) {
             logger.error(`[${logname}]错误详情:`, error)
         }
         return false
+    }
+}
+export async function callMaxScript({ apiScriptName, fileName, params = {}, logname }) {
+    if (!apiScriptName) {
+        logger.error('[callMaxScript]脚本名称不能为空')
+        return false
+    }
+    
+    const actualLogname = logname || apiScriptName
+    
+    try {
+        logger.info(`[${actualLogname}]开始调用脚本: ${apiScriptName}`)
+        
+        let data = null
+        if (fileName) {
+            const fileContent = readFileContent(fileName)
+            if (!fileContent) {
+                logger.error(`[${actualLogname}]文件读取失败: ${fileName}`)
+                return false
+            }
+            logger.info(`[${actualLogname}]已读取请求体文件: ${fileName}`)
+            
+            if (fileName.endsWith('.json')) {
+                try {
+                    data = JSON.parse(fileContent)
+                } catch (e) {
+                    logger.error(`[${actualLogname}]JSON解析失败: ${e.message}`)
+                    return false
+                }
+            } else {
+                data = fileContent
+            }
+        }
+        
+        const requestConfig = {
+            url: `/api/script/${apiScriptName}`,
+            method: data ? 'POST' : 'GET',
+            params: {
+                ...params,
+                _langcode: getConfig().langcode,
+            }
+        }
+        
+        if (data !== null) {
+            requestConfig.data = data
+        }
+        
+        const response = await request(requestConfig)
+        
+        logger.info(`[${actualLogname}]收到响应`)
+        logger.debug(`[${actualLogname}]响应内容:`, response)
+        
+        if (response !== null && response !== undefined) {
+            logger.info(`[${actualLogname}]调用成功`)
+            return response
+        } else {
+            logger.error(`[${actualLogname}]调用失败，响应为空或null`)
+            return null
+        }
+    } catch (error) {
+        logger.error(`[${actualLogname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${actualLogname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${actualLogname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${actualLogname}]错误详情:`, error)
+        }
+        return null
     }
 }

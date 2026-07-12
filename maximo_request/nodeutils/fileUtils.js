@@ -88,9 +88,52 @@ function fileExists(fileNameIn) {
   }
 }
 
+/**
+ * 列出目录中的文件
+ * @param {string} dirName - 目录名（相对或绝对路径）
+ * @param {string} [extFilter] - 文件扩展名过滤，如 '.json'、'.js'，不传则返回所有文件
+ * @param {boolean} [recursive=true] - 是否递归检索子目录
+ * @returns {string[]} 文件全路径数组
+ */
+function listFiles(dirName, extFilter, recursive = true) {
+  const dirPath = path.isAbsolute(dirName.replace(/\\/g, '/')) ? dirName : path.join(getWorkDir(), dirName);
+
+  try {
+    if (!fs.existsSync(dirPath)) {
+      console.error(`目录不存在: ${dirPath}`);
+      return [];
+    }
+
+    const results = [];
+
+    function scanDir(currentPath, baseRelative) {
+      const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(currentPath, entry.name);
+        const relativePath = baseRelative ? path.join(baseRelative, entry.name) : entry.name;
+
+        if (entry.isFile()) {
+          if (!extFilter || entry.name.endsWith(extFilter)) {
+            results.push(fullPath);
+          }
+        } else if (entry.isDirectory() && recursive) {
+          scanDir(fullPath, relativePath);
+        }
+      }
+    }
+
+    scanDir(dirPath, '');
+    return results;
+  } catch (error) {
+    console.error(`列出目录文件失败: ${dirName}`, error.message);
+    return [];
+  }
+}
+
 export {
   readFileContent,
   readJsonFile,
   readXmlFile,
-  fileExists
+  fileExists,
+  listFiles
 };

@@ -1,0 +1,25 @@
+[
+  {
+    "logger": "sql",
+    "loglevel": "ERROR",
+    "logkey": "log4j.logger.maximo.sql",
+    "active": 1,
+    "children": [
+      { "logger": "SIGNATURE.LOGINBLOCK", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.SIGNATURE.LOGINBLOCK", "active": 1 },
+      { "logger": "GRAPHITE", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.GRAPHITE", "active": 1 },
+      { "logger": "SIGNATURE", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.SIGNATURE", "active": 1 },
+      { "logger": "PERSON", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.PERSON", "active": 1 },
+      { "logger": "SYSTEM", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.SYSTEM", "active": 1 },
+      { "logger": "REPORT", "loglevel": "ERROR", "logkey": "log4j.logger.maximo.sql.REPORT", "active": 1 },
+      { "logger": "CUSTAPP", "loglevel": "INFO", "logkey": "log4j.logger.maximo.sql.CUSTAPP", "active": 1 }
+    ]
+  },
+  {
+    "logger": "txn",
+    "loglevel": "INFO",
+    "logkey": "log4j.logger.maximo.txn",    
+    "active": 1,
+    "children": [
+    ]
+  }
+]

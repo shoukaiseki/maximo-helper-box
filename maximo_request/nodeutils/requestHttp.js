@@ -27,6 +27,10 @@ function limitLogOutput(data, maxLength = 200) {
   }
 }
 
+function joinUrl(base, path) {
+  return `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+}
+
 function getLogDir() {
   return path.join(os.homedir(), '.sks', 'nodeutils', 'logs');
 }
@@ -39,7 +43,7 @@ function saveRequestLog(config, globalConfig) {
     }
 
     const method = config.method?.toUpperCase() || 'GET';
-    let url = `${config.url}`;
+    let url = joinUrl(globalConfig.baseUrl, config.url);
     
     if (config.params && Object.keys(config.params).length > 0) {
       const paramsStr = Object.entries(config.params)
@@ -79,6 +83,44 @@ function saveRequestLog(config, globalConfig) {
   }
 }
 
+function saveErrorLog(error) {
+  try {
+    const logDir = getLogDir();
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const method = error.config?.method?.toUpperCase() || 'GET';
+    const fullUrl = error.config ? joinUrl(getConfig().baseUrl, error.config.url) : 'unknown';
+    
+    const errorLog = {
+      timestamp: timestamp,
+      method: method,
+      url: fullUrl,
+      message: error.message,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      headers: error.response?.headers,
+      data: error.response?.data || error.data,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        params: error.config?.params,
+        data: error.config?.data
+      }
+    };
+
+    const fileName = `response-error-${method}-${timestamp}.json`;
+    const filePath = path.join(logDir, fileName);
+
+    fs.writeFileSync(filePath, JSON.stringify(errorLog, null, 2), 'utf-8');
+
+    logger.warn(`[HTTP Log] 错误日志已保存: ${filePath}`);
+  } catch (e) {
+    logger.error('[HTTP Log] 保存错误日志失败:', e.message);
+  }
+}
 function saveResponseLog(response) {
   try {
     const logDir = getLogDir();
@@ -88,12 +130,24 @@ function saveResponseLog(response) {
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const method = response.config.method?.toUpperCase() || 'GET';
+    const fullUrl = joinUrl(getConfig().baseUrl, response.config.url);
+    
+    const responseLog = {
+      timestamp: timestamp,
+      method: method,
+      url: fullUrl,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      data: response.data
+    };
+
     const fileName = `response-${method}-${timestamp}.json`;
     const filePath = path.join(logDir, fileName);
 
-    fs.writeFileSync(filePath, JSON.stringify(response.data, null, 2), 'utf-8');
+    fs.writeFileSync(filePath, JSON.stringify(responseLog, null, 2), 'utf-8');
 
-    logger.error(`[HTTP Log] 响应日志已保存: ${filePath}`);
+    logger.warn(`[HTTP Log] 响应日志已保存: ${filePath}`);
   } catch (error) {
     logger.error('[HTTP Log] 保存响应日志失败:', error.message);
   }
@@ -140,7 +194,7 @@ function createService() {
     if (!config.params['_langcode']) {
       config.params['_langcode'] = globalConfig.langcode || 'zh';
     }
-    var url = `${config.method} ${globalConfig.baseUrl}${config.url}`;
+    var url = `${config.method} ${joinUrl(globalConfig.baseUrl, config.url)}`;
     if (config.params && Object.keys(config.params).length > 0) {
       if (url.indexOf('?') > -1) {
         url += `&`;
@@ -200,18 +254,29 @@ function createService() {
       return Promise.reject(new Error('未知错误'));
     }
   }, error => {
-    logger.error('[Response Error] 请求错误:', error.message);
     try{
       if(error){
+        logger.error('[Response Error] 请求错误:', error.message);
+        saveErrorLog(error);
         logger.debug('[Response Error] 错误对象:', error);
         if (error.data) {
           logger.info('[Response Error] 错误error.data:', error.data);
         }
         if (error.response&&error.response.data) {
           logger.info('[Response Error] 错误error.response.data:', error.response.data);
-          if(error.response.data['oslc:Error']&&error.response.data['oslc:Error']['oslc:extendedError']&&error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']){
-            logger.info('[Response Error] 错误error.response.data:', error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']);
+          if (error.response.data['oslc:Error']) {
+            if (error.response.data['oslc:Error']['oslc:extendedError']) {
+              if (error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']) {
+                logger.error('[Response Error] 错误error.response.data:', error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']);
 
+              }
+            } else {
+              if(error.response.data['oslc:Error']['oslc:message']){
+                logger.error('[Response Error] 错误error.response.data.oslc:Error.oslc:message:', error.response.data['oslc:Error']['oslc:message']);
+              }else{
+                logger.error('[Response Error] 错误error.response.data.oslc:Error.oslc:message:', error.response.data['oslc:Error']);
+              }
+            }
           }
         }
       }

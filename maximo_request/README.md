@@ -11,7 +11,7 @@ npm install -g shoukaiseki-maximo-utils
 
 ### 项目中安装（引用使用）
 ```bash
-npm install shoukaiseki-maximo-utils
+npm install sks-maximo-utils
 ```
 
 ## 使用方式
@@ -148,7 +148,7 @@ npm install
 npm link
 
 # 在其他项目中链接测试
-npm link shoukaiseki-maximo-utils
+npm link sks-maximo-utils
 ```
 
 ## License
