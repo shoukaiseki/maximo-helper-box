@@ -1,0 +1,398 @@
+/* ============================================================
+ * Maximo 自定义主题 - 深蓝系 (Deep Blue)
+ * 主色调：#002664 深蓝
+ * ============================================================ */
+
+.login-background-image {
+    background-image: url("https://www.shoukaiseki.cn/sks.png");
+    background-color: #E8EEF4;
+}
+
+/* 输入框背景色 */
+#root .mx--no-header .cds--text-input {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+/* 标题字体颜色 */
+#root .mx--no-header .cds--list-box__label,
+#root .mx--no-header p.mx--label.cds--form-item:not(.field-label) {
+    color: #002664;
+}
+/* 用户名、密码 标签文字颜色 */
+#root .mx--no-header .cds--label {
+    color: #002664;
+}
+/* 记住用户名 文字颜色 */
+#root .mx--no-header .cds--checkbox-label {
+    color: #002664;
+}
+/* 复选框 未选中时的边框颜色 */
+#root .mx--no-header .cds--checkbox-label::before {
+    border-color: #002664;
+}
+/* 复选框 选中时的背景色 */
+#root .mx--no-header .cds--checkbox:checked + .cds--checkbox-label::before {
+    background-color: #002664;
+}
+/* 复选框 选中后的勾号颜色 */
+#root .mx--no-header .cds--checkbox:checked + .cds--checkbox-label::after {
+    border-color: #FFFFFF;
+}
+
+/* 左侧图片容器圆角 */
+.mx--BorderLayout_center {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* 图片大小 */
+.login-background-image {
+  background-size: 100% 60% !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* ====== 登录页交互色 ====== */
+#root .mx--no-header .mx--color-bg-interactive-02 {
+    background-color: #D9E2EC;
+}
+
+/* 重新登录 / 登录按钮 / 接受代码 */
+.mx--no-header button#x6p49.cds--btn,
+.mx--no-header button#j9pvq.cds--btn,
+.mx--no-header button#kwbyk.cds--btn {
+    background-color: #002664;
+}
+
+/* 隐藏 "继续使用 本地帐户" */
+.mx-label-theme-header-medium {
+    display: none !important;
+}
+
+/* ====== 以下样式适用于登录后的内页（顶栏 & 侧边栏） ====== */
+
+/* ====================== 顶部Header横向渐变 ====================== */
+.cds--header {
+    /* 纯色降级 */
+    background-color: #E8EEF4 !important;
+    /* 横向浅蓝柔和渐变 */
+    background: linear-gradient(90deg, #F1F6FC 0%, #D8E3F1 100%) !important;
+    border-bottom: 1px solid #C2D2E6 !important;
+}
+.cds--header .cds--header__name,
+.cds--header .cds--header__menu-item {
+    background: transparent !important;
+}
+.cds--header__name,
+.cds--header__menu-item {
+    color: #002664 !important;
+}
+
+/* Header 全局工具栏 */
+.cds--header__global {
+    background: transparent !important;
+}
+.cds--header a.cds--header__menu-item {
+    background: transparent !important;
+}
+
+/* ====================== 左侧侧边栏纵向渐变 ====================== */
+.cds--side-nav {
+    background-color: #E1EBF7 !important;
+    background: linear-gradient(180deg, #EBF2FB 0%, #CFDDEF 100%) !important;
+    border-right: 1px solid #B9C9E0 !important;
+}
+
+/* 侧边栏菜单文字 */
+.cds--side-nav__link,
+.cds--side-nav__submenu-title {
+    color: #0A2350 !important;
+}
+
+/* 顶栏 & 侧边栏文字颜色 - 深蓝 */
+.cds--header__name--prefix,
+.iot--header__short-name,
+.cds--header__menu-item,
+.cds--header__menu-title,
+.cds--side-nav__link,
+.cds--side-nav__link-text,
+.cds--side-nav__submenu-title {
+    color: #002664 !important;
+}
+
+/* 侧边栏鼠标悬浮 - 浅蓝横向渐变 */
+.cds--side-nav__link:hover,
+.cds--side-nav__submenu-title:hover {
+    background: linear-gradient(90deg, #C2D4EC 0%, #B3C8E3 100%) !important;
+}
+
+/* 侧边栏当前激活菜单 - 浅蓝渐变高亮 */
+.cds--side-nav__link--current {
+    background: linear-gradient(90deg, #3A7BD5 0%, #2B6CB0 100%) !important;
+    color: #FFFFFF !important;
+}
+.cds--side-nav__link--current .cds--side-nav__icon svg {
+    fill: #FFFFFF !important;
+}
+
+/* 顶栏 & 侧边栏 SVG 图标颜色 */
+.cds--header__action svg,
+.cds--side-nav svg,
+.cds--header__menu-trigger svg {
+    fill: #002664 !important;
+}
+
+/* Header 名称区域文字 & 副标题 */
+.cds--header__name,
+.iot--header__subtitle {
+    color: #002664 !important;
+}
+
+/* ISUZU 品牌文字 - ISUZU红 #E60012（企业标志专用色） */
+.cds--header__name--prefix {
+    color: #E60012 !important;
+    font-weight: bold !important;
+}
+
+/* 侧边栏搜索栏背景色 - 更深一层 */
+.cds--search,
+.cds--search-input {
+    background-color: #CFD6E0 !important;
+}
+
+/* 侧边栏搜索输入文字颜色 */
+.iot--side-nav .cds--search-input,
+.cds--side-nav .cds--search-input {
+    color: #002664 !important;
+}
+
+/* 侧边栏搜索提示文字颜色 */
+.iot--side-nav .cds--search-input::placeholder,
+.cds--side-nav .cds--search-input::placeholder {
+    color: #7A9BB5 !important;
+}
+
+/* 侧边栏搜索标签文字颜色 */
+.iot--side-nav .cds--label,
+.cds--side-nav .cds--label {
+    color: #002664 !important;
+}
+
+/* 侧边栏菜单图标 - 浅色背景上压暗 */
+.cds--side-nav__icon img {
+    filter: brightness(0.5);
+}
+
+/* ====== 顶栏按钮交互状态 ====== */
+
+/* Header 导航按钮激活态背景色 */
+.cds--header .cds--header__action--active {
+    background-color: #CFD6E0 !important;
+}
+
+/* Header 导航按钮悬停态背景色 */
+.cds--header .cds--header__action:hover {
+    background-color: #CFD6E0 !important;
+}
+
+/* Header 导航按钮焦点态背景色 & 去除白色边框 */
+.cds--header .cds--header__action:focus {
+    background-color: #CFD6E0 !important;
+    border-color: transparent !important;
+}
+
+/* Profile & 帮助按钮展开态背景色 */
+.cds--header .cds--header__menu-title[aria-expanded="true"] {
+    background-color: #CFD6E0 !important;
+}
+
+/* Profile & 帮助按钮焦点态背景色 */
+.cds--header .cds--header__menu-title:focus {
+    background-color: #CFD6E0 !important;
+}
+
+/* ====== Profile 下拉面板 & 菜单 ====== */
+
+/* Profile 面板背景色 - 与header渐变一致 */
+.iot--suite-header-profile {
+    background: linear-gradient(90deg, #F1F6FC 0%, #D8E3F1 100%) !important;
+}
+
+/* Profile 面板标题文字颜色 */
+.iot--suite-header-profile h5 {
+    color: #002664 !important;
+}
+
+/* Profile 面板用户名 & 邮箱文字颜色 */
+.iot--suite-header-profile--user strong,
+.iot--suite-header-profile--user div {
+    color: #002664 !important;
+}
+
+/* "编辑概要文件" 按钮背景色 - 深蓝 */
+.iot--suite-header-profile .cds--btn {
+    background-color: #002664 !important;
+    color: #FFFFFF !important;
+}
+
+/* Profile 下拉菜单整体背景色 */
+.cds--header__menu {
+    background-color: #E1EBF7 !important;
+}
+
+/* Profile 下拉菜单项背景色 */
+.cds--header__menu .cds--header__menu-item {
+    background-color: #E1EBF7 !important;
+}
+
+/* Profile 下拉菜单项悬停背景色 */
+.cds--header__menu .cds--header__menu-item:hover {
+    background-color: #CFD6E0 !important;
+}
+
+/* ====== 顶栏图标颜色覆盖（帮助、Profile 按钮 SVG） ====== */
+
+/* 帮助按钮 SVG 图标颜色 */
+.cds--header .iot--btn svg {
+    fill: #002664 !important;
+}
+
+/* Profile 菜单触发器 SVG 图标颜色 */
+.cds--header__menu-trigger svg {
+    fill: #002664 !important;
+}
+
+/* ====== Header 按钮 tooltip 气泡框 ====== */
+.cds--popover-content.cds--tooltip-content {
+    background-color: #CFD6E0 !important;
+    color: #002664 !important;
+}
+
+/* Tooltip 箭头（小三角）颜色 */
+.cds--popover--caret .cds--popover-caret {
+    background-color: #CFD6E0 !important;
+}
+
+/* ====== iframe 内报告菜单 ====== */
+
+/* 报告菜单背景色 */
+.menus.ns_report {
+    background-color: #FFFFFF !important;
+    --maximo-menu-dark-background: #FFFFFF;
+    --maximo-menu-dark-color: #002664;
+    --maximo-menu-dark-hover-color: #002664;
+    --maximo-menu-dark-hover-background: #CFD6E0;
+    --maximo-submenu-dark-hover-background: #CFD6E0;
+    --maximo-menu-light-hover-color: #0043CE;
+    --maximo-menu-light-hover-background: #F4F4F4;
+    --maximo-menu-light-background: #ffffff !important;
+    --maximo-menu-light-color: #0F62FE !important;
+}
+
+/* 报告菜单项 li 背景色 */
+.menus.ns_report li {
+    background-color: #FFFFFF !important;
+}
+
+/* 报告菜单当前选中项背景色 */
+.menus.ns_report .submenu.current {
+    background-color: #CFD6E0 !important;
+}
+
+/* 报告菜单项文字颜色 */
+.menus.ns_report a {
+    color: #002664 !important;
+}
+
+.menus.ns_report span {
+    color: #002664 !important;
+}
+
+/* 报告菜单项悬停背景色 */
+.menus.ns_report li:hover {
+    background-color: #CFD6E0 !important;
+}
+
+/* 报告子菜单背景色 */
+.ns_report .menus {
+    background-color: #FFFFFF !important;
+    --maximo-menu-dark-background: #FFFFFF;
+    --maximo-menu-dark-color: #002664;
+    --maximo-menu-dark-hover-color: #002664;
+    --maximo-menu-dark-hover-background: #CFD6E0;
+    --maximo-submenu-dark-hover-background: #CFD6E0;
+    --maximo-menu-light-hover-color: #0043CE;
+    --maximo-menu-light-hover-background: #F4F4F4;
+    --maximo-menu-light-background: #ffffff !important;
+    --maximo-menu-light-color: #0F62FE !important;
+}
+
+/* 报告子菜单项背景色（高特异性覆盖） */
+.ns_report .menus.maximo-menu-dark li {
+    background-color: #FFFFFF !important;
+}
+
+/* 报告子菜单展开态背景色 */
+.ns_report .menus.maximo-menu-dark li[menu-sub-expanded] {
+    background-color: #FFFFFF !important;
+}
+
+/* 报告子菜单项悬停背景色 */
+.ns_report .menus.maximo-menu-dark li:hover {
+    background-color: #CFD6E0 !important;
+}
+
+/* 报告子菜单项文字颜色 */
+.ns_report .menus span {
+    color: #002664 !important;
+}
+
+.ns_report .menus a {
+    color: #002664 !important;
+}
+
+/* 报告子菜单箭头图标（深色，与浅色背景形成对比） */
+.ns_report .menu-sub-image {
+    filter: brightness(0.5);
+}
+
+/* 报告子菜单模块图标（深色，与浅色背景形成对比） */
+.ns_report .menuimg {
+    filter: brightness(0.5);
+}
+
+/* ====================== 页面主内容区域底色（柔和渐变背景） ====================== */
+.cds--content {
+    background-color: #F9FAFC !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F4F8FD 100%) !important;
+}
+
+/* ====================== 列表表头渐变 ====================== */
+.cds--data-table-header {
+    background: linear-gradient(90deg, #EEF3FA 0%, #E5ECF8 100%) !important;
+}
+
+/* ====================== 待办任务卡片面板 浅渐变美化 ====================== */
+.cds--tile,
+.cds--card {
+    background-color: #ffffff;
+    background: linear-gradient(180deg, #ffffff 0%, #FCFDFF 100%);
+    border: 1px solid #D8E1EE;
+}
+
+/* ====================== 全局滚动条柔和适配 ====================== */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-track {
+    background: #E8EEF4;
+}
+::-webkit-scrollbar-thumb {
+    background: #A3B6D3;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8FA4C4;
+}
