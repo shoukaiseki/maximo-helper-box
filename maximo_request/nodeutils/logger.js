@@ -8,6 +8,17 @@ const LEVELS = {
   FATAL: 5
 };
 
+// 颜色定义
+const COLORS = {
+  TRACE: '\x1b[90m',  // 灰色
+  DEBUG: '\x1b[36m',  // 青色
+  INFO:  '\x1b[32m',  // 绿色
+  WARN:  '\x1b[33m',  // 黄色
+  ERROR: '\x1b[31m',  // 红色
+  FATAL: '\x1b[1;31m' // 粗体红
+};
+const RESET = '\x1b[0m';
+
 class ConsoleLogger {
   constructor(level = 'INFO') {
     this.level = LEVELS[level] !== undefined ? LEVELS[level] : LEVELS.INFO;
@@ -27,7 +38,8 @@ class ConsoleLogger {
     if (levelValue < this.level) return;
 
     const timestamp = new Date().toLocaleTimeString();
-    const prefix = `[${timestamp}] [${levelName}]`;
+    const color = COLORS[levelName] || '';
+    const prefix = `${color}[${timestamp}] [${levelName}]${RESET}`;
 
     switch (levelValue) {
       case LEVELS.TRACE:
@@ -36,11 +48,11 @@ class ConsoleLogger {
         console.log(prefix, ...args);
         break;
       case LEVELS.WARN:
-        console.warn(prefix, ...args); // 输出到 stderr，但通常显示为黄色警告
+        console.warn(prefix, ...args);
         break;
       case LEVELS.ERROR:
       case LEVELS.FATAL:
-        console.error(prefix, ...args); // 输出到 stderr，通常显示为红色错误
+        console.error(prefix, ...args);
         break;
     }
   }

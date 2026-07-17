@@ -265,17 +265,15 @@ function createService() {
         if (error.response&&error.response.data) {
           logger.info('[Response Error] 错误error.response.data:', error.response.data);
           if (error.response.data['oslc:Error']) {
-            if (error.response.data['oslc:Error']['oslc:extendedError']) {
+            if (error.response.data['oslc:Error']['oslc:message']) {
+                logger.error('[Response Error] 错误error.response.data.oslc:Error.oslc:message:\x1b[32m['+error.response.data['oslc:Error']['oslc:message']+"]\x1b[0m");
+            }else if (error.response.data['oslc:Error']['oslc:extendedError']) {
               if (error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']) {
                 logger.error('[Response Error] 错误error.response.data:', error.response.data['oslc:Error']['oslc:extendedError']['oslc:moreInfo']);
 
               }
             } else {
-              if(error.response.data['oslc:Error']['oslc:message']){
-                logger.error('[Response Error] 错误error.response.data.oslc:Error.oslc:message:', error.response.data['oslc:Error']['oslc:message']);
-              }else{
-                logger.error('[Response Error] 错误error.response.data.oslc:Error.oslc:message:', error.response.data['oslc:Error']);
-              }
+              logger.error('[Response Error] 错误error.response.data.oslc:Error', error.response.data['oslc:Error']);
             }
           }
         }

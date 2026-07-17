@@ -656,7 +656,7 @@ export async function callMaxScript({ apiScriptName, fileName, params = {}, logn
         const response = await request(requestConfig)
         
         logger.info(`[${actualLogname}]收到响应`)
-        logger.debug(`[${actualLogname}]响应内容:`, response)
+        logger.warn(`[${actualLogname}]响应内容:`, response)
         
         if (response !== null && response !== undefined) {
             logger.info(`[${actualLogname}]调用成功`)

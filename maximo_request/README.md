@@ -40,9 +40,11 @@ import {
   importMaxAutoKey,
   importMaxScript,
   importMaxAppInfo,
+  callMaxScript,
+  fileUtils,
   loadConfig,
   logger
-} from 'shoukaiseki-maximo-utils';
+} from 'sks-maximo-utils';
 
 // 加载配置（可选，默认 local）
 loadConfig('local');
@@ -66,6 +68,16 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 
 // 导入应用信息配置
 importMaxAppInfo({ fileName: "MAXAPPINFO/appinfo.json", logname: "应用信息" });
+
+// 通用脚本接口调用（GET）
+callMaxScript({ apiScriptName: "SHARPTREE.AUTOSCRIPT.LIBRARY", params: { name: "test" }, logname: "查询脚本库" });
+
+// 通用脚本接口调用（POST，读取文件内容作为请求体）
+callMaxScript({ apiScriptName: "SKS_DEPLOY_AUTOKEY", fileName: "data/autokey.json", logname: "部署自动编码" });
+
+// 文件工具
+fileUtils.listFiles('scripts', '.json');
+fileUtils.readFileContent('test.txt');
 ```
 
 ## 配置文件
@@ -126,11 +138,15 @@ importMaxAppInfo({ fileName: "MAXAPPINFO/appinfo.json", logname: "应用信息" 
 
 | 方法 | 说明 |
 |------|------|
+| callMaxScript | 通用脚本接口调用（GET/POST） |
 | loadConfig(env) | 加载指定环境配置 |
 | saveScriptHistory(options) | 保存脚本历史记录 |
 | readFileContent(fileName) | 读取文件内容 |
 | readJsonFile(fileName) | 读取并解析 JSON 文件 |
 | fileExists(fileName) | 检查文件是否存在 |
+| fileUtils.listFiles(dirName, extFilter, recursive) | 列出目录文件 |
+| fileUtils.readFileContent(fileName) | 读取文件内容 |
+| fileUtils.readJsonFile(fileName) | 读取并解析 JSON 文件 |
 
 ### 日志文件
 
