@@ -39,7 +39,7 @@ application-prod.yml
 output/
 
 # Template directories (generated)
-templates/
+#templates/
 
 # Library directories
 lib/
