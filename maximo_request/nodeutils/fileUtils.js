@@ -89,6 +89,23 @@ function fileExists(fileNameIn) {
 }
 
 /**
+ * 通用文件路径转换 - 将各种形式的文件路径转换为规范化后的实际可用路径
+ * @param {string} fileName - 文件名或路径（支持相对路径、绝对路径）
+ * @returns {string} 规范化后的绝对路径
+ */
+function resolveFilePath(fileName) {
+  if (!fileName) return '';
+  // 统一分隔符
+  fileName = fileName.replace(/\\/g, '/');
+  // 绝对路径直接规范化返回
+  if (path.isAbsolute(fileName)) {
+    return path.normalize(fileName);
+  }
+  // 相对路径拼接工作目录
+  return path.normalize(path.join(getWorkDir(), fileName));
+}
+
+/**
  * 列出目录中的文件
  * @param {string} dirName - 目录名（相对或绝对路径）
  * @param {string} [extFilter] - 文件扩展名过滤，如 '.json'、'.js'，不传则返回所有文件
@@ -135,5 +152,6 @@ export {
   readJsonFile,
   readXmlFile,
   fileExists,
-  listFiles
+  listFiles,
+  resolveFilePath
 };

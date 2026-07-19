@@ -1,8 +1,9 @@
 import request from '../nodeutils/requestHttp.js'
-import { readFileContent, readJsonFile, readXmlFile } from './fileUtils.js'
+import { readFileContent, readJsonFile, readXmlFile, resolveFilePath } from './fileUtils.js'
 import logger from './logger.js';
 import { getConfig } from './config.js';
 import os from 'os'
+import path from 'path'
 
 /**
  * 导入Maximo对象配置
@@ -255,10 +256,23 @@ export async function saveScriptHistory({autoscript, source, version = '', alias
  */
 export async function importMaxScript({fileName, logname}) {
     try {
-        const jsonContent = readJsonFile(fileName);
+        // 使用通用路径转换方法解析路径
+        const resolvedFilePath = resolveFilePath(fileName);
+        const fileExt = path.extname(resolvedFilePath).toLowerCase();
+        
+        // 如果不是JSON文件（如直接传入了.js/.py脚本文件路径），自动找同目录下的同名JSON配置文件
+        let jsonFilePath = resolvedFilePath;
+        if (fileExt !== '.json') {
+            const dir = path.dirname(resolvedFilePath);
+            const baseName = path.basename(resolvedFilePath, fileExt);
+            jsonFilePath = path.join(dir, `${baseName}.json`);
+            logger.info(`[导入脚本] 传入的是脚本文件，尝试查找配置文件: ${jsonFilePath}`);
+        }
+        
+        const jsonContent = readJsonFile(jsonFilePath);
         
         if (!jsonContent) {
-            logger.error(`文件读取失败: ${fileName}`);
+            logger.error(`配置文件读取失败: ${jsonFilePath}`);
             return false;
         }
         
@@ -275,12 +289,13 @@ export async function importMaxScript({fileName, logname}) {
         const scriptExt = isPython ? '.py' : '.js';
         
         const actualLogname = logname || autoscript;
-        logger.info(`[${actualLogname}]成功读取配置文件: ${fileName}`);
+        logger.info(`[${actualLogname}]成功读取配置文件: ${jsonFilePath}`);
         logger.warn(`[${actualLogname}]脚本名称: ${autoscript}`);
         logger.warn(`[${actualLogname}]脚本语言: ${scriptLanguage}`);
         
-        const dirname = fileName.substring(0, fileName.lastIndexOf('/')) || fileName.substring(0, fileName.lastIndexOf('\\')) || '';
-        const scriptFileName = dirname ? `${dirname}/${autoscript}${scriptExt}` : `${autoscript}${scriptExt}`;
+        // 脚本文件路径：在配置文件同目录下，按 autoscript 名称查找
+        const dirname = path.dirname(jsonFilePath);
+        const scriptFileName = path.join(dirname, `${autoscript}${scriptExt}`);
         
         const fileContent = readFileContent(scriptFileName);
         
