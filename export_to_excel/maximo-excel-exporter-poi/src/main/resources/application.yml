@@ -30,13 +30,21 @@ object:
 # SQL 查询语句
 queries:
   # 查询对象列表
-  maxobjects: |
+  maxobjects_bak1: |
     select
            l.DESCRIPTION as l_description,
            OBJECTNAME, MAXOBJECT.DESCRIPTION
     from MAXOBJECT
     left join L_MAXOBJECT as l on (MAXOBJECTID=l.OWNERID and l.LANGCODE='ZH')
     where objectname like 'IBM%' or OBJECTNAME in ('ITEM')
+  maxobjects: |
+    select
+           l.DESCRIPTION as l_description,
+           OBJECTNAME, MAXOBJECT.DESCRIPTION
+    from MAXOBJECT
+    left join L_MAXOBJECT as l on (MAXOBJECTID=l.OWNERID and l.LANGCODE='ZH')
+    where objectname  in ('ITEM','PERSON','MAXUSER')
+
 
   # 查询对象属性
   maxattributes: |
