@@ -1,0 +1,16 @@
+{
+  "autoscript": "EXPEXCEL_JXLS_UTILS",
+  "description": "导出Excel JXLS工具脚本 - 调用jar生成excel",
+  "version": "1.0.0",
+  "active": 1,
+  "loglevel": "INFO",
+  "scriptlanguage": "JavaScript",
+  "interface": 1,
+  "variables": [],
+  "launchPoints": [],
+  "status": "Draft",
+  "langcode": "ZH",
+  "userdefined": 1,
+  "autoscriptid": 0,
+  "ibm_packagepath": "ibm.common"
+}

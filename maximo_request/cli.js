@@ -34,6 +34,8 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log('  sks-maximo <env>        # 加载指定环境配置');
   console.log('  sks-maximo call <scriptName> [options]  # 调用脚本接口');
   console.log('  sks-maximo import-object <fileName>    # 导入 Maximo 对象配置');
+  console.log('  sks-maximo import-appinfo <fileName>    # 导入应用信息配置');
+  console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
   console.log('');
   console.log('环境:');
   console.log('  local                   # 使用本地环境配置');
@@ -43,6 +45,8 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log('命令:');
   console.log('  call                    # 调用通用脚本接口');
   console.log('  import-object           # 导入 Maximo 对象配置');
+  console.log('  import-appinfo          # 导入应用信息配置');
+  console.log('  import-presentation     # 导入应用XML配置');
   console.log('');
   console.log('选项:');
   console.log('  -h, --help              # 显示帮助信息');
@@ -136,6 +140,64 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   (async () => {
     try {
       const result = await importMaxObject({ fileName, logname: fileName });
+      if (result) {
+        console.log('导入成功');
+      } else {
+        console.error('导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-appinfo') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log('用法: sks-maximo import-appinfo <fileName> [-e env] [-l logname]');
+    process.exit(1);
+  }
+  let logname = null;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    if (filteredArgs[i] === '--logname' || filteredArgs[i] === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxAppInfo({ fileName, logname: logname || fileName });
+      if (result) {
+        console.log('导入成功');
+      } else {
+        console.error('导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-presentation') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 XML 文件路径');
+    console.log('用法: sks-maximo import-presentation <fileName> [-e env] [-l logname]');
+    process.exit(1);
+  }
+  let logname = null;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    if (filteredArgs[i] === '--logname' || filteredArgs[i] === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxPresentation({ fileName, logname: logname || fileName });
       if (result) {
         console.log('导入成功');
       } else {

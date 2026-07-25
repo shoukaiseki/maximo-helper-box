@@ -1,0 +1,16 @@
+{
+  "autoscript": "TEST_SKS_EXCEL_JXLS02",
+  "description": "DO发货单行导出Excel - 测试脚本",
+  "version": "1.0.0",
+  "active": 1,
+  "loglevel": "INFO",
+  "scriptlanguage": "JavaScript",
+  "interface": 0,
+  "variables": [],
+  "launchPoints": [],
+  "status": "Draft",
+  "langcode": "ZH",
+  "userdefined": 1,
+  "autoscriptid": 0,
+  "ibm_packagepath": "ibm.test"
+}
