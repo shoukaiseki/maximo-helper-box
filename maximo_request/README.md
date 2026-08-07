@@ -41,6 +41,8 @@ import {
   importMaxScript,
   importMaxAppInfo,
   callMaxScript,
+  batchImport,
+  printBatchStats,
   fileUtils,
   loadConfig,
   logger
@@ -74,6 +76,22 @@ callMaxScript({ apiScriptName: "SHARPTREE.AUTOSCRIPT.LIBRARY", params: { name: "
 
 // 通用脚本接口调用（POST，读取文件内容作为请求体）
 callMaxScript({ apiScriptName: "SKS_DEPLOY_AUTOKEY", fileName: "data/autokey.json", logname: "部署自动编码" });
+
+// 通用批量导入（支持对象、脚本、域、应用信息等所有导入功能）
+const stats = await batchImport({
+    dirName: "C:/Temp/hd/maxobject_backup",   // 目录名（与files二选一）
+    extFilter: ".json",                         // 扩展名过滤
+    importFn: importMaxObject,                  // 导入函数（可换成其他导入方法）
+    logname: "批量导入对象",
+    concurrency: 1                              // 并发数，默认1串行
+});
+printBatchStats(stats);  // 打印批量导入统计结果
+
+// 直接指定文件列表批量导入
+await batchImport({
+    files: ["a.json", "b.json", "c.json"],
+    importFn: importMaxDomain
+});
 
 // 文件工具
 fileUtils.listFiles('scripts', '.json');
@@ -139,11 +157,14 @@ fileUtils.readFileContent('test.txt');
 | 方法 | 说明 |
 |------|------|
 | callMaxScript | 通用脚本接口调用（GET/POST） |
+| batchImport | 通用批量导入（支持对象、脚本、域、应用信息等所有导入功能） |
+| printBatchStats | 打印批量导入统计结果 |
 | loadConfig(env) | 加载指定环境配置 |
 | saveScriptHistory(options) | 保存脚本历史记录 |
 | readFileContent(fileName) | 读取文件内容 |
 | readJsonFile(fileName) | 读取并解析 JSON 文件 |
 | fileExists(fileName) | 检查文件是否存在 |
+| fileUtils.resolveFilePath(fileName) | 通用路径转换（相对/绝对路径转规范化绝对路径） |
 | fileUtils.listFiles(dirName, extFilter, recursive) | 列出目录文件 |
 | fileUtils.readFileContent(fileName) | 读取文件内容 |
 | fileUtils.readJsonFile(fileName) | 读取并解析 JSON 文件 |

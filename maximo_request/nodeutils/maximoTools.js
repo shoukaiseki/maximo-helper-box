@@ -1,5 +1,5 @@
 import request from '../nodeutils/requestHttp.js'
-import { readFileContent, readJsonFile, readXmlFile, resolveFilePath } from './fileUtils.js'
+import { readFileContent, readJsonFile, readXmlFile, resolveFilePath, listFiles } from './fileUtils.js'
 import logger from './logger.js';
 import { getConfig } from './config.js';
 import os from 'os'
@@ -691,4 +691,120 @@ export async function callMaxScript({ apiScriptName, fileName, params = {}, logn
         }
         return null
     }
+}
+
+/**
+ * 通用批量导入 - 支持各种导入功能（对象、脚本、应用信息、域、应用XML等）的批量处理
+ * @param {Object} options - 配置选项
+ * @param {string} [options.dirName] - 目录名（与files二选一），自动列出目录下符合条件的文件
+ * @param {string[]} [options.files] - 文件路径数组（与dirName二选一），直接指定要导入的文件
+ * @param {string} [options.extFilter] - 扩展名过滤，如 '.json'、'.xml'（配合dirName使用）
+ * @param {boolean} [options.recursive=true] - 是否递归检索子目录（配合dirName使用）
+ * @param {Function} options.importFn - 导入函数，接收 {fileName, logname} 参数，如 importMaxObject、importMaxScript 等
+ * @param {string} [options.logname] - 日志打印名称
+ * @param {number} [options.concurrency=1] - 并发数量，默认1串行执行
+ * @param {boolean} [options.continueOnError=true] - 单个文件失败时是否继续，默认继续
+ * @returns {Promise<Object>} 批量导入统计结果
+ */
+export async function batchImport({ dirName, files, extFilter, recursive = true, importFn, logname = '批量导入', concurrency = 1, continueOnError = true }) {
+    if (typeof importFn !== 'function') {
+        logger.error('[batchImport]必须指定importFn导入函数')
+        return null;
+    }
+    
+    let fileNames = [];
+    if (files && Array.isArray(files) && files.length > 0) {
+        fileNames = files;
+    } else if (dirName) {
+        fileNames = listFiles(dirName, extFilter, recursive);
+    } else {
+        logger.error('[batchImport]必须指定dirName或files');
+        return null;
+    }
+    
+    if (fileNames.length === 0) {
+        logger.warn('[batchImport]没有找到需要导入的文件');
+        return null;
+    }
+    
+    const stats = {
+        fileCount: fileNames.length,
+        successCount: 0,
+        failCount: 0,
+        successList: [],
+        failList: [],
+        startTime: new Date().getTime(),
+        endTime: null,
+        totalTime: null
+    };
+    
+    logger.warn(`[${logname}]开始批量导入，共 ${fileNames.length} 个文件，并发数: ${concurrency}`);
+    
+    // 并发池处理
+    let index = 0;
+    const worker = async () => {
+        while (index < fileNames.length) {
+            const cur = index++;
+            const filename = fileNames[cur];
+            try {
+                const result = await importFn({ fileName: filename, logname });
+                if (result) {
+                    stats.successCount++;
+                    stats.successList.push(filename);
+                } else {
+                    stats.failCount++;
+                    stats.failList.push(filename);
+                }
+            } catch (error) {
+                stats.failCount++;
+                stats.failList.push(filename);
+                logger.error(`[${logname}]导入异常: ${filename}`, error.message);
+                if (!continueOnError) {
+                    throw error;
+                }
+            }
+            logger.warn(`[${logname}]进度: ${cur + 1}/${fileNames.length} 成功: ${stats.successCount} 失败: ${stats.failCount}`);
+        }
+    };
+    
+    const workerCount = Math.max(1, Math.min(concurrency, fileNames.length));
+    await Promise.all(Array.from({ length: workerCount }, () => worker()));
+    
+    stats.endTime = new Date().getTime();
+    stats.totalTime = stats.endTime - stats.startTime;
+    
+    logger.warn(`[${logname}]批量导入完成，耗时: ${stats.totalTime}ms，成功: ${stats.successCount}，失败: ${stats.failCount}`);
+    if (stats.failList.length > 0) {
+        logger.warn(`[${logname}]失败文件列表:`);
+        stats.failList.forEach(f => logger.warn(`  ${f}`));
+    }
+    
+    return stats;
+}
+
+/**
+ * 打印批量导入统计结果
+ * @param {Object} stats - batchImport 返回的统计结果
+ * @param {string} [logname] - 日志打印名称
+ */
+export function printBatchStats(stats, logname = '批量导入') {
+    if (!stats) {
+        logger.warn(`[${logname}]无统计结果可打印`);
+        return;
+    }
+    const formatDateTime = (timestamp) => {
+        const d = new Date(timestamp);
+        const pad = n => String(n).padStart(2, '0');
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
+    logger.warn(`[${logname}]========== 批量导入统计 ==========`);
+    logger.warn(`[${logname}]总文件数: ${stats.fileCount}`);
+    logger.warn(`[${logname}]成功数量: ${stats.successCount}`);
+    logger.warn(`[${logname}]失败数量: ${stats.failCount}`);
+    logger.warn(`[${logname}]开始时间: ${formatDateTime(stats.startTime)} 结束时间: ${formatDateTime(stats.endTime)} 耗时: ${stats.totalTime}ms`);
+    logger.warn(`[${logname}]成功文件列表:`);
+    stats.successList.forEach(f => logger.warn(`  ${f}`));
+    logger.warn(`[${logname}]失败文件列表:`);
+    stats.failList.forEach(f => logger.warn(`  ${f}`));
+    logger.warn(`[${logname}]====================================`);
 }
