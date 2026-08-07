@@ -1,1 +1,7 @@
-{}
+{
+  "name": "sks-maximo-utils-demo",
+  "version": "1.0.0",
+  "description": "SKS Maximo Utils 使用演示项目",
+  "type": "module",
+  "private": true
+}
