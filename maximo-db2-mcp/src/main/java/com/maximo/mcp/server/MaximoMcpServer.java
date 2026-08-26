@@ -62,6 +62,20 @@ public class MaximoMcpServer {
 
 
     // ========================================================================
+    //  工具 1b：查询对象定义（MAXOBJECT）- 精简版
+    // ========================================================================
+
+//    @ToolMapping(description = "查询 Maximo 对象定义信息（MAXOBJECT 表）精简版。仅返回核心字段：OBJECTNAME、DESCRIPTION、PERSISTENT，减少数据传输量")
+    public String queryMaxobjectsBrief(
+            @Param(name = "objectName", description = "对象名称关键词，支持 % 通配符（例如：%WO%、WORKORDER、%ASSET%）") String objectName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql = "SELECT OBJECTNAME, DESCRIPTION, PERSISTENT " +
+                "FROM MAXOBJECT WHERE UCASE(OBJECTNAME) LIKE ?";
+        return queryAsJson(sql, new Object[]{"%" + objectName.toUpperCase() + "%"}, limit);
+    }
+
+
+    // ========================================================================
     //  工具 2：查询字段/属性定义（MAXATTRIBUTE）
     // ========================================================================
 
@@ -93,6 +107,33 @@ public class MaximoMcpServer {
 
 
     // ========================================================================
+    //  工具 2b：查询字段/属性定义（MAXATTRIBUTE）- 精简版
+    // ========================================================================
+
+//    @ToolMapping(description = "查询 Maximo 属性/字段定义（MAXATTRIBUTE 表）精简版。仅返回核心字段：ATTRIBUTENAME、TITLE、MAXTYPE、LENGTH、SCALE、PERSISTENT，减少数据传输量")
+    public String queryMaxattributesBrief(
+            @Param(name = "objectName", description = "所属对象名称关键词（支持 % 通配符）") String objectName,
+            @Param(name = "attributeName", description = "属性名称关键词（支持 % 通配符），为空时返回所有属性") String attributeName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql;
+        Object[] params;
+        if (attributeName != null && !attributeName.trim().isEmpty()) {
+            sql = "SELECT ATTRIBUTENAME, TITLE, MAXTYPE, LENGTH, SCALE, PERSISTENT " +
+                    "FROM MAXATTRIBUTE WHERE UCASE(OBJECTNAME) LIKE ? AND UCASE(ATTRIBUTENAME) LIKE ? " +
+                    "ORDER BY OBJECTNAME, ATTRIBUTENAME";
+            params = new Object[]{"%" + objectName.toUpperCase() + "%",
+                    "%" + attributeName.toUpperCase() + "%"};
+        } else {
+            sql = "SELECT ATTRIBUTENAME, TITLE, MAXTYPE, LENGTH, SCALE, PERSISTENT " +
+                    "FROM MAXATTRIBUTE WHERE UCASE(OBJECTNAME) LIKE ? " +
+                    "ORDER BY OBJECTNAME, ATTRIBUTENAME";
+            params = new Object[]{"%" + objectName.toUpperCase() + "%"};
+        }
+        return queryAsJson(sql, params, limit);
+    }
+
+
+    // ========================================================================
     //  工具 3：查询关联关系（MAXRELATIONSHIP）
     // ========================================================================
 
@@ -104,21 +145,44 @@ public class MaximoMcpServer {
         String sql;
         Object[] params;
         if (relationshipName != null && !relationshipName.trim().isEmpty()) {
-            sql = "SELECT CLASSNAME, RELATIONSHIPNAME, REMARK, " +
-                    "MAXOBJECT, CHILDCLASS, RELATIONSHIPTYPE, " +
-                    "DIRECTION, CARDINALITY, DELETETYPE, " +
-                    "WHERE clause AS WHERECLAUSE " +
-                    "FROM MAXRELATIONSHIP WHERE UCASE(CLASSNAME) LIKE ? AND UCASE(RELATIONSHIPNAME) LIKE ? " +
-                    "ORDER BY CLASSNAME, RELATIONSHIPNAME";
+            sql = "SELECT PARENT, NAME, REMARKS, CHILD, WHERECLAUSE, CARDINALITY, " +
+                    "MAXRELATIONSHIPID, ISDEFAULT " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(PARENT) LIKE ? AND UCASE(NAME) LIKE ? " +
+                    "ORDER BY PARENT, NAME";
             params = new Object[]{"%" + className.toUpperCase() + "%",
                     "%" + relationshipName.toUpperCase() + "%"};
         } else {
-            sql = "SELECT CLASSNAME, RELATIONSHIPNAME, REMARK, " +
-                    "MAXOBJECT, CHILDCLASS, RELATIONSHIPTYPE, " +
-                    "DIRECTION, CARDINALITY, DELETETYPE, " +
-                    "WHERE clause AS WHERECLAUSE " +
-                    "FROM MAXRELATIONSHIP WHERE UCASE(CLASSNAME) LIKE ? " +
-                    "ORDER BY CLASSNAME, RELATIONSHIPNAME";
+            sql = "SELECT PARENT, NAME, REMARKS, CHILD, WHERECLAUSE, CARDINALITY, " +
+                    "MAXRELATIONSHIPID, ISDEFAULT " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(PARENT) LIKE ? " +
+                    "ORDER BY PARENT, NAME";
+            params = new Object[]{"%" + className.toUpperCase() + "%"};
+        }
+        return queryAsJson(sql, params, limit);
+    }
+
+
+    // ========================================================================
+    //  工具 3b：查询关联关系（MAXRELATIONSHIP）- 精简版
+    // ========================================================================
+
+//    @ToolMapping(description = "查询 Maximo 关联关系定义（MAXRELATIONSHIP 表）精简版。仅返回核心字段：PARENT、NAME、CHILD、CARDINALITY，减少数据传输量")
+    public String queryMaxrelationshipsBrief(
+            @Param(name = "className", description = "源对象类名关键词（支持 % 通配符）") String className,
+            @Param(name = "relationshipName", description = "关联名称关键词（支持 % 通配符），为空时返回该对象所有关联") String relationshipName,
+            @Param(name = "limit", description = "返回行数上限（默认 200）") Integer limit) {
+        String sql;
+        Object[] params;
+        if (relationshipName != null && !relationshipName.trim().isEmpty()) {
+            sql = "SELECT PARENT, NAME, CHILD, CARDINALITY " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(PARENT) LIKE ? AND UCASE(NAME) LIKE ? " +
+                    "ORDER BY PARENT, NAME";
+            params = new Object[]{"%" + className.toUpperCase() + "%",
+                    "%" + relationshipName.toUpperCase() + "%"};
+        } else {
+            sql = "SELECT PARENT, NAME, CHILD, CARDINALITY " +
+                    "FROM MAXRELATIONSHIP WHERE UCASE(PARENT) LIKE ? " +
+                    "ORDER BY PARENT, NAME";
             params = new Object[]{"%" + className.toUpperCase() + "%"};
         }
         return queryAsJson(sql, params, limit);

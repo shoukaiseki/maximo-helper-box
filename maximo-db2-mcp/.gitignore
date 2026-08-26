@@ -37,6 +37,8 @@ nbdist/
 # Others
 *.log
 *.xml.versionsBackup
+.soloncode/
+.mvn/
 
 !*/build/*.java
 !*/build/*.html
@@ -51,3 +53,5 @@ logs/
 # Sensitive Configuration
 app-db.yml
 src/main/resources/app-db.yml
+.freebuff
+.freebuff/

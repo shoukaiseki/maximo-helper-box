@@ -229,4 +229,74 @@ public class MaximoMcpServerTest {
         
         System.out.println("✓ 无效SQL测试通过，返回结果: " + result);
     }
+
+    // ========================================================================
+    //  精简版方法测试
+    // ========================================================================
+
+    /**
+     * 测试16: queryMaxobjectsBrief 精简版查询
+     */
+    @Test
+    public void testQueryMaxobjectsBrief() {
+        String result = mcpServer.queryMaxobjectsBrief("WO", 10);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxobjectsBrief结果: " + result);
+    }
+
+    /**
+     * 测试17: queryMaxobjectsBrief null limit
+     */
+    @Test
+    public void testQueryMaxobjectsBrief_NullLimit() {
+        String result = mcpServer.queryMaxobjectsBrief("%ASSET%", null);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxobjectsBrief(null limit)结果: " + result);
+    }
+
+    /**
+     * 测试18: queryMaxattributesBrief 精简版查询
+     */
+    @Test
+    public void testQueryMaxattributesBrief() {
+        String result = mcpServer.queryMaxattributesBrief("WORKORDER", null, 10);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxattributesBrief结果: " + result);
+    }
+
+    /**
+     * 测试19: queryMaxattributesBrief 带 attributeName 过滤
+     */
+    @Test
+    public void testQueryMaxattributesBrief_WithAttributeName() {
+        String result = mcpServer.queryMaxattributesBrief("WORKORDER", "STATUS", 10);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxattributesBrief(带 attributeName)结果: " + result);
+    }
+
+    /**
+     * 测试20: queryMaxrelationshipsBrief 精简版查询
+     */
+    @Test
+    public void testQueryMaxrelationshipsBrief() {
+        String result = mcpServer.queryMaxrelationshipsBrief("WORKORDER", null, 10);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxrelationshipsBrief结果: " + result);
+    }
+
+    /**
+     * 测试21: queryMaxrelationshipsBrief 带 relationshipName 过滤
+     */
+    @Test
+    public void testQueryMaxrelationshipsBrief_WithRelationshipName() {
+        String result = mcpServer.queryMaxrelationshipsBrief("WORKORDER", "RELATEDWO", 10);
+        
+        assert result != null : "结果不应为 null";
+        System.out.println("queryMaxrelationshipsBrief(带 relationshipName)结果: " + result);
+    }
 }

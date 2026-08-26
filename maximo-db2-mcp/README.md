@@ -8,9 +8,12 @@
 
 | 工具名称 | 描述 | 查询表 |
 |---|---|---|
-| `queryMaxobjects` | 查询 Maximo 对象定义 | MAXOBJECT |
-| `queryMaxattributes` | 查询 Maximo 字段定义 | MAXATTRIBUTE |
-| `queryMaxrelationships` | 查询 Maximo 关联关系 | MAXRELATIONSHIP |
+| `queryMaxobjects` | 查询 Maximo 对象定义（完整字段） | MAXOBJECT |
+| `queryMaxobjectsBrief` | 查询 Maximo 对象定义（精简版，仅 OBJECTNAME/DESCRIPTION/PERSISTENT） | MAXOBJECT |
+| `queryMaxattributes` | 查询 Maximo 字段定义（完整字段） | MAXATTRIBUTE |
+| `queryMaxattributesBrief` | 查询 Maximo 字段定义（精简版，仅 ATTRIBUTENAME/TITLE/MAXTYPE/LENGTH/SCALE/PERSISTENT） | MAXATTRIBUTE |
+| `queryMaxrelationships` | 查询 Maximo 关联关系（完整字段） | MAXRELATIONSHIP |
+| `queryMaxrelationshipsBrief` | 查询 Maximo 关联关系（精简版，仅 PARENT/NAME/CHILD/CARDINALITY） | MAXRELATIONSHIP |
 | `queryAppXml` | 查询应用注册信息 | MAXAPPS |
 | `queryAppSpecificsXml` | 查询应用 XML 配置内容 | MAXPRESENTATION |
 | `queryBySql` | 通用只读 SQL 查询 | 自定义 |
@@ -137,30 +140,47 @@ java -jar target/maximo-db2-mcp.jar
 
 ### 1. queryMaxobjects
 
-查询 Maximo 中的所有业务对象定义。
+查询 Maximo 中的所有业务对象定义（完整字段）。
 
 **参数：**
 - `objectName` (可选): 对象名称模糊匹配，如 `"%WO%"` 查工单相关对象
-- `limit` (可选): 返回条数，默认50，最大200
+- `limit` (可选): 返回条数，默认200，最大1000
+
+### 1b. queryMaxobjectsBrief
+
+查询 Maximo 对象定义的精简版，仅返回 `OBJECTNAME`、`DESCRIPTION`、`PERSISTENT` 三个核心字段，减少数据传输量。
+
+**参数：** 同 `queryMaxobjects`
 
 ### 2. queryMaxattributes
 
-查询对象的字段/属性定义。
+查询对象的字段/属性定义（完整字段）。
 
 **参数：**
 - `objectName` (必填): 所属对象名称，如 `"%WORKORDER%"`
 - `attributeName` (可选): 属性名过滤，如 `"%STATUS%"`
 - `limit` (可选): 返回条数
 
+### 2b. queryMaxattributesBrief
+
+查询对象字段定义的精简版，仅返回 `ATTRIBUTENAME`、`TITLE`、`MAXTYPE`、`LENGTH`、`SCALE`、`PERSISTENT` 六个核心字段。
+
+**参数：** 同 `queryMaxattributes`
+
 ### 3. queryMaxrelationships
 
-查询对象之间的关联关系。
+查询对象之间的关联关系（完整字段）。
 
 **参数：**
-- `parentObject` (可选): 来源对象名
-- `childObject` (可选): 目标对象名
-- `relationshipName` (可选): 关系名
+- `className` (可选): 源对象类名关键词
+- `relationshipName` (可选): 关联名称关键词
 - `limit` (可选): 返回条数
+
+### 3b. queryMaxrelationshipsBrief
+
+查询关联关系的精简版，仅返回 `PARENT`、`NAME`、`CHILD`、`CARDINALITY` 四个核心字段。
+
+**参数：** 同 `queryMaxrelationships`
 
 ### 4. queryAppXml
 

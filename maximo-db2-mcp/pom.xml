@@ -12,7 +12,7 @@
 
     <groupId>com.maximo</groupId>
     <artifactId>maximo-db2-mcp</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <description>Maximo DB2 元数据查询 MCP 服务 - 基于 Solon 框架（兼容 JDK 8）</description>
