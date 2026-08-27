@@ -72,7 +72,7 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 importMaxAppInfo({ fileName: "MAXAPPINFO/appinfo.json", logname: "应用信息" });
 
 // 通用脚本接口调用（GET）
-callMaxScript({ apiScriptName: "SHARPTREE.AUTOSCRIPT.LIBRARY", params: { name: "test" }, logname: "查询脚本库" });
+callMaxScript({ apiScriptName: "SKS.AUTOSCRIPT.LIBRARY", params: { name: "test" }, logname: "查询脚本库" });
 
 // 通用脚本接口调用（POST，读取文件内容作为请求体）
 callMaxScript({ apiScriptName: "SKS_DEPLOY_AUTOKEY", fileName: "data/autokey.json", logname: "部署自动编码" });

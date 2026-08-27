@@ -8,16 +8,16 @@ AI-prompt/link/精品脚本.md
 ```
 以下脚本是这个项目中对接的,在maximo中由脚本提供的接口
 ```
-resources/sharptree.autoscript.admin.js
-resources/sharptree.autoscript.deploy.js
-resources/sharptree.autoscript.extract.js
-resources/sharptree.autoscript.form.js
-resources/sharptree.autoscript.install.js
-resources/sharptree.autoscript.library.js
-resources/sharptree.autoscript.logging.js
-resources/sharptree.autoscript.report.js
-resources/sharptree.autoscript.screens.js
-resources/sharptree.autoscript.store.js
+resources/SKS.AUTOSCRIPT.admin.js
+resources/SKS.AUTOSCRIPT.deploy.js
+resources/SKS.AUTOSCRIPT.extract.js
+resources/SKS.AUTOSCRIPT.form.js
+resources/SKS.AUTOSCRIPT.install.js
+resources/SKS.AUTOSCRIPT.library.js
+resources/SKS.AUTOSCRIPT.logging.js
+resources/SKS.AUTOSCRIPT.report.js
+resources/SKS.AUTOSCRIPT.screens.js
+resources/SKS.AUTOSCRIPT.store.js
 ```
 
 

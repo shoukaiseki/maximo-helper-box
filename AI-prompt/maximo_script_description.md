@@ -1869,7 +1869,7 @@ var scriptConfig = {
     "logLevel": "ERROR"
 };
 
-// 实现参考 sharptree.autoscript.logging.js
+// 实现参考 SKS.AUTOSCRIPT.logging.js
 ```
 
 ---
@@ -2107,13 +2107,13 @@ if (typeof quantity !== "number" || quantity < 0) {
 
 - IBM Maximo 官方文档
 - 项目资源脚本：
-  - `sharptree.autoscript.admin.js` - 管理操作
-  - `sharptree.autoscript.deploy.js` - 脚本部署
-  - `sharptree.autoscript.extract.js` - 脚本提取
-  - `sharptree.autoscript.form.js` - 表单处理
-  - `sharptree.autoscript.library.js` - 通用库函数
-  - `sharptree.autoscript.logging.js` - 日志流
-  - `sharptree.autoscript.report.js` - 报表处理
+  - `SKS.AUTOSCRIPT.admin.js` - 管理操作
+  - `SKS.AUTOSCRIPT.deploy.js` - 脚本部署
+  - `SKS.AUTOSCRIPT.extract.js` - 脚本提取
+  - `SKS.AUTOSCRIPT.form.js` - 表单处理
+  - `SKS.AUTOSCRIPT.library.js` - 通用库函数
+  - `SKS.AUTOSCRIPT.logging.js` - 日志流
+  - `SKS.AUTOSCRIPT.report.js` - 报表处理
 
 ---
 

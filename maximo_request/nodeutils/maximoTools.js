@@ -34,7 +34,7 @@ export async function importMaxObject({fileName, logname}) {
         // 发送请求到Maximo API
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
-            url: '/api/script/SHARPTREE.AUTOSCRIPT.LIBRARY',
+            url: '/api/script/SKS.AUTOSCRIPT.LIBRARY',
             method: 'post',
             params: {
                 develop: true,
@@ -101,7 +101,7 @@ export async function importMaxPresentation({fileName, logname}) {
         
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
-            url: '/api/script/SHARPTREE.AUTOSCRIPT.SCREENS',
+            url: '/api/script/SKS.AUTOSCRIPT.SCREENS',
             method: 'post',
               headers: {
                 'Content-Type': 'application/xml'

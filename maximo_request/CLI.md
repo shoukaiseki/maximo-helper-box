@@ -144,7 +144,7 @@ sks-maximo call <scriptName> [--file <fileName>] [--params <params>] [--logname 
 ### 4.1 GET 请求（无请求体）
 
 ```bash
-sks-maximo call SHARPTREE.AUTOSCRIPT.LIBRARY --params '{"name":"TEST"}'
+sks-maximo call SKS.AUTOSCRIPT.LIBRARY --params '{"name":"TEST"}'
 ```
 
 ### 4.2 POST 请求（带请求体文件）
@@ -154,7 +154,7 @@ sks-maximo call SHARPTREE.AUTOSCRIPT.LIBRARY --params '{"name":"TEST"}'
 sks-maximo call SKS_DEPLOY_AUTOKEY --file data/autokey.json
 
 # XML 请求体
-sks-maximo call SHARPTREE.AUTOSCRIPT.SCREENS --file screens/test.xml
+sks-maximo call SKS.AUTOSCRIPT.SCREENS --file screens/test.xml
 
 # 同时带参数和请求体
 sks-maximo call SKS_IMP_MAXAPPINFO --file appinfo.json --params '{"debug":true}' --logname "导入应用信息"
@@ -200,7 +200,7 @@ sks-maximo call SKS_IMP_MAXAPPINFO --file appinfo.json --params '{"debug":true}'
 ### 示例 1：查询脚本库
 
 ```bash
-sks-maximo call SHARPTREE.AUTOSCRIPT.LIBRARY --params '{"name":"MY_SCRIPT"}'
+sks-maximo call SKS.AUTOSCRIPT.LIBRARY --params '{"name":"MY_SCRIPT"}'
 ```
 
 ### 示例 2：部署自动编码

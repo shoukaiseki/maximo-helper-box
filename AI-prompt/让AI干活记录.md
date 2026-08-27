@@ -6,16 +6,16 @@ AI-prompt/link/精品脚本.md
 ```
 一下脚本是
 ```
-public/maximo-developer-resources/sharptree.autoscript.admin.js
-public/maximo-developer-resources/sharptree.autoscript.deploy.js
-public/maximo-developer-resources/sharptree.autoscript.extract.js
-public/maximo-developer-resources/sharptree.autoscript.form.js
-public/maximo-developer-resources/sharptree.autoscript.install.js
-public/maximo-developer-resources/sharptree.autoscript.library.js
-public/maximo-developer-resources/sharptree.autoscript.logging.js
-public/maximo-developer-resources/sharptree.autoscript.report.js
-public/maximo-developer-resources/sharptree.autoscript.screens.js
-public/maximo-developer-resources/sharptree.autoscript.store.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.admin.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.deploy.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.extract.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.form.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.install.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.library.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.logging.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.report.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.screens.js
+public/maximo-developer-resources/SKS.AUTOSCRIPT.store.js
 ```
 
 
