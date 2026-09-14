@@ -1,0 +1,1 @@
+java -jar target/maximo-server-jxls-1.0.0.jar --input=test_input.json --template=test_template.xlsx --output=target/1.xlsx
