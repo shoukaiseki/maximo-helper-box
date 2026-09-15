@@ -1,0 +1,139 @@
+{
+  "integrationobjects": [
+    {
+      "intObjectName": "OSIBM_POISSUE",
+      "description": "PO2",
+      "useWith": "INTEGRATION",
+      "flatSupported": true,
+      "aliasConflict": true,
+      "autoPagingThreshold": -1,
+      "maxIntObjDetail": [
+        {
+          "objectName": "PO",
+          "excludeByDefault": true,
+          "excludeParentKey": false,
+          "deleteOnCreate": false,
+          "objectOrder": 1,
+          "maxIntObjCols": [
+            {
+              "name": "PO2",
+              "intObjFldType": "EXCLUDE"
+            },
+            {
+              "name": "PO3",
+              "intObjFldType": "EXCLUDE"
+            }
+          ],
+          "maxIntObjAlias": [
+            {
+              "name": "IBM_PORTALID",
+              "aliasName": "maximoId"
+            }
+          ]
+        },
+        {
+          "objectName": "POLINE",
+          "excludeByDefault": true,
+          "propagateEvent": true,
+          "parentObjName": "PO",
+          "relation": "POLINE",
+          "objectOrder": 1,
+          "maxIntObjCols": [
+            {
+              "name": "CURRENCYCODE",
+              "intObjFldType": "EXCLUDE"
+            }
+          ]
+        },
+        {
+          "objectName": "DOCLINKS",
+          "excludeByDefault": true,
+          "propagateEvent": true,
+          "parentObjName": "PO",
+          "relation": "IBM_DOCLINKS",
+          "objectOrder": 3,
+          "maxIntObjCols": [
+            {
+              "name": "ADDINFO",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "APP",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "DESCRIPTION",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "DMSNAME",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "DOCUMENTDATA",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "KEYCOLUMN",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "NEWURLNAME",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "SHOW",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "UPLOAD",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLNAME",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLPARAM1",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLPARAM2",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLPARAM3",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLPARAM4",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLPARAM5",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "URLTYPE",
+              "intObjFldType": "NONPERSISTENT"
+            },
+            {
+              "name": "WEBURL",
+              "intObjFldType": "NONPERSISTENT"
+            }
+          ],
+          "maxIntObjAlias": [
+            {
+              "name": "DESCRIPTION",
+              "aliasName": "attachmentName"
+            },
+            {
+              "name": "URLNAME",
+              "aliasName": "attachmentPath"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

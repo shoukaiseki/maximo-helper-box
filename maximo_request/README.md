@@ -40,6 +40,7 @@ import {
   importMaxAutoKey,
   importMaxScript,
   importMaxAppInfo,
+  importMaxIntObject,
   callMaxScript,
   batchImport,
   printBatchStats,
@@ -70,6 +71,10 @@ importMaxScript({ fileName: "scripts/TEST.json" });
 
 // 导入应用信息配置
 importMaxAppInfo({ fileName: "MAXAPPINFO/appinfo.json", logname: "应用信息" });
+
+// 导入对象结构(Integration Object): 走 SKS.AUTOSCRIPT.OBJECTS (_type=integrationobjects&_action=import)
+// body 需为 {integrationobjects:[...]} 格式(导出的 JSON 可直接回导)
+importMaxIntObject({ fileName: "DBMAXINTOBJECT/OSIBM_POISSUE.json", logname: "PO问题对象结构" });
 
 // 通用脚本接口调用（GET）
 callMaxScript({ apiScriptName: "SKS.AUTOSCRIPT.LIBRARY", params: { name: "test" }, logname: "查询脚本库" });
@@ -151,6 +156,7 @@ fileUtils.readFileContent('test.txt');
 | importMaxAutoKey | 导入 AutoKey 配置 |
 | importMaxScript | 导入自动化脚本（自动保存历史记录） |
 | importMaxAppInfo | 导入应用信息配置 |
+| importMaxIntObject | 导入对象结构(Integration Object)配置 |
 
 ### 其他方法
 

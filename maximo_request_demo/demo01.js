@@ -1,5 +1,5 @@
 // 全局安装后使用包名
-import {callMaxScript,importMaxScript,importMaxAppInfo, importMaxAutoKey,importMaxObject,importMaxDomain, importMaxPresentation, loadConfig, batchImport, printBatchStats } from 'sks-maximo-utils';
+import {callMaxScript,importMaxScript,importMaxAppInfo, importMaxAutoKey,importMaxObject,importMaxDomain, importMaxPresentation, importMaxIntObject, loadConfig, batchImport, printBatchStats } from 'sks-maximo-utils';
 
 
 
@@ -7,6 +7,9 @@ import {callMaxScript,importMaxScript,importMaxAppInfo, importMaxAutoKey,importM
 // await importMaxObject({fileName: "DBMESSAGEJSON/0624001.json",logname:""})
 
 // await importMaxDomain({fileName: "DBDOMIANJSON/DEMO_STATUS.json",logname:"演示状态"})
+
+// 导入对象结构(Integration Object): 走 SKS.AUTOSCRIPT.OBJECTS (_type=integrationobjects&_action=import)
+// await importMaxIntObject({fileName: "DBMAXINTOBJECT/OSIBM_POISSUE.json",logname:"PO问题对象结构"})
 
 // await importMaxObject({fileName: "DBCONFIGJSON/TEST01.json",logname:"测试配置01"})
 // await importMaxObject({fileName: "DBCONFIGJSON/TEST02.json",logname:"测试配置02"})

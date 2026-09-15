@@ -139,9 +139,40 @@ export async function importMaxPresentation({fileName, logname}) {
 
 
 /**
+ * 解析 SKS.AUTOSCRIPT.OBJECTS 导入响应，统一处理字符串/对象
+ * @param {any} response
+ * @returns {Object|null}
+ */
+function parseImportResponse(response) {
+    if (response === null || response === undefined) return null;
+    if (typeof response === 'string') {
+        try { return JSON.parse(response); } catch (e) { return null; }
+    }
+    return response;
+}
+
+/**
+ * 判断 SKS.AUTOSCRIPT.OBJECTS 批量导入是否真正成功(HTTP 200 但 summary.failed>0 视为失败)
+ * @param {any} response
+ * @returns {{ok: boolean, summary: Object|null, result: Array}}
+ */
+function checkImportResult(response) {
+    const data = parseImportResponse(response);
+    if (!data || data.status !== 'success' || !data.summary) {
+        return { ok: false, summary: data ? data.summary : null, result: data ? (data.result || []) : [] };
+    }
+    const failed = data.summary.failed || 0;
+    if (failed > 0) {
+        return { ok: false, summary: data.summary, result: data.result || [] };
+    }
+    return { ok: true, summary: data.summary, result: data.result || [] };
+}
+
+/**
  * 导入Maximo域
+ * 走 SKS.AUTOSCRIPT.OBJECTS (_type=domains&_action=import), body 支持域数组 / {domains:[...]} / 单域对象
  * @param {Object} options - 配置选项
- * @param {string} options.fileName - 配置文件名（JSON或XML）
+ * @param {string} options.fileName - 配置文件名(JSON)
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
@@ -150,58 +181,114 @@ export async function importMaxDomain({fileName, logname}) {
         logname = fileName
     }
     try {
-        // 根据文件扩展名选择读取方式
         let fileContent = null;
         fileContent = readFileContent(fileName);
-        
-        // 检查文件是否成功读取
+
         if (!fileContent) {
             logger.error(`[${logname}]文件读取失败: ${fileName}`);
             return false;
         }
-        
+
         logger.info(`[${logname}]成功读取文件: ${fileName}`);
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入domain: ${logname || '未指定'}`);
-        
-        // 发送请求到Maximo API
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
-            url: '/api/script/SKS_DEPLOY_DOMAIN',
+            url: '/api/script/SKS.AUTOSCRIPT.OBJECTS',
             method: 'post',
             params: {
-                develop: true,
+                _type: 'domains',
+                _action: 'import',
                 _langcode: getConfig().langcode,
             },
-            data: fileContent  // 将文件内容作为请求体发送
+            data: fileContent
         })
-        
-        logger.warn(`[${logname}]收到响应`);
-        logger.warn(`[${logname}]响应类型:`, typeof response);
-        logger.warn(`[${logname}]响应内容:`, response);
-        
-        // 检查响应 - requestHttp的响应拦截器已返回res.data
-        if (response !== null && response !== undefined) {
-            logger.warn(`[${logname}]导入成功`)
+
+        const { ok, summary, result } = checkImportResult(response);
+        if (ok) {
+            logger.warn(`[${logname}]导入成功 总计:${summary.total} 成功:${summary.success}`)
             return true
         } else {
-            logger.error(`[${logname}]导入失败，响应为空或null`)
-            logger.error(`[${logname}]响应值:`, response)
+            logger.error(`[${logname}]导入失败, 响应:`, response)
+            if (result && result.length > 0) {
+                result.filter(r => r.status === 'FAILED').forEach(r => {
+                    logger.error(`[${logname}]  - ${r.domainid || r.id || '未知'}: ${r.message}`)
+                })
+            }
             return false
         }
     } catch (error) {
         logger.error(`[${logname}]请求出错:`, error.message)
         if (error.response) {
             // 服务器返回了错误状态码
-            // logger.error(`[${logname}]错误状态码:`, error.response.status)
-            // logger.error(`[${logname}]错误响应数据:`, error.response.data)
         } else if (error.request) {
-            // 请求已发出但没有收到响应
             logger.error(`[${logname}]请求已发出但无响应`)
-            // logger.error(`[${logname}]请求URL:`, error.request.url)
-            // logger.error(`[${logname}]请求方法:`, error.request.method)
         } else {
-            // 其他错误
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return false
+    }
+}
+
+
+/**
+ * 导入Maximo对象结构(Integration Object / 发布通道)
+ * 走 SKS.AUTOSCRIPT.OBJECTS (_type=integrationobjects&_action=import), body 为 {integrationobjects:[...]}
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 配置文件名(JSON)
+ * @param {string} options.logname - 日志打印名称
+ * @returns {Promise<boolean>} 是否导入成功
+ */
+export async function importMaxIntObject({fileName, logname}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        let fileContent = null;
+        fileContent = readFileContent(fileName);
+
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return false;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+        logger.info(`[${logname}]准备导入对象结构: ${logname || '未指定'}`);
+
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS.AUTOSCRIPT.OBJECTS',
+            method: 'post',
+            params: {
+                _type: 'integrationobjects',
+                _action: 'import',
+                _langcode: getConfig().langcode,
+            },
+            data: fileContent
+        })
+
+        const { ok, summary, result } = checkImportResult(response);
+        if (ok) {
+            logger.warn(`[${logname}]导入成功 总计:${summary.total} 成功:${summary.success}`)
+            return true
+        } else {
+            logger.error(`[${logname}]导入失败, 响应:`, response)
+            if (result && result.length > 0) {
+                result.filter(r => r.status === 'FAILED').forEach(r => {
+                    logger.error(`[${logname}]  - ${r.intobjectname || r.id || '未知'}: ${r.message}`)
+                })
+            }
+            return false
+        }
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            // 服务器返回了错误状态码
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
             logger.error(`[${logname}]错误详情:`, error)
         }
         return false

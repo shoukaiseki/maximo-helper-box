@@ -12,6 +12,7 @@
 | `sks-maximo import-presentation <fileName>` | 导入应用XML配置 |
 | `sks-maximo import-script <fileName>` | 导入自动化脚本 |
 | `sks-maximo import-domain <fileName>` | 导入域配置 |
+| `sks-maximo import-maxintobject <fileName>` | 导入对象结构(Integration Object)配置 |
 
 ---
 
@@ -116,11 +117,27 @@ sks-maximo import-script <fileName> [-e env] [-l logname]
 sks-maximo import-domain <fileName> [-e env] [-l logname]
 ```
 
-**说明：** 导入 Maximo 域配置
+**说明：** 导入 Maximo 域配置，走 `SKS.AUTOSCRIPT.OBJECTS`（`_type=domains&_action=import`）。文件内容支持域数组 / `{domains:[...]}` / 单域对象三种格式。
 
 | 参数 | 说明 | 必填 |
 |------|------|------|
 | `<fileName>` | 域 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+
+---
+
+### 3.6 导入对象结构(Integration Object)
+
+```bash
+sks-maximo import-maxintobject <fileName> [-e env] [-l logname]
+```
+
+**说明：** 导入 Maximo 对象结构（发布通道），走 `SKS.AUTOSCRIPT.OBJECTS`（`_type=integrationobjects&_action=import`）。文件内容需为 `{integrationobjects:[...]}` 格式（从对象结构导出的 JSON 可直接回导）。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 对象结构 JSON 文件路径 | 是 |
 | `-e` / `--env` | 指定环境（默认 local） | 否 |
 | `-l` / `--logname` | 日志打印名称 | 否 |
 
