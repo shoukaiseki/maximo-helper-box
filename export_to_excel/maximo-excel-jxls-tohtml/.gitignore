@@ -1,0 +1,6 @@
+target/
+dependency-reduced-pom.xml
+logs/
+*.log
+output/*.html
+test_template.xls

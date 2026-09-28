@@ -1,0 +1,1 @@
+java -jar target/maximo-excel-jxls-tohtml-1.0.0.jar --input=test_input.json --template=test_template.xls --output=target/demo.html

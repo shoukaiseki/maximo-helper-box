@@ -1,0 +1,5 @@
+app:
+  # 日志输出目录（仅支持相对路径或绝对路径，默认 ./logs）
+  logDir: "./logs"
+  # excel 转 html 时的输出字符集；留空表示 UTF-8，Windows 下可设为 "GBK"
+  # excelToHtmlCharsetName: "GBK"

@@ -1,0 +1,7 @@
+脚本历史记录导出
+导出时间：2026-09-28 18:20:58
+ID	脚本名称	别名	版本	主机名	创建人	创建时间
+1	1	TEST_SCRIPT_01	别名01	1.0.0	host01	MAXADMIN
+2	2	TEST_SCRIPT_02	别名02	1.0.1	host02	MAXZHCN
+3	3	TEST_SCRIPT_03		2.0.0	host01	MAXADMIN
+合计：3 条记录
