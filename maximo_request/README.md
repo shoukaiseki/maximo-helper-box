@@ -2,6 +2,14 @@
 
 Maximo 表结构和数据更新工具集。
 
+配合 VSCODE插件 [maximo-script-helper](https://marketplace.visualstudio.com/items?itemName=shoukaiseki.maximo-script-helper) 中的脚本
+
+配合web端 [maximo-manager-panel](https://gitee.com/shoukaiseki/maximo-manager-panel)
+
+该工具的示例代码: [maximo_request_demo](https://gitee.com/shoukaiseki/maximo-helper-box/tree/master/maximo_request_demo)
+
+
+
 ## 安装
 
 ### 全局安装（CLI 使用）
