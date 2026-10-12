@@ -6,6 +6,26 @@ import os from 'os'
 import path from 'path'
 
 /**
+ * 解析请求体内容：JSON 文件解析为对象，避免非法 JSON 字符串被 axios 当作普通字符串二次序列化；
+ * 非 JSON 文件（如 XML）原样返回字符串。
+ * @param {string} fileName - 文件名（用于判断是否为 JSON）
+ * @param {string} fileContent - 文件内容
+ * @param {string} logname - 日志打印名称
+ * @returns {{ok: boolean, data: any}} ok 为 false 表示 JSON 解析失败
+ */
+function parseRequestBody(fileName, fileContent, logname) {
+    if (fileName && fileName.toLowerCase().endsWith('.json')) {
+        try {
+            return { ok: true, data: JSON.parse(fileContent) };
+        } catch (e) {
+            logger.error(`[${logname}]JSON解析失败: ${e.message}`);
+            return { ok: false, data: null };
+        }
+    }
+    return { ok: true, data: fileContent };
+}
+
+/**
  * 导入Maximo对象配置
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）
@@ -31,6 +51,11 @@ export async function importMaxObject({fileName, logname}) {
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入对象: ${logname || '未指定'}`);
         
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         // 发送请求到Maximo API
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
@@ -40,7 +65,7 @@ export async function importMaxObject({fileName, logname}) {
                 develop: true,
                 _langcode: getConfig().langcode,
             },
-            data: fileContent  // 将文件内容作为请求体发送
+            data: body.data,  // 将文件内容作为请求体发送
         })
         
         logger.info(`[${logname}]收到响应`);
@@ -99,6 +124,11 @@ export async function importMaxPresentation({fileName, logname}) {
         logger.info(`[${logname}]成功读取文件: ${fileName}`);
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
             url: '/api/script/SKS.AUTOSCRIPT.SCREENS',
@@ -109,7 +139,7 @@ export async function importMaxPresentation({fileName, logname}) {
             params: {
                 _langcode: getConfig().langcode,
             },
-            data: fileContent
+            data: body.data
         })
         
         logger.info(`[${logname}]收到响应`);
@@ -193,6 +223,11 @@ export async function importMaxDomain({fileName, logname}) {
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入domain: ${logname || '未指定'}`);
 
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
             url: '/api/script/SKS.AUTOSCRIPT.OBJECTS',
@@ -202,7 +237,7 @@ export async function importMaxDomain({fileName, logname}) {
                 _action: 'import',
                 _langcode: getConfig().langcode,
             },
-            data: fileContent
+            data: body.data
         })
 
         const { ok, summary, result } = checkImportResult(response);
@@ -257,6 +292,11 @@ export async function importMaxIntObject({fileName, logname}) {
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入对象结构: ${logname || '未指定'}`);
 
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
             url: '/api/script/SKS.AUTOSCRIPT.OBJECTS',
@@ -266,7 +306,7 @@ export async function importMaxIntObject({fileName, logname}) {
                 _action: 'import',
                 _langcode: getConfig().langcode,
             },
-            data: fileContent
+            data: body.data
         })
 
         const { ok, summary, result } = checkImportResult(response);
@@ -614,6 +654,11 @@ export async function importMaxAutoKey({fileName, logname}) {
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入autokey: ${logname || '未指定'}`);
         
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
             url: '/api/script/SKS_DEPLOY_AUTOKEY',
@@ -622,7 +667,7 @@ export async function importMaxAutoKey({fileName, logname}) {
                 develop: true,
                 _langcode: getConfig().langcode,
             },
-            data: fileContent
+            data: body.data
         })
         
         logger.info(`[${logname}]收到响应`);
@@ -675,6 +720,11 @@ export async function importMaxAppInfo({fileName, logname}) {
         logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
         logger.info(`[${logname}]准备导入应用信息: ${logname || '未指定'}`);
         
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return false;
+        }
+
         logger.info(`[${logname}]开始发送请求...`);
         const response = await request({
             url: '/api/script/SKS_IMP_MAXAPPINFO',
@@ -683,7 +733,7 @@ export async function importMaxAppInfo({fileName, logname}) {
                 develop: true,
                 _langcode: getConfig().langcode,
             },
-            data: fileContent
+            data: body.data
         })
         
         logger.info(`[${logname}]收到响应`);

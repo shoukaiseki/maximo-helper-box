@@ -58,6 +58,7 @@ export function loadConfig(env = null) {
 
     // 获取全局配置
     const globalLogLevel = allConfigs.logLevel || 'INFO';
+    // console.log("globalLogLevel:"+ globalLogLevel);
 
     // 获取环境配置
     const envs = allConfigs.envs || {};
