@@ -158,7 +158,7 @@ function createService() {
   const config = getConfig();
   const service = axios.create({
     baseURL: config.baseUrl,
-    timeout: 50000,
+    timeout: 1800000,
     headers: {
       'User-Agent': 'RequestHttp'
     },
