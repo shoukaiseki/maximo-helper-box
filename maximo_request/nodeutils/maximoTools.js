@@ -500,7 +500,10 @@ export async function importMaxScript({fileName, logname}) {
         
         var headers={};
         if (scriptExists && scriptHref) {
-            deployUrl = scriptHref;
+            // Maximo 的资源 ID 是标准 base64 且把填充位 = 替换为 -（如 ...Uw== → ...Uw--），
+            // 不能用 base64url（直接去掉填充会导致服务端找不到资源而返回 404）。
+            const scriptId = Buffer.from(autoscript).toString('base64').replace(/=+$/, m => '-'.repeat(m.length));
+            deployUrl = `api/os/MXSCRIPT/_${scriptId}`;
             deployMethod = 'POST';
             headers =  {
                 'Content-Type': 'application/merge-patch+json',

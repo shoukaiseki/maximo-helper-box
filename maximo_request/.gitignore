@@ -4,6 +4,9 @@ node_modules/
 # Config file (user specific)
 ~/.sks/nodeutils/config.json
 
+logs/
+logs
+
 # IDE
 .idea/
 .vscode/

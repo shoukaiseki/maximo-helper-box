@@ -13,10 +13,12 @@ const args = process.argv.slice(2);
 
 // 解析全局选项（--env）
 let globalEnv = 'local';
+let envSpecified = false;
 const filteredArgs = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--env' || args[i] === '-e') {
     globalEnv = args[i + 1];
+    envSpecified = true;
     i++; // 跳过值
   } else {
     filteredArgs.push(args[i]);
@@ -24,7 +26,15 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const cmd = filteredArgs[0];
-const env = filteredArgs[0];
+
+// 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
+const importCommands = ['import-object', 'import-appinfo', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject'];
+if (!envSpecified && importCommands.includes(cmd)) {
+  const positionalEnv = filteredArgs[2];
+  if (positionalEnv && !positionalEnv.startsWith('-')) {
+    globalEnv = positionalEnv;
+  }
+}
 
 if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log(`sks-maximo v${packageJson.version}`);
@@ -57,7 +67,7 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log('选项:');
   console.log('  -h, --help              # 显示帮助信息');
   console.log('  -v, --version           # 显示版本信息');
-  console.log('  --env, -e <env>         # 指定环境（默认 local）');
+  console.log('  --env, -e <env>         # 指定环境（直接输入sks-maximo 可进行打开配置目录）');
   console.log('  --file <fileName>       # 请求体文件路径（JSON）');
   console.log('  --params <params>       # URL参数（JSON格式）');
   console.log('');

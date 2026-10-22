@@ -1,8 +1,8 @@
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import logger from './logger.js';
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { fileURLToPath } from "url";
+import logger from "./logger.js";
 
 // 获取当前模块目录
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -11,7 +11,7 @@ let globalConfig = null;
 
 function getConfigPath() {
   const homeDir = os.homedir();
-  return path.join(homeDir, '.sks', 'nodeutils', 'config.json');
+  return path.join(homeDir, ".sks", "nodeutils", "config.json");
 }
 
 export function getConfigDir() {
@@ -39,7 +39,7 @@ export function loadConfig(env = null) {
 
   if (!env) {
     const args = process.argv.slice(2);
-    env = args[0] || 'local';
+    env = args[0];
   }
 
   try {
@@ -53,16 +53,22 @@ export function loadConfig(env = null) {
       copySampleConfig(configPath);
     }
 
-    const configData = fs.readFileSync(configPath, 'utf-8');
+    const configData = fs.readFileSync(configPath, "utf-8");
     const allConfigs = JSON.parse(configData);
+    if (!env) {
+      env = allConfigs.defaultEnv;
+    }
+    if(!env){
+      throw new Error(`未找到环境 ${env} 的配置`);
+    }
 
     // 获取全局配置
-    const globalLogLevel = allConfigs.logLevel || 'INFO';
+    const globalLogLevel = allConfigs.logLevel || "INFO";
     // console.log("globalLogLevel:"+ globalLogLevel);
 
     // 获取环境配置
     const envs = allConfigs.envs || {};
-    const envConfig = envs[env] || envs.local || envs.dev;
+    const envConfig = envs[env] ;
 
     if (!envConfig) {
       throw new Error(`未找到环境 ${env} 的配置`);
@@ -73,21 +79,21 @@ export function loadConfig(env = null) {
 
     // 设置默认 authType
     if (!globalConfig.authType) {
-      globalConfig.authType = 'apiKey';
+      globalConfig.authType = "apiKey";
     }
 
     // logLevel 优先使用环境配置，否则使用全局配置
     const logLevel = envConfig.logLevel || globalLogLevel;
-    
+
     // langcode 优先使用环境配置，否则使用全局配置，默认 zh
-    const langcode = envConfig.langcode || allConfigs.langcode || 'zh';
+    const langcode = envConfig.langcode || allConfigs.langcode || "zh";
     globalConfig.langcode = langcode;
 
     // 规范化 baseUrl
     if (globalConfig.baseUrl) {
-      globalConfig.baseUrl = globalConfig.baseUrl.replace(/\\/g, '/');
-      if (!globalConfig.baseUrl.endsWith('/')) {
-        globalConfig.baseUrl += '/';
+      globalConfig.baseUrl = globalConfig.baseUrl.replace(/\\/g, "/");
+      if (!globalConfig.baseUrl.endsWith("/")) {
+        globalConfig.baseUrl += "/";
       }
     }
 
@@ -102,7 +108,7 @@ export function loadConfig(env = null) {
 }
 
 function copySampleConfig(configPath) {
-  const sampleConfigPath = path.join(__dirname, 'sample.config.json');
+  const sampleConfigPath = path.join(__dirname, "sample.config.json");
 
   const configDir = path.dirname(configPath);
   if (!fs.existsSync(configDir)) {
@@ -115,30 +121,35 @@ function copySampleConfig(configPath) {
   } else {
     // 如果 sample.config.json 不存在，创建默认配置
     const defaultConfig = {
-      "logLevel": "INFO",
-      "langcode": "zh",
-      "envs": {
-        "local": {
-          "baseUrl": "http://127.0.0.1:9080/maximo",
-          "langcode": "zh",
-          "apiKey": "your-api-key-here",
-          "maxauth": ""
+      logLevel: "INFO",
+      langcode: "zh",
+      defaultEnv: "local",
+      envs: {
+        local: {
+          baseUrl: "http://127.0.0.1:9080/maximo",
+          langcode: "zh",
+          apiKey: "your-api-key-here",
+          maxauth: "",
         },
-        "dev": {
-          "baseUrl": "https://mdev/maximo",
-          "langcode": "zh",
-          "apiKey": "your-api-key-here",
-          "maxauth": ""
+        dev: {
+          baseUrl: "https://mdev/maximo",
+          langcode: "zh",
+          apiKey: "your-api-key-here",
+          maxauth: "",
         },
-        "hd": {
-          "baseUrl": "http://xxxxx:9080/maximo",
-          "langcode": "zh",
-          "apiKey": "your-api-key-here",
-          "maxauth": ""
-        }
-      }
+        hd: {
+          baseUrl: "http://xxxxx:9080/maximo",
+          langcode: "zh",
+          apiKey: "your-api-key-here",
+          maxauth: "",
+        },
+      },
     };
-    fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf-8');
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify(defaultConfig, null, 2),
+      "utf-8",
+    );
     logger.info(`[Config] 已创建默认配置文件: ${configPath}`);
   }
 }
@@ -159,5 +170,5 @@ export default {
   getConfig,
   getWorkDir,
   getConfigDir,
-  checkAndCreateConfig
+  checkAndCreateConfig,
 };

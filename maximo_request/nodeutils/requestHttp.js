@@ -28,6 +28,12 @@ function limitLogOutput(data, maxLength = 200) {
 }
 
 function joinUrl(base, path) {
+  if(path!=null&&path!==''){
+    logger.debug(`[HTTP Log] ------------  base: ${base}, path: ${path}`);
+    if(path.startsWith('http://')||path.startsWith('https://')){
+      return path;
+    }
+  }
   return `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 }
 

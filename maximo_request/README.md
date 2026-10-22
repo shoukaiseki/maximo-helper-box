@@ -14,7 +14,7 @@ Maximo 表结构和数据更新工具集。
 
 ### 全局安装（CLI 使用）
 ```bash
-npm install -g shoukaiseki-maximo-utils
+npm install -g sks-maximo-utils
 ```
 
 ### 项目中安装（引用使用）
@@ -26,17 +26,38 @@ npm install sks-maximo-utils
 
 ### CLI 命令
 
-不带参数运行，打开配置目录：
+不带参数运行，检查配置并打开配置目录：
 ```bash
 sks-maximo
 ```
 
-带参数运行，加载指定环境配置：
+导入命令通用格式：
+
 ```bash
-sks-maximo local    # 使用 local 环境配置
-sks-maximo dev      # 使用 dev 环境配置
-sks-maximo hd       # 使用 hd 环境配置
+sks-maximo <import-command> <fileName> [env] [--logname <name>]
 ```
+
+环境既可以用位置参数，也可以用 `-e` / `--env` 指定，两者等价：
+
+```bash
+sks-maximo import-presentation LIBRARY_EN.xml prod_en
+sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
+```
+
+导入命令：
+
+| 命令 | 说明 |
+|------|------|
+| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置 |
+| `sks-maximo import-appinfo <fileName>` | 导入应用信息配置 |
+| `sks-maximo import-presentation <fileName>` | 导入应用 XML 配置 |
+| `sks-maximo import-script <fileName>` | 导入自动化脚本 |
+| `sks-maximo import-domain <fileName>` | 导入域配置 |
+| `sks-maximo import-maxintobject <fileName>` | 导入对象结构（Integration Object）配置 |
+
+环境名必须是 `~/.sks/nodeutils/config.json` 中 `envs` 下已存在的键（例如 `local`、`dev`、`dev_en`、`prod`、`prod_en`、`hd`）。请求会自动追加 `_langcode` 参数，取该环境配置的 `langcode`；环境未配置时取全局 `langcode`（默认 `zh`）。因此做英文数据导入时，要传入配置了 `"langcode": "en"` 的环境，例如 `prod_en`。
+
+所有导入命令都支持 `-l` / `--logname <name>` 自定义日志前缀。
 
 ### 在脚本中引用
 
@@ -128,16 +149,24 @@ fileUtils.readFileContent('test.txt');
       "authType": "apiKey",
       "langcode": "zh"
     },
-    "dev": {
-      "baseUrl": "https://mdev/maximo",
+    "prod": {
+      "baseUrl": "https://main.manage.prod.example.com/maximo",
+      "apiKey": "your-api-key",
+      "maxauth": "",
+      "authType": "apiKey"
+    },
+    "prod_en": {
+      "baseUrl": "https://main.manage.prod.example.com/maximo",
       "apiKey": "your-api-key",
       "maxauth": "",
       "authType": "apiKey",
-      "langcode": "zh"
+      "langcode": "en"
     }
   }
 }
 ```
+
+`envs` 下的键就是环境名，可自行命名（如 `loc`、`dev`、`dev_en`、`prod`、`prod_en`、`hd`）。同一个 Maximo 服务可以配置多个环境名，仅 `langcode` 不同，用于分别导入中文/英文数据。
 
 ### 配置说明
 
