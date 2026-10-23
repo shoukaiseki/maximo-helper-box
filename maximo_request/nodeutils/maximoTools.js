@@ -235,6 +235,7 @@ export async function importMaxDomain({fileName, logname}) {
             params: {
                 _type: 'domains',
                 _action: 'import',
+                syncFlag: true,
                 _langcode: getConfig().langcode,
             },
             data: body.data
