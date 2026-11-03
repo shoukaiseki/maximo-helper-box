@@ -69,6 +69,7 @@ import {
   importMaxAutoKey,
   importMaxScript,
   importMaxAppInfo,
+  importMaxAppInfoV1,
   importMaxIntObject,
   callMaxScript,
   batchImport,
@@ -192,7 +193,8 @@ fileUtils.readFileContent('test.txt');
 | importMaxDomain | 导入域配置 |
 | importMaxAutoKey | 导入 AutoKey 配置 |
 | importMaxScript | 导入自动化脚本（自动保存历史记录） |
-| importMaxAppInfo | 导入应用信息配置 |
+| importMaxAppInfo | 导入应用信息配置（新接口，返回与接口一致的响应对象） |
+| importMaxAppInfoV1 | 导入应用信息配置（旧版接口，返回 true/false） |
 | importMaxIntObject | 导入对象结构(Integration Object)配置 |
 
 ### 其他方法

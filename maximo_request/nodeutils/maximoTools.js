@@ -701,13 +701,13 @@ export async function importMaxAutoKey({fileName, logname}) {
 
 
 /**
- * 导入Maximo应用信息配置
+ * 导入Maximo应用信息配置（旧版接口 SKS_IMP_MAXAPPINFO）
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxAppInfo({fileName, logname}) {
+export async function importMaxAppInfoV1({fileName, logname}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -764,6 +764,81 @@ export async function importMaxAppInfo({fileName, logname}) {
         return false
     }
 }
+
+/**
+ * 导入Maximo应用信息配置（新接口，SKS.AUTOSCRIPT.SCREENS 的 _action=importAppInfo）
+ * 与 V1 不同：使用 JS 调用时返回与接口一致的响应对象，可直接读取逐条导入结果。
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 应用信息 JSON 文件
+ * @param {string} options.logname - 日志打印名称
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式，对应接口的 dmDeploySet
+ * @param {boolean} [options.errorAssert=false] - 单行失败立即中止，对应接口的 _errorAssert
+ * @returns {Promise<Object|string|null>} 接口响应对象；失败返回 null
+ */
+export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, errorAssert = false}) {
+    if (!logname || logname === "" || logname === null) {
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName)
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`)
+            return null
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`)
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`)
+
+        const body = parseRequestBody(fileName, fileContent, logname)
+        if (!body.ok) {
+            return null
+        }
+
+        const params = {
+            _action: 'importAppInfo',
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        }
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true'
+        }
+        if (errorAssert) {
+            params._errorAssert = 'true'
+        }
+
+        logger.info(`[${logname}]开始发送请求...`)
+        const response = await request({
+            url: '/api/script/SKS.AUTOSCRIPT.SCREENS',
+            method: 'post',
+            params,
+            data: body.data
+        })
+
+        logger.info(`[${logname}]收到响应`)
+
+        // 接口返回的是 JSON 字符串，个别环境可能带 BOM 或前后空白
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim()
+            try {
+                return JSON.parse(text)
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`)
+                return response
+            }
+        }
+        return response
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
 export async function callMaxScript({ apiScriptName, fileName, params = {}, logname }) {
     if (!apiScriptName) {
         logger.error('[callMaxScript]脚本名称不能为空')

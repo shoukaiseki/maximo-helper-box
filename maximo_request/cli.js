@@ -3,7 +3,7 @@ import { exec } from 'child_process';
 import { readFileSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { checkAndCreateConfig, getConfigDir, loadConfig } from './nodeutils/config.js';
-import { callMaxScript, importMaxObject, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxIntObject } from './nodeutils/maximoTools.js';
+import { callMaxScript, importMaxObject, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = new URL('.', import.meta.url).pathname;
@@ -44,7 +44,7 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log('  sks-maximo <env>        # 加载指定环境配置');
   console.log('  sks-maximo call <scriptName> [options]  # 调用脚本接口');
   console.log('  sks-maximo import-object <fileName>    # 导入 Maximo 对象配置');
-  console.log('  sks-maximo import-appinfo <fileName>    # 导入应用信息配置');
+  console.log('  sks-maximo import-appinfo <fileName>    # 导入应用信息配置(旧版接口)');
   console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
   console.log('  sks-maximo import-script <fileName>    # 导入自动化脚本');
   console.log('  sks-maximo import-domain <fileName>    # 导入域配置');
@@ -58,7 +58,7 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   console.log('命令:');
   console.log('  call                    # 调用通用脚本接口');
   console.log('  import-object           # 导入 Maximo 对象配置');
-  console.log('  import-appinfo          # 导入应用信息配置');
+  console.log('  import-appinfo          # 导入应用信息配置(旧版接口 importMaxAppInfoV1)');
   console.log('  import-presentation     # 导入应用XML配置');
   console.log('  import-script           # 导入自动化脚本');
   console.log('  import-domain           # 导入域配置');
@@ -184,7 +184,7 @@ if (!cmd || ['-h', '--help', '-?', '--version', '-v'].includes(cmd)) {
   loadConfig(globalEnv);
   (async () => {
     try {
-      const result = await importMaxAppInfo({ fileName, logname: logname || fileName });
+      const result = await importMaxAppInfoV1({ fileName, logname: logname || fileName });
       if (result) {
         console.log('导入成功');
       } else {

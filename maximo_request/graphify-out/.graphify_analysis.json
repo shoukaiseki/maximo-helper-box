@@ -1,0 +1,252 @@
+{
+  "communities": {
+    "0": [
+      "cli",
+      "cli_args",
+      "cli_filename",
+      "cli_filteredargs",
+      "cli_importcommands",
+      "cli_packagejson",
+      "nodeutils_config",
+      "nodeutils_config_checkandcreateconfig",
+      "nodeutils_config_copysampleconfig",
+      "nodeutils_config_dirname",
+      "nodeutils_config_getconfigdir",
+      "nodeutils_config_getconfigpath",
+      "nodeutils_config_loadconfig",
+      "nodeutils_logger",
+      "nodeutils_logger_colors",
+      "nodeutils_logger_levels",
+      "nodeutils_logger_logger",
+      "ref_child_process",
+      "ref_fs",
+      "ref_os",
+      "ref_url"
+    ],
+    "1": [
+      "nodeutils_config_getconfig",
+      "nodeutils_fileutils_readfilecontent",
+      "nodeutils_fileutils_readxmlfile",
+      "nodeutils_maximotools",
+      "nodeutils_maximotools_callmaxscript",
+      "nodeutils_maximotools_checkimportresult",
+      "nodeutils_maximotools_importmaxappinfo",
+      "nodeutils_maximotools_importmaxautokey",
+      "nodeutils_maximotools_importmaxdomain",
+      "nodeutils_maximotools_importmaxintobject",
+      "nodeutils_maximotools_importmaxobject",
+      "nodeutils_maximotools_importmaxpresentation",
+      "nodeutils_maximotools_importmaxscript",
+      "nodeutils_maximotools_parseimportresponse",
+      "nodeutils_maximotools_parserequestbody",
+      "nodeutils_maximotools_savescripthistory",
+      "nodeutils_requesthttp_requestfn"
+    ],
+    "2": [
+      "package",
+      "package_author",
+      "package_bin",
+      "package_bin_sks_maximo",
+      "package_dependencies",
+      "package_dependencies_axios",
+      "package_description",
+      "package_keywords",
+      "package_license",
+      "package_main",
+      "package_name",
+      "package_scripts",
+      "package_scripts_test",
+      "package_type",
+      "package_version",
+      "ref_axios"
+    ],
+    "3": [
+      "nodeutils_requesthttp",
+      "nodeutils_requesthttp_createservice",
+      "nodeutils_requesthttp_getlogdir",
+      "nodeutils_requesthttp_getservice",
+      "nodeutils_requesthttp_joinurl",
+      "nodeutils_requesthttp_limitlogoutput",
+      "nodeutils_requesthttp_saveerrorlog",
+      "nodeutils_requesthttp_saverequestlog",
+      "nodeutils_requesthttp_saveresponselog",
+      "ref_http",
+      "ref_https"
+    ],
+    "4": [
+      "index",
+      "index_fileutils",
+      "nodeutils_fileutils_readjsonfile",
+      "nodeutils_maximotools_printbatchstats",
+      "nodeutils_mockdatatools",
+      "nodeutils_mockdatatools_sendmockdata",
+      "nodeutils_mockdatatools_sendmockdatabatch",
+      "nodeutils_mockdatatools_sendpomockdata",
+      "nodeutils_mockdatatools_sendpomockdatabatch",
+      "nodeutils_mockdatatools_sendrlimportmockdatabatch"
+    ],
+    "5": [
+      "nodeutils_logger_consolelogger",
+      "nodeutils_logger_consolelogger_constructor",
+      "nodeutils_logger_consolelogger_debug",
+      "nodeutils_logger_consolelogger_error",
+      "nodeutils_logger_consolelogger_fatal",
+      "nodeutils_logger_consolelogger_info",
+      "nodeutils_logger_consolelogger_print",
+      "nodeutils_logger_consolelogger_setlevel",
+      "nodeutils_logger_consolelogger_trace",
+      "nodeutils_logger_consolelogger_warn"
+    ],
+    "6": [
+      "nodeutils_config_getworkdir",
+      "nodeutils_fileutils",
+      "nodeutils_fileutils_fileexists",
+      "nodeutils_fileutils_filepathforname",
+      "nodeutils_fileutils_listfiles",
+      "nodeutils_fileutils_listfiles_scandir",
+      "nodeutils_fileutils_resolvefilepath",
+      "nodeutils_maximotools_batchimport",
+      "ref_path"
+    ]
+  },
+  "cohesion": {
+    "0": 0.15714285714285714,
+    "1": 0.38235294117647056,
+    "2": 0.13333333333333333,
+    "3": 0.4,
+    "4": 0.4,
+    "5": 0.3333333333333333,
+    "6": 0.3333333333333333
+  },
+  "gods": [
+    {
+      "id": "nodeutils_config_getconfig",
+      "label": "getConfig()",
+      "degree": 16
+    },
+    {
+      "id": "nodeutils_requesthttp_requestfn",
+      "label": "requestFn()",
+      "degree": 16
+    },
+    {
+      "id": "nodeutils_fileutils_readfilecontent",
+      "label": "readFileContent()",
+      "degree": 13
+    },
+    {
+      "id": "nodeutils_logger_consolelogger",
+      "label": "ConsoleLogger",
+      "degree": 10
+    },
+    {
+      "id": "nodeutils_maximotools_importmaxdomain",
+      "label": "importMaxDomain()",
+      "degree": 8
+    },
+    {
+      "id": "nodeutils_maximotools_importmaxintobject",
+      "label": "importMaxIntObject()",
+      "degree": 8
+    },
+    {
+      "id": "nodeutils_maximotools_importmaxscript",
+      "label": "importMaxScript()",
+      "degree": 8
+    },
+    {
+      "id": "nodeutils_requesthttp_createservice",
+      "label": "createService()",
+      "degree": 8
+    },
+    {
+      "id": "nodeutils_maximotools_importmaxappinfo",
+      "label": "importMaxAppInfo()",
+      "degree": 7
+    },
+    {
+      "id": "nodeutils_maximotools_importmaxautokey",
+      "label": "importMaxAutoKey()",
+      "degree": 7
+    }
+  ],
+  "surprises": [
+    {
+      "source": "createService()",
+      "target": "getConfig()",
+      "source_files": [
+        "nodeutils/requestHttp.js",
+        "nodeutils/config.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "saveErrorLog()",
+      "target": "getConfig()",
+      "source_files": [
+        "nodeutils/requestHttp.js",
+        "nodeutils/config.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "saveResponseLog()",
+      "target": "getConfig()",
+      "source_files": [
+        "nodeutils/requestHttp.js",
+        "nodeutils/config.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "importMaxScript()",
+      "target": "readJsonFile()",
+      "source_files": [
+        "nodeutils/maximoTools.js",
+        "nodeutils/fileUtils.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "importMaxScript()",
+      "target": "resolveFilePath()",
+      "source_files": [
+        "nodeutils/maximoTools.js",
+        "nodeutils/fileUtils.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `axios` connect `Community 2` to `Community 3`?",
+      "why": "High betweenness centrality (0.275) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `ConsoleLogger` connect `Community 5` to `Community 0`?",
+      "why": "High betweenness centrality (0.182) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `getConfig()` connect `Community 1` to `Community 0`, `Community 3`, `Community 4`?",
+      "why": "High betweenness centrality (0.033) - this node is a cross-community bridge."
+    }
+  ]
+}
