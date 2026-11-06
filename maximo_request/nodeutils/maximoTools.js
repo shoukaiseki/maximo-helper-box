@@ -26,13 +26,125 @@ function parseRequestBody(fileName, fileContent, logname) {
 }
 
 /**
- * 导入Maximo对象配置
+ * 导入Maximo对象配置（新接口 SKS_MIGRATEAPI_CONFIGUR）
+ * 请求体为新模式导出 JSON（SKS_MIGRATE_<对象名>.js 的 getDetail 结果），
+ * 支持 {maxObjects:[...]}、裸数组或单个对象定义三种格式。
+ * 返回 { status, data:{ total, added, updated, skipped, failed, results, sks:*SumTotal }, message }
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 配置文件（JSON，支持 {maxObjects:[...]}、数组或单个对象定义）
+ * @param {string} options.logname - 日志打印名称
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式，显式设置 MAXTYPE/LENGTH/SCALE（含 0）
+ * @param {boolean} [options.ignoreAttributes=false] - 跳过属性处理
+ * @param {boolean} [options.ignoreRelationships=false] - 跳过关系处理
+ * @param {boolean} [options.debug=false] - 返回 debugMsg 调试信息
+ * @returns {Promise<Object|string|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxObject({fileName, logname, dmDeploySet = false, ignoreAttributes = false, ignoreRelationships = false, debug = false, urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        const params = {
+            _action: 'import',
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        };
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true';
+        }
+        if (ignoreAttributes) {
+            params.ignoreAttributes = 'true';
+        }
+        if (ignoreRelationships) {
+            params.ignoreRelationships = 'true';
+        }
+        if (debug) {
+            params._debug = 'true';
+        }
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS_MIGRATEAPI_CONFIGUR',
+            method: 'post',
+            params,
+            data: body.data
+        });
+
+        logger.info(`[${logname}]收到响应`);
+
+        // 接口返回的是 JSON 字符串，个别环境可能带 BOM 或前后空白
+        let result = response;
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                return response;
+            }
+        }
+
+        // 新接口返回 { status, data:{ results, sks:*SumTotal }, message }
+        if (result && typeof result === 'object') {
+            if (result.status === 'error') {
+                logger.error(`[${logname}]导入失败: ${result.message || '未知错误'}`);
+            } else {
+                logger.warn(`[${logname}]${result.message || '导入完成'}`);
+                const failSum = Number(result.data && result.data['sks:failSumTotal']) || 0;
+                if (failSum > 0) {
+                    const failedRows = [];
+                    const collect = (rows) => (rows || []).forEach(row => {
+                        if (!row || typeof row !== 'object') return;
+                        if (row._status === 'failed') {
+                            failedRows.push(`${row['sks:objectName']}(${row['sks:ref']}) ${row._message || ''}`);
+                        }
+                        collect(row.attributes);
+                        collect(row.indexes);
+                        collect(row.relationships);
+                    });
+                    collect(result.data.results);
+                    logger.warn(`[${logname}]失败行数: ${failSum}，明细: ${failedRows.join('、')}`);
+                }
+            }
+        }
+        return result;
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
+ * 导入Maximo对象配置（旧版接口 SKS.AUTOSCRIPT.LIBRARY）
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxObject({fileName, logname}) {
+export async function importMaxObjectV1({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -64,6 +176,7 @@ export async function importMaxObject({fileName, logname}) {
             params: {
                 develop: true,
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data,  // 将文件内容作为请求体发送
         })
@@ -108,7 +221,7 @@ export async function importMaxObject({fileName, logname}) {
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxPresentation({fileName, logname}) {
+export async function importMaxPresentation({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -138,6 +251,7 @@ export async function importMaxPresentation({fileName, logname}) {
             },
             params: {
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data
         })
@@ -206,7 +320,7 @@ function checkImportResult(response) {
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxDomain({fileName, logname}) {
+export async function importMaxDomain({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -237,6 +351,7 @@ export async function importMaxDomain({fileName, logname}) {
                 _action: 'import',
                 syncFlag: true,
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data
         })
@@ -276,7 +391,7 @@ export async function importMaxDomain({fileName, logname}) {
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxIntObject({fileName, logname}) {
+export async function importMaxIntObject({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -306,6 +421,7 @@ export async function importMaxIntObject({fileName, logname}) {
                 _type: 'integrationobjects',
                 _action: 'import',
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data
         })
@@ -382,7 +498,7 @@ export async function saveScriptHistory({autoscript, source, version = '', alias
  * @param {string} options.logname - 日志打印名称（可选，默认使用autoscript值）
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxScript({fileName, logname}) {
+export async function importMaxScript({fileName, logname, urlParams = {}}) {
     try {
         // 使用通用路径转换方法解析路径
         const resolvedFilePath = resolveFilePath(fileName);
@@ -608,6 +724,9 @@ export async function importMaxScript({fileName, logname}) {
             headers:  {
                 ...headers
             },
+            params: {
+                ...urlParams
+            },
             data: deployBody
         });
         
@@ -641,7 +760,7 @@ export async function importMaxScript({fileName, logname}) {
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxAutoKey({fileName, logname}) {
+export async function importMaxAutoKey({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -670,6 +789,7 @@ export async function importMaxAutoKey({fileName, logname}) {
             params: {
                 develop: true,
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data
         })
@@ -707,7 +827,7 @@ export async function importMaxAutoKey({fileName, logname}) {
  * @param {string} options.logname - 日志打印名称
  * @returns {Promise<boolean>} 是否导入成功
  */
-export async function importMaxAppInfoV1({fileName, logname}) {
+export async function importMaxAppInfoV1({fileName, logname, urlParams = {}}) {
     if(!logname||logname===""||logname===null){
         logname = fileName
     }
@@ -736,6 +856,7 @@ export async function importMaxAppInfoV1({fileName, logname}) {
             params: {
                 develop: true,
                 _langcode: getConfig().langcode,
+                ...urlParams,
             },
             data: body.data
         })
@@ -775,7 +896,7 @@ export async function importMaxAppInfoV1({fileName, logname}) {
  * @param {boolean} [options.errorAssert=false] - 单行失败立即中止，对应接口的 _errorAssert
  * @returns {Promise<Object|string|null>} 接口响应对象；失败返回 null
  */
-export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, errorAssert = false}) {
+export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, errorAssert = false, urlParams = {}}) {
     if (!logname || logname === "" || logname === null) {
         logname = fileName
     }
@@ -804,6 +925,8 @@ export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, 
         if (errorAssert) {
             params._errorAssert = 'true'
         }
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams)
 
         logger.info(`[${logname}]开始发送请求...`)
         const response = await request({
@@ -839,7 +962,7 @@ export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, 
     }
 }
 
-export async function callMaxScript({ apiScriptName, fileName, params = {}, logname }) {
+export async function callMaxScript({ apiScriptName, fileName, params = {}, logname, urlParams = {} }) {
     if (!apiScriptName) {
         logger.error('[callMaxScript]脚本名称不能为空')
         return false
@@ -877,6 +1000,8 @@ export async function callMaxScript({ apiScriptName, fileName, params = {}, logn
             params: {
                 ...params,
                 _langcode: getConfig().langcode,
+                // urlParams 优先级最高，存在同名属性时覆盖以上参数
+                ...urlParams,
             }
         }
         
@@ -922,7 +1047,7 @@ export async function callMaxScript({ apiScriptName, fileName, params = {}, logn
  * @param {boolean} [options.continueOnError=true] - 单个文件失败时是否继续，默认继续
  * @returns {Promise<Object>} 批量导入统计结果
  */
-export async function batchImport({ dirName, files, extFilter, recursive = true, importFn, logname = '批量导入', concurrency = 1, continueOnError = true }) {
+export async function batchImport({ dirName, files, extFilter, recursive = true, importFn, logname = '批量导入', concurrency = 1, continueOnError = true, urlParams = {} }) {
     if (typeof importFn !== 'function') {
         logger.error('[batchImport]必须指定importFn导入函数')
         return null;
@@ -963,7 +1088,7 @@ export async function batchImport({ dirName, files, extFilter, recursive = true,
             const cur = index++;
             const filename = fileNames[cur];
             try {
-                const result = await importFn({ fileName: filename, logname });
+                const result = await importFn({ fileName: filename, logname, urlParams });
                 if (result) {
                     stats.successCount++;
                     stats.successList.push(filename);

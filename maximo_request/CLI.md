@@ -7,12 +7,15 @@
 | `sks-maximo` | 检查配置文件并打开配置目录 |
 | `sks-maximo <env>` | 加载指定环境配置 |
 | `sks-maximo call <scriptName>` | 调用通用脚本接口 |
-| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置 |
-| `sks-maximo import-appinfo <fileName>` | 导入应用信息配置 |
+| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（新接口 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-object-v1 <fileName>` | 导入 Maximo 对象配置（旧版接口） |
+| `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
+| `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用XML配置 |
 | `sks-maximo import-script <fileName>` | 导入自动化脚本 |
 | `sks-maximo import-domain <fileName>` | 导入域配置 |
 | `sks-maximo import-maxintobject <fileName>` | 导入对象结构(Integration Object)配置 |
+| `sks-maximo import-params [命令/方法名]` | 查看导入接口的 URL 参数与说明 |
 
 ---
 
@@ -45,7 +48,14 @@ sks-maximo hd       # 使用测试环境配置
 
 ## 3. 导入命令
 
-所有导入命令均支持 `-e` / `--env` 指定环境和 `-l` / `--logname` 指定日志名。
+所有导入命令均支持 `-e` / `--env` 指定环境、`-l` / `--logname` 指定日志名、
+`--params` 传 JSON 覆盖接口 URL 参数。
+
+```bash
+sks-maximo import-object data/object.json -e hd --params '{"dmDeploySet":true}'
+sks-maximo import-object-v1 data/object.json -e hd
+sks-maximo import-params import-object    # 查看参数与详细说明
+```
 
 ### 3.1 导入对象配置
 
@@ -53,13 +63,14 @@ sks-maximo hd       # 使用测试环境配置
 sks-maximo import-object <fileName> [-e env] [-l logname]
 ```
 
-**说明：** 导入 Maximo 对象配置（JSON/XML）
+**说明：** 导入 Maximo 对象配置，走新接口 `SKS_MIGRATEAPI_CONFIGUR`（`_action=import`）。旧版接口使用 `import-object-v1`。
 
 | 参数 | 说明 | 必填 |
 |------|------|------|
-| `<fileName>` | JSON 或 XML 配置文件路径 | 是 |
+| `<fileName>` | JSON 配置文件路径 | 是 |
 | `-e` / `--env` | 指定环境（默认 local） | 否 |
 | `-l` / `--logname` | 日志打印名称 | 否 |
+| `--params` | URL 参数覆盖（JSON），如 `{"dmDeploySet":true}` | 否 |
 
 ---
 
@@ -69,7 +80,7 @@ sks-maximo import-object <fileName> [-e env] [-l logname]
 sks-maximo import-appinfo <fileName> [-e env] [-l logname]
 ```
 
-**说明：** 导入 Maximo 应用信息配置（JSON）
+**说明：** 导入 Maximo 应用信息配置，走新接口 `SKS.AUTOSCRIPT.SCREENS?_action=importAppInfo`。旧版接口使用 `import-appinfo-v1`。
 
 | 参数 | 说明 | 必填 |
 |------|------|------|

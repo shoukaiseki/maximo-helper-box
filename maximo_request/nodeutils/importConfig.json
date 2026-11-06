@@ -1,0 +1,120 @@
+{
+  "importMaxObject": {
+    "command": "import-object",
+    "title": "对象配置导入（新接口）",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxObject.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "import" } ], "description": "接口功能分发，目前只实现 import" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写，如 ZH、EN" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调 setDMDeploySet(true)，并无条件显式设置 MAXTYPE/LENGTH/SCALE（含 0）" },
+      { "name": "ignoreAttributes", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "跳过 MAXATTRIBUTECFG 属性处理" },
+      { "name": "ignoreRelationships", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "跳过 MAXRELATIONSHIP 关系处理" },
+      { "name": "_debug", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "返回 debugMsg 调试信息" }
+    ]
+  },
+  "importMaxObjectV1": {
+    "command": "import-object-v1",
+    "title": "对象配置导入（旧版接口）",
+    "interface": "SKS.AUTOSCRIPT.LIBRARY",
+    "remark": "remarks/importMaxObjectV1.md",
+    "params": [
+      { "name": "develop", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "开发模式标记" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxPresentation": {
+    "command": "import-presentation",
+    "title": "应用 XML 导入",
+    "interface": "SKS.AUTOSCRIPT.SCREENS",
+    "remark": "remarks/importMaxPresentation.md",
+    "params": [
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxDomain": {
+    "command": "import-domain",
+    "title": "域配置导入",
+    "interface": "SKS.AUTOSCRIPT.OBJECTS",
+    "remark": "remarks/importMaxDomain.md",
+    "params": [
+      { "name": "_type", "type": "string", "default": "domains", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "domains", "dictLabel": "domains" } ], "description": "固定为 domains" },
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "import" } ], "description": "固定为 import" },
+      { "name": "syncFlag", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "是否同步处理" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxIntObject": {
+    "command": "import-maxintobject",
+    "title": "对象结构导入",
+    "interface": "SKS.AUTOSCRIPT.OBJECTS",
+    "remark": "remarks/importMaxIntObject.md",
+    "params": [
+      { "name": "_type", "type": "string", "default": "integrationobjects", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "integrationobjects", "dictLabel": "integrationobjects" } ], "description": "固定为 integrationobjects" },
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "import" } ], "description": "固定为 import" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxScript": {
+    "command": "import-script",
+    "title": "自动化脚本导入",
+    "interface": "MXAPIAUTOSCRIPT / MXSCRIPT",
+    "remark": "remarks/importMaxScript.md",
+    "params": [
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxAutoKey": {
+    "command": null,
+    "title": "AutoKey 导入",
+    "interface": "SKS_DEPLOY_AUTOKEY",
+    "remark": "remarks/importMaxAutoKey.md",
+    "params": [
+      { "name": "develop", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "开发模式标记" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxAppInfoV1": {
+    "command": "import-appinfo-v1",
+    "title": "应用信息导入（旧版接口）",
+    "interface": "SKS_IMP_MAXAPPINFO",
+    "remark": "remarks/importMaxAppInfoV1.md",
+    "params": [
+      { "name": "develop", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "开发模式标记" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" }
+    ]
+  },
+  "importMaxAppInfo": {
+    "command": "import-appinfo",
+    "title": "应用信息导入（新接口）",
+    "interface": "SKS.AUTOSCRIPT.SCREENS",
+    "remark": "remarks/importMaxAppInfo.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "importAppInfo", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "importAppInfo", "dictLabel": "importAppInfo" } ], "description": "固定为 importAppInfo" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码，如 ZH、EN" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式，按目标环境类型重建应用信息" },
+      { "name": "_errorAssert", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "单行失败立即中止整批导入" }
+    ]
+  },
+  "callMaxScript": {
+    "command": "call",
+    "title": "通用脚本调用",
+    "interface": "/api/script/<scriptName>",
+    "remark": "remarks/callMaxScript.md",
+    "params": [
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "语言代码" },
+      { "name": "*", "type": "any", "default": "", "description": "其余参数按脚本要求自由传入" }
+    ]
+  },
+  "batchImport": {
+    "command": null,
+    "title": "批量导入",
+    "interface": "本地批量执行",
+    "remark": "remarks/batchImport.md",
+    "params": [
+      { "name": "urlParams", "type": "object", "default": {}, "description": "透传给 importFn 的 URL 参数，最终合并进每个文件的接口请求" },
+      { "name": "concurrency", "type": "number", "default": 1, "description": "并发数，默认 1（串行）" }
+    ]
+  }
+}
+

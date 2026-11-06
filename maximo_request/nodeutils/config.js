@@ -76,6 +76,7 @@ export function loadConfig(env = null) {
 
     // 合并配置：环境配置优先于全局配置
     globalConfig = { ...envConfig };
+    globalConfig.env = env;
 
     // 设置默认 authType
     if (!globalConfig.authType) {
@@ -159,6 +160,18 @@ export function getConfig() {
     return loadConfig();
   }
   return globalConfig;
+}
+
+/**
+ * 读取原始配置文件（包含所有环境）
+ */
+export function getRawConfig() {
+  const configPath = getConfigPath();
+  if (!fs.existsSync(configPath)) {
+    return { envs: {}, defaultEnv: 'local' };
+  }
+  const configData = fs.readFileSync(configPath, "utf-8");
+  return JSON.parse(configData);
 }
 
 export function getWorkDir() {

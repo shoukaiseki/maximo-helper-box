@@ -48,8 +48,10 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 
 | 命令 | 说明 |
 |------|------|
-| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置 |
-| `sks-maximo import-appinfo <fileName>` | 导入应用信息配置 |
+| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（新接口 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-object-v1 <fileName>` | 导入 Maximo 对象配置（旧版接口） |
+| `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
+| `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用 XML 配置 |
 | `sks-maximo import-script <fileName>` | 导入自动化脚本 |
 | `sks-maximo import-domain <fileName>` | 导入域配置 |
@@ -64,6 +66,7 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 ```javascript
 import { 
   importMaxObject, 
+  importMaxObjectV1,
   importMaxPresentation, 
   importMaxDomain,
   importMaxAutoKey,
@@ -116,7 +119,8 @@ callMaxScript({ apiScriptName: "SKS_DEPLOY_AUTOKEY", fileName: "data/autokey.jso
 const stats = await batchImport({
     dirName: "C:/Temp/hd/maxobject_backup",   // 目录名（与files二选一）
     extFilter: ".json",                         // 扩展名过滤
-    importFn: importMaxObject,                  // 导入函数（可换成其他导入方法）
+    importFn: ({ fileName, logname, urlParams }) => importMaxObject({ fileName, logname, urlParams }),
+    urlParams: { dmDeploySet: true },           // 透传给 importFn 的 URL 参数
     logname: "批量导入对象",
     concurrency: 1                              // 并发数，默认1串行
 });
@@ -125,13 +129,32 @@ printBatchStats(stats);  // 打印批量导入统计结果
 // 直接指定文件列表批量导入
 await batchImport({
     files: ["a.json", "b.json", "c.json"],
-    importFn: importMaxDomain
+    importFn: ({ fileName, logname, urlParams }) => importMaxDomain({ fileName, logname, urlParams })
+});
+
+// 所有导入方法都支持 urlParams，用于覆盖/追加接口 URL 参数
+await importMaxAppInfo({
+    fileName: "data/appinfo.json",
+    urlParams: { dmDeploySet: true, _errorAssert: true }
 });
 
 // 文件工具
 fileUtils.listFiles('scripts', '.json');
 fileUtils.readFileContent('test.txt');
 ```
+
+## 导入参数与接口说明
+
+- `nodeutils/importConfig.json` 定义每个导入方法/接口的默认 URL 参数与帮助说明，详细备注存放在 `nodeutils/remarks/*.md`；
+- CLI 通过 `--params` 传入 JSON 覆盖默认参数：
+  ```bash
+  sks-maximo import-object data/object.json -e hd --params "{\"dmDeploySet\":true}"
+  ```
+- 查看某个导入接口的参数与说明：
+  ```bash
+  sks-maximo import-params import-object
+  ```
+- Web UI 任务行展示默认 URL 参数，可编辑或新增，执行时透传给接口；导入类型旁的问号图标可查看接口说明。
 
 ## 配置文件
 
@@ -188,7 +211,8 @@ fileUtils.readFileContent('test.txt');
 
 | 方法 | 说明 |
 |------|------|
-| importMaxObject | 导入 Maximo 对象配置（JSON） |
+| importMaxObject | 导入 Maximo 对象配置（新接口 `SKS_MIGRATEAPI_CONFIGUR`，返回响应对象） |
+| importMaxObjectV1 | 导入 Maximo 对象配置（旧版接口，返回 true/false） |
 | importMaxPresentation | 导入应用 XML 配置 |
 | importMaxDomain | 导入域配置 |
 | importMaxAutoKey | 导入 AutoKey 配置 |
