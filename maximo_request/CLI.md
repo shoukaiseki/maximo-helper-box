@@ -15,6 +15,7 @@
 | `sks-maximo import-script <fileName>` | 导入自动化脚本 |
 | `sks-maximo import-domain <fileName>` | 导入域配置 |
 | `sks-maximo import-maxintobject <fileName>` | 导入对象结构(Integration Object)配置 |
+| `sks-maximo import-autokey <fileName>` | 导入自动编码(AutoKey)配置 |
 | `sks-maximo import-params [命令/方法名]` | 查看导入接口的 URL 参数与说明 |
 
 ---
@@ -151,6 +152,23 @@ sks-maximo import-maxintobject <fileName> [-e env] [-l logname]
 | `<fileName>` | 对象结构 JSON 文件路径 | 是 |
 | `-e` / `--env` | 指定环境（默认 local） | 否 |
 | `-l` / `--logname` | 日志打印名称 | 否 |
+
+---
+
+### 3.7 导入自动编码(AutoKey)
+
+```bash
+sks-maximo import-autokey <fileName> [-e env] [-l logname]
+```
+
+**说明：** 导入 Maximo 自动编码配置，走 `SKS_DEPLOY_AUTOKEY`。请求体支持三种格式：AutoKey 数组、`{autokeys:[...]}`、单个 AutoKey 对象。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | AutoKey JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--params` | URL 参数覆盖（JSON），如 `{"develop":false}` | 否 |
 
 ---
 

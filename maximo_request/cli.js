@@ -54,7 +54,7 @@ if (paramsIndex > -1) {
 const cmd = filteredArgs[0];
 
 // 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
-const importCommands = ['import-object', 'import-object-v1', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject'];
+const importCommands = ['import-object', 'import-object-v1', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
 if (!envSpecified && importCommands.includes(cmd)) {
   const positionalEnv = filteredArgs[2];
   if (positionalEnv && !positionalEnv.startsWith('-')) {
@@ -78,6 +78,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo import-script <fileName>    # 导入自动化脚本');
   console.log('  sks-maximo import-domain <fileName>    # 导入域配置');
   console.log('  sks-maximo import-maxintobject <fileName> # 导入对象结构(Integration Object)配置');
+  console.log('  sks-maximo import-autokey <fileName>   # 导入自动编码(AutoKey)配置');
   console.log('  sks-maximo import-params [命令/方法名]    # 查看导入接口参数说明');
   console.log('');
   console.log('环境:');
@@ -95,6 +96,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  import-script           # 导入自动化脚本');
   console.log('  import-domain           # 导入域配置');
   console.log('  import-maxintobject     # 导入对象结构(Integration Object)配置');
+  console.log('  import-autokey          # 导入自动编码(AutoKey)配置');
   console.log('  import-params           # 查看导入接口参数说明');
   console.log('');
   console.log('选项:');
@@ -409,6 +411,35 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   (async () => {
     try {
       const result = await importMaxIntObject({ fileName, logname: logname || fileName, urlParams });
+      if (result) {
+        console.log('导入成功');
+      } else {
+        console.error('导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-autokey') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 AutoKey JSON 文件路径');
+    console.log('用法: sks-maximo import-autokey <fileName> [-e env] [-l logname]');
+    process.exit(1);
+  }
+  let logname = null;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    if (filteredArgs[i] === '--logname' || filteredArgs[i] === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxAutoKey({ fileName, logname: logname || fileName, urlParams });
       if (result) {
         console.log('导入成功');
       } else {

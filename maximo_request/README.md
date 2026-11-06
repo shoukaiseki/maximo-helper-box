@@ -56,6 +56,7 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 | `sks-maximo import-script <fileName>` | 导入自动化脚本 |
 | `sks-maximo import-domain <fileName>` | 导入域配置 |
 | `sks-maximo import-maxintobject <fileName>` | 导入对象结构（Integration Object）配置 |
+| `sks-maximo import-autokey <fileName>` | 导入自动编码（AutoKey）配置 |
 
 环境名必须是 `~/.sks/nodeutils/config.json` 中 `envs` 下已存在的键（例如 `local`、`dev`、`dev_en`、`prod`、`prod_en`、`hd`）。请求会自动追加 `_langcode` 参数，取该环境配置的 `langcode`；环境未配置时取全局 `langcode`（默认 `zh`）。因此做英文数据导入时，要传入配置了 `"langcode": "en"` 的环境，例如 `prod_en`。
 

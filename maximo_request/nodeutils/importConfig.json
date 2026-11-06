@@ -65,7 +65,7 @@
     ]
   },
   "importMaxAutoKey": {
-    "command": null,
+    "command": "import-autokey",
     "title": "AutoKey 导入",
     "interface": "SKS_DEPLOY_AUTOKEY",
     "remark": "remarks/importMaxAutoKey.md",
