@@ -6,7 +6,7 @@
     
     <groupId>com.example</groupId>
     <artifactId>maximo-server-jxls</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>maximo-server-jxls</name>
     <description>Maximo Server JXLS Exporter</description>
     
