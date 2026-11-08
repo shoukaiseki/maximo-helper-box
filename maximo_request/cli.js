@@ -54,7 +54,7 @@ if (paramsIndex > -1) {
 const cmd = filteredArgs[0];
 
 // 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
-const importCommands = ['import-object', 'import-object-v1', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
+const importCommands = ['import-object', 'import-object-v2', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
 if (!envSpecified && importCommands.includes(cmd)) {
   const positionalEnv = filteredArgs[2];
   if (positionalEnv && !positionalEnv.startsWith('-')) {
@@ -70,8 +70,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo <env>        # 加载指定环境配置');
   console.log('  sks-maximo -web -e hd   # 启动 Web UI');
   console.log('  sks-maximo call <scriptName> [options]  # 调用脚本接口');
-  console.log('  sks-maximo import-object <fileName>    # 导入 Maximo 对象配置(新接口 SKS_MIGRATEAPI_CONFIGUR)');
-  console.log('  sks-maximo import-object-v1 <fileName> # 导入 Maximo 对象配置(旧版接口)');
+  console.log('  sks-maximo import-object <fileName>    # 导入 Maximo 对象配置(旧版接口 SKS.AUTOSCRIPT.LIBRARY)');
+  console.log('  sks-maximo import-object-v2 <fileName> # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
   console.log('  sks-maximo import-appinfo <fileName>   # 导入应用信息配置(新接口)');
   console.log('  sks-maximo import-appinfo-v1 <fileName> # 导入应用信息配置(旧版接口)');
   console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
@@ -88,8 +88,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('');
   console.log('命令:');
   console.log('  call                    # 调用通用脚本接口');
-  console.log('  import-object           # 导入 Maximo 对象配置(新接口 SKS_MIGRATEAPI_CONFIGUR)');
-  console.log('  import-object-v1        # 导入 Maximo 对象配置(旧版接口 importMaxObjectV1)');
+  console.log('  import-object           # 导入 Maximo 对象配置(旧版接口 importMaxObjectV1)');
+  console.log('  import-object-v2        # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
   console.log('  import-appinfo          # 导入应用信息配置(新接口 importMaxAppInfo)');
   console.log('  import-appinfo-v1       # 导入应用信息配置(旧版接口 importMaxAppInfoV1)');
   console.log('  import-presentation     # 导入应用XML配置');
@@ -190,11 +190,11 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
       process.exit(1);
     }
   })();
-} else if (cmd === 'import-object') {
+} else if (cmd === 'import-object-v2') {
   const fileName = filteredArgs[1];
   if (!fileName) {
     console.error('错误: 请指定 JSON 文件路径');
-    console.log('用法: sks-maximo import-object <fileName> [-e env] [-l logname]');
+    console.log('用法: sks-maximo import-object-v2 <fileName> [-e env] [-l logname]');
     process.exit(1);
   }
   let logname = null;
@@ -225,11 +225,11 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
       process.exit(1);
     }
   })();
-} else if (cmd === 'import-object-v1') {
+} else if (cmd === 'import-object') {
   const fileName = filteredArgs[1];
   if (!fileName) {
     console.error('错误: 请指定 JSON 文件路径');
-    console.log('用法: sks-maximo import-object-v1 <fileName> [-e env]');
+    console.log('用法: sks-maximo import-object <fileName> [-e env]');
     process.exit(1);
   }
   loadConfig(globalEnv);

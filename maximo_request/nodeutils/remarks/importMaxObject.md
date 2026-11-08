@@ -1,4 +1,4 @@
-# 对象配置导入（新接口）
+# 对象配置导入（新模式）
 
 对应方法 `importMaxObject`，调用 Maximo 自动化脚本 `SKS_MIGRATEAPI_CONFIGUR`。
 
@@ -101,6 +101,6 @@
 
 ## 备注
 
-- 旧版接口见 `import-object-v1`（`importMaxObjectV1`，`SKS.AUTOSCRIPT.LIBRARY`）。
+- 旧版接口见 `import-object`（`importMaxObjectV1`，`SKS.AUTOSCRIPT.LIBRARY`）。
 - 脚本不执行任何删除：对象级 `_delete: true` 记为 `skipped`，属性/索引/关系行内 `_delete: true` 跳过该行并计数。
 - 跨数据库类型迁移时开启 `dmDeploySet`，会先显式设置类型信息再处理 `sameAsObject` / `sameAsAttribute`。

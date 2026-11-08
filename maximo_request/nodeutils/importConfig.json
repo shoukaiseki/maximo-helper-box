@@ -1,7 +1,7 @@
 {
   "importMaxObject": {
-    "command": "import-object",
-    "title": "对象配置导入（新接口）",
+    "command": "import-object-v2",
+    "title": "对象配置导入（新模式）",
     "interface": "SKS_MIGRATEAPI_CONFIGUR",
     "remark": "remarks/importMaxObject.md",
     "params": [
@@ -14,7 +14,7 @@
     ]
   },
   "importMaxObjectV1": {
-    "command": "import-object-v1",
+    "command": "import-object",
     "title": "对象配置导入（旧版接口）",
     "interface": "SKS.AUTOSCRIPT.LIBRARY",
     "remark": "remarks/importMaxObjectV1.md",

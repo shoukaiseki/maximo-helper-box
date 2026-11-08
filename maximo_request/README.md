@@ -48,8 +48,8 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 
 | 命令 | 说明 |
 |------|------|
-| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（新接口 `SKS_MIGRATEAPI_CONFIGUR`） |
-| `sks-maximo import-object-v1 <fileName>` | 导入 Maximo 对象配置（旧版接口） |
+| `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（旧版接口） |
+| `sks-maximo import-object-v2 <fileName>` | 导入 Maximo 对象配置（新模式 `SKS_MIGRATEAPI_CONFIGUR`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用 XML 配置 |
@@ -149,11 +149,11 @@ fileUtils.readFileContent('test.txt');
 - `nodeutils/importConfig.json` 定义每个导入方法/接口的默认 URL 参数与帮助说明，详细备注存放在 `nodeutils/remarks/*.md`；
 - CLI 通过 `--params` 传入 JSON 覆盖默认参数：
   ```bash
-  sks-maximo import-object data/object.json -e hd --params "{\"dmDeploySet\":true}"
+  sks-maximo import-object-v2 data/object.json -e hd --params "{\"dmDeploySet\":true}"
   ```
 - 查看某个导入接口的参数与说明：
   ```bash
-  sks-maximo import-params import-object
+  sks-maximo import-params import-object-v2
   ```
 - Web UI 任务行展示默认 URL 参数，可编辑或新增，执行时透传给接口；导入类型旁的问号图标可查看接口说明。
 
