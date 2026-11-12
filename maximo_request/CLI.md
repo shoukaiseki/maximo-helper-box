@@ -9,6 +9,8 @@
 | `sks-maximo call <scriptName>` | 调用通用脚本接口 |
 | `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（旧版接口） |
 | `sks-maximo import-object-v2 <fileName>` | 导入 Maximo 对象配置（新模式 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-message <fileName>` | 导入消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`） |
+| `sks-maximo import-workflow <fileName>` | 导入工作流（`SKS.AUTOSCRIPT.WORKFLOW`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用XML配置 |
@@ -170,6 +172,54 @@ sks-maximo import-autokey <fileName> [-e env] [-l logname]
 | `-e` / `--env` | 指定环境（默认 local） | 否 |
 | `-l` / `--logname` | 日志打印名称 | 否 |
 | `--params` | URL 参数覆盖（JSON），如 `{"develop":false}` | 否 |
+
+---
+
+### 3.8 导入消息配置
+
+```bash
+sks-maximo import-message <fileName> [-e env] [-l logname] [--all-langcode] [--dm-deploy-set]
+```
+
+**说明：** 导入 Maximo 消息配置（`MAXMESSAGES` / `L_MAXMESSAGES`），走新模式接口 `SKS_MIGRATEAPI_MAXMESSAGES`（`_action=import`）。请求体支持 `{messages:[...]}` 或裸数组（自动包装）。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 消息 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--all-langcode` | 同时处理所有语言的消息文本（`_allLangcode=true`） | 否 |
+| `--dm-deploy-set` | 迁移模式（`dmDeploySet=true`） | 否 |
+| `--params` | URL 参数覆盖（JSON），优先级最高 | 否 |
+
+---
+
+### 3.9 导入工作流
+
+```bash
+sks-maximo import-workflow <fileName> [-e env] [-l logname] [--imp-mode add|migration] [--disable] [--type workflows|actions|maxroles]
+```
+
+**说明：** 导入 Maximo 工作流，走 `SKS.AUTOSCRIPT.WORKFLOW`。默认参数为 `_langcode=<环境值>&_type=workflows&_action=import&_impMode=add&_enable=true`。请求体支持导出结果原样回导（`{actions,maxroles,workflows}` 迁移包）、`{workflows:[...]}`、裸数组或单个对象。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 工作流 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--imp-mode` | 导入模式：`add`（不存在则新增，存在则跳过，默认）/ `migration`（存在则修改） | 否 |
+| `--disable` | 只写入不激活（`_enable=false`）；`--enable true|false` 等价写法 | 否 |
+| `--type` | 导入类型：`workflows`（默认）/ `actions` / `maxroles` | 否 |
+| `--params` | URL 参数覆盖（JSON），优先级最高 | 否 |
+
+输出示例：
+
+```text
+导入完成
+共 3 个工作流，成功 3，失败 0
+```
+
+失败行会追加打印，形如 `  - WFNAME(1): <失败原因>`；`status === "error"` 时退出码为 `1`。
 
 ---
 

@@ -138,6 +138,206 @@ export async function importMaxObject({fileName, logname, dmDeploySet = false, i
 }
 
 /**
+ * 导入Maximo消息配置（新模式 SKS_MIGRATEAPI_MAXMESSAGES）
+ * 请求体支持 {messages:[...]} 或裸数组（自动包装为 {messages:[...]}）。
+ * 返回 { status, data:{ total, added, updated, deleted, failed, results, sks:*SumTotal }, message }
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 消息配置文件（JSON）
+ * @param {string} options.logname - 日志打印名称
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式
+ * @param {boolean} [options.allLangcode=false] - 同时处理所有语言（_allLangcode）
+ * @param {Object} [options.urlParams={}] - 覆盖/追加接口 URL 参数，优先级最高
+ * @returns {Promise<Object|string|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxMessage({fileName, logname, dmDeploySet = false, allLangcode = false, urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        // 脚本要求 {messages:[...]}，裸数组时自动包装
+        const data = Array.isArray(body.data) ? { messages: body.data } : body.data;
+
+        const params = {
+            _action: 'import',
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        };
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true';
+        }
+        if (allLangcode) {
+            params._allLangcode = 'true';
+        }
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS_MIGRATEAPI_MAXMESSAGES',
+            method: 'post',
+            params,
+            data
+        });
+
+        logger.info(`[${logname}]收到响应`);
+
+        let result = response;
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                return response;
+            }
+        }
+
+        if (result && typeof result === 'object') {
+            if (result.status === 'error') {
+                logger.error(`[${logname}]导入失败: ${result.message || '未知错误'}`);
+            } else {
+                logger.warn(`[${logname}]${result.message || '导入完成'}`);
+                const failSum = Number(result.data && result.data['sks:failSumTotal']) || 0;
+                if (failSum > 0) {
+                    const failedRows = (result.data.results || [])
+                        .filter(row => row && row._status === 'failed')
+                        .map(row => `${row['sks:objectName']}(${row['sks:ref']}) ${row._message || ''}`);
+                    logger.warn(`[${logname}]失败行数: ${failSum}，明细: ${failedRows.join('、')}`);
+                }
+            }
+        }
+        return result;
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
+ * 导入Maximo工作流（SKS.AUTOSCRIPT.WORKFLOW）
+ * 默认参数: _type=workflows&_action=import&_impMode=add&_enable=true
+ * 请求体支持导出结果原样回导（{actions,maxroles,workflows} 迁移包）、{workflows:[...]}、裸数组或单对象。
+ * 返回解析后的响应对象 { status, message, impMode, summary:{total,success,failed}, result, workflows? }
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 工作流配置文件（JSON）
+ * @param {string} options.logname - 日志打印名称
+ * @param {string} [options.type=workflows] - _type: workflows / actions / maxroles
+ * @param {string} [options.impMode=add] - _impMode: add(不存在则新增，存在则跳过) / migration(存在则修改)
+ * @param {boolean} [options.enable=true] - _enable: 导入后是否按源定义激活流程
+ * @param {Object} [options.urlParams={}] - 覆盖/追加接口 URL 参数，优先级最高
+ * @returns {Promise<Object|string|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxWorkflow({fileName, logname, type = 'workflows', impMode = 'add', enable = true, urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        const params = {
+            _type: type,
+            _action: 'import',
+            _impMode: impMode,
+            _enable: String(enable),
+            _langcode: getConfig().langcode
+        };
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS.AUTOSCRIPT.WORKFLOW',
+            method: 'post',
+            params,
+            data: body.data
+        });
+
+        logger.info(`[${logname}]收到响应`);
+
+        let result = response;
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                return response;
+            }
+        }
+
+        if (result && typeof result === 'object') {
+            if (result.status === 'error') {
+                logger.error(`[${logname}]导入失败: ${result.message || '未知错误'}`);
+                return result;
+            }
+            const summary = result.summary || {};
+            logger.warn(`[${logname}]${result.message || '导入完成'} 总计:${summary.total ?? 0} 成功:${summary.success ?? 0} 失败:${summary.failed ?? 0}`);
+            // 逐条失败明细：迁移包分别在 actions / maxroles / workflows.result，单类型在 result
+            const rows = [];
+            ['actions', 'maxroles', 'workflows'].forEach(section => {
+                const sec = result[section];
+                if (sec && Array.isArray(sec.result)) {
+                    rows.push(...sec.result);
+                }
+            });
+            if (Array.isArray(result.result)) {
+                rows.push(...result.result);
+            }
+            rows.filter(r => r && r.status === 'FAILED').forEach(r => {
+                const name = r.processName || r.action || r.maxrole || r.id || '未知';
+                const rev = r.processRev !== undefined ? `(${r.processRev})` : '';
+                logger.error(`[${logname}]  - ${name}${rev}: ${r.message || '失败'}`);
+            });
+        }
+        return result;
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
  * 导入Maximo对象配置（旧版接口 SKS.AUTOSCRIPT.LIBRARY）
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）

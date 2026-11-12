@@ -10,6 +10,8 @@ import {
   importMaxScript,
   importMaxAppInfo,
   importMaxIntObject,
+  importMaxMessage,
+  importMaxWorkflow,
   batchImport
 } from '../../../nodeutils/maximoTools.js';
 
@@ -23,7 +25,9 @@ const IMPORT_TYPE_MAP = {
   autokey: { fn: importMaxAutoKey, ext: '.json' },
   script: { fn: importMaxScript, ext: '.json' },
   appinfo: { fn: importMaxAppInfo, ext: '.json' },
-  intobject: { fn: importMaxIntObject, ext: '.json' }
+  intobject: { fn: importMaxIntObject, ext: '.json' },
+  message: { fn: importMaxMessage, ext: '.json' },
+  workflow: { fn: importMaxWorkflow, ext: '.json' }
 };
 
 // 当前运行状态
@@ -270,6 +274,23 @@ function buildFileResult(result, ok) {
     ? result.data : null;
 
   const num = (v) => (typeof v === 'number' ? v : Number(v) || 0);
+
+  // 脚本型接口（如工作流 SKS.AUTOSCRIPT.WORKFLOW）返回
+  // { status, message, summary:{total,success,failed}, result|actions/maxroles/workflows }
+  if (result.summary && typeof result.summary === 'object') {
+    const summary = result.summary;
+    return {
+      status,
+      message,
+      data: {
+        total: num(summary.total),
+        'sks:successSumTotal': num(summary.success),
+        'sks:failSumTotal': num(summary.failed),
+        'sks:ignoreSumTotal': 0,
+        results: collectScriptRows(result)
+      }
+    };
+  }
   const keys = ['total', 'added', 'updated', 'skipped', 'failed'];
   const sumKeys = ['sks:successSumTotal', 'sks:failSumTotal', 'sks:ignoreSumTotal'];
   const hasStats = rawData && (
@@ -293,6 +314,40 @@ function buildFileResult(result, ok) {
   data.results = pruneResults(rawData.results);
 
   return { status, message, data };
+}
+
+/**
+ * 将脚本型接口（工作流等）的逐条结果整理成与新模式一致的行结构，
+ * 只保留失败行，供前端「明细」弹窗复用。
+ */
+function collectScriptRows(result) {
+  const out = [];
+  const push = (rows, objectName) => (rows || []).forEach(r => {
+    if (!r || typeof r !== 'object') return;
+    if (String(r.status || '').toLowerCase() === 'success') return;
+    const name = r.processName || r.action || r.maxrole || r.name
+      || (r.id !== undefined && r.id !== null ? String(r.id) : '');
+    const rev = (r.processRev !== undefined && r.processRev !== null) ? `(${r.processRev})` : '';
+    const warnings = Array.isArray(r.warnings)
+      ? r.warnings.filter(Boolean).join('；')
+      : (r.warnings || '');
+    out.push({
+      'sks:objectName': objectName,
+      'sks:ref': name ? `${name}${rev}` : '未知',
+      _status: 'failed',
+      _operation: '',
+      _message: [r.message, warnings].filter(Boolean).join('；')
+    });
+  });
+
+  const sections = { actions: 'ACTION', maxroles: 'MAXROLE', workflows: 'WFPROCESS' };
+  Object.entries(sections).forEach(([key, label]) => {
+    const sec = result[key];
+    if (sec && Array.isArray(sec.result)) push(sec.result, label);
+  });
+  if (Array.isArray(result.result)) push(result.result, '');
+
+  return out;
 }
 
 /**

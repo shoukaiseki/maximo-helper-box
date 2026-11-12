@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { checkAndCreateConfig, getConfigDir, loadConfig } from './nodeutils/config.js';
 import { loadImportConfig, getImportConfigItem } from './nodeutils/importConfig.js';
-import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
+import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxMessage, importMaxWorkflow, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = new URL('.', import.meta.url).pathname;
@@ -53,8 +53,38 @@ if (paramsIndex > -1) {
 
 const cmd = filteredArgs[0];
 
+/**
+ * 统一打印新模式接口的导入结果
+ * @param {Object} result 接口响应（{ status, message, data }）
+ * @param {string} unit 根级单位，如“个对象”“条消息”
+ */
+function printImportResult(result, unit) {
+  const data = result.data || result || {};
+  // 工作流等脚本返回 summary:{total,success,failed}
+  if (data.summary) {
+    const s = data.summary;
+    console.log(`共 ${s.total ?? 0} ${unit}，成功 ${s.success ?? 0}，失败 ${s.failed ?? 0}`);
+    return;
+  }
+  const success = data['sks:successSumTotal'] ?? 0;
+  const ignore = data['sks:ignoreSumTotal'] ?? 0;
+  const fail = data['sks:failSumTotal'] ?? 0;
+  const counts = [];
+  if (data.total !== undefined) counts.push(`共 ${data.total} ${unit}`);
+  if (data.added !== undefined) counts.push(`新增 ${data.added}`);
+  if (data.updated !== undefined) counts.push(`更新 ${data.updated}`);
+  if (data.deleted !== undefined) counts.push(`删除 ${data.deleted}`);
+  if (data.skipped !== undefined) counts.push(`跳过 ${data.skipped}`);
+  if (data.failed !== undefined) counts.push(`失败 ${data.failed}`);
+  if (counts.length) {
+    console.log(counts.join('，'));
+  }
+  console.log(`总计 成功 ${success}，忽略 ${ignore}，失败 ${fail}`);
+}
+
+
 // 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
-const importCommands = ['import-object', 'import-object-v2', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
+const importCommands = ['import-object', 'import-object-v2', 'import-message', 'import-workflow', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
 if (!envSpecified && importCommands.includes(cmd)) {
   const positionalEnv = filteredArgs[2];
   if (positionalEnv && !positionalEnv.startsWith('-')) {
@@ -72,6 +102,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo call <scriptName> [options]  # 调用脚本接口');
   console.log('  sks-maximo import-object <fileName>    # 导入 Maximo 对象配置(旧版接口 SKS.AUTOSCRIPT.LIBRARY)');
   console.log('  sks-maximo import-object-v2 <fileName> # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
+  console.log('  sks-maximo import-message <fileName>   # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
+  console.log('  sks-maximo import-workflow <fileName>  # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
   console.log('  sks-maximo import-appinfo <fileName>   # 导入应用信息配置(新接口)');
   console.log('  sks-maximo import-appinfo-v1 <fileName> # 导入应用信息配置(旧版接口)');
   console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
@@ -90,6 +122,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  call                    # 调用通用脚本接口');
   console.log('  import-object           # 导入 Maximo 对象配置(旧版接口 importMaxObjectV1)');
   console.log('  import-object-v2        # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
+  console.log('  import-message          # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
+  console.log('  import-workflow         # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
   console.log('  import-appinfo          # 导入应用信息配置(新接口 importMaxAppInfo)');
   console.log('  import-appinfo-v1       # 导入应用信息配置(旧版接口 importMaxAppInfoV1)');
   console.log('  import-presentation     # 导入应用XML配置');
@@ -213,9 +247,98 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
       const result = await importMaxObject({ fileName, logname: logname || fileName, dmDeploySet, urlParams });
       if (result && result.status !== 'error') {
         console.log(result.message || '导入成功');
-        if (result.data) {
-          console.log(`共 ${result.data.total} 个对象：新增 ${result.data.added}，更新 ${result.data.updated}，跳过 ${result.data.skipped}，失败 ${result.data.failed}`);
-        }
+        printImportResult(result, '个对象');
+      } else {
+        console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-message') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log('用法: sks-maximo import-message <fileName> [-e env] [-l logname] [--all-langcode] [--dm-deploy-set]');
+    process.exit(1);
+  }
+  let logname = null;
+  let dmDeploySet = false;
+  let allLangcode = false;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    if (filteredArgs[i] === '--logname' || filteredArgs[i] === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    } else if (filteredArgs[i] === '--dm-deploy-set') {
+      dmDeploySet = true;
+    } else if (filteredArgs[i] === '--all-langcode') {
+      allLangcode = true;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxMessage({ fileName, logname: logname || fileName, dmDeploySet, allLangcode, urlParams });
+      if (result && result.status !== 'error') {
+        console.log(result.message || '导入成功');
+        printImportResult(result, '条消息');
+      } else {
+        console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-workflow') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log('用法: sks-maximo import-workflow <fileName> [-e env] [-l logname] [--imp-mode add|migration] [--disable] [--type workflows|actions|maxroles]');
+    process.exit(1);
+  }
+  let logname = null;
+  let impMode = 'add';
+  let enable = true;
+  let type = 'workflows';
+  for (let i = 2; i < filteredArgs.length; i++) {
+    const arg = filteredArgs[i];
+    if (arg === '--logname' || arg === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    } else if (arg === '--imp-mode') {
+      impMode = filteredArgs[i + 1];
+      i++;
+    } else if (arg === '--enable') {
+      enable = filteredArgs[i + 1] !== 'false';
+      i++;
+    } else if (arg === '--disable') {
+      enable = false;
+    } else if (arg === '--type') {
+      type = filteredArgs[i + 1];
+      i++;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxWorkflow({ fileName, logname: logname || fileName, type, impMode, enable, urlParams });
+      if (result && result.status !== 'error') {
+        console.log(result.message || '导入成功');
+        printImportResult(result, '个工作流');
+        const failedRows = [];
+        ['actions', 'maxroles', 'workflows'].forEach(section => {
+          const sec = result[section];
+          if (sec && Array.isArray(sec.result)) failedRows.push(...sec.result);
+        });
+        if (Array.isArray(result.result)) failedRows.push(...result.result);
+        failedRows.filter(r => r && r.status === 'FAILED').forEach(r => {
+          const name = r.processName || r.action || r.maxrole || r.id || '未知';
+          console.error(`  - ${name}${r.processRev !== undefined ? `(${r.processRev})` : ''}: ${r.message || '失败'}`);
+        });
       } else {
         console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
         process.exit(1);

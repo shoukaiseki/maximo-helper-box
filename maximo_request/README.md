@@ -50,6 +50,8 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 |------|------|
 | `sks-maximo import-object <fileName>` | 导入 Maximo 对象配置（旧版接口） |
 | `sks-maximo import-object-v2 <fileName>` | 导入 Maximo 对象配置（新模式 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-message <fileName>` | 导入消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`） |
+| `sks-maximo import-workflow <fileName>` | 导入工作流（`SKS.AUTOSCRIPT.WORKFLOW`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用 XML 配置 |
@@ -146,6 +148,8 @@ fileUtils.readFileContent('test.txt');
 
 ## 导入参数与接口说明
 
+> 返回结构、终端命令与 Web UI 的统一规范见 [IMPORT_SPEC.md](./IMPORT_SPEC.md)。
+
 - `nodeutils/importConfig.json` 定义每个导入方法/接口的默认 URL 参数与帮助说明，详细备注存放在 `nodeutils/remarks/*.md`；
 - CLI 通过 `--params` 传入 JSON 覆盖默认参数：
   ```bash
@@ -214,6 +218,8 @@ fileUtils.readFileContent('test.txt');
 |------|------|
 | importMaxObject | 导入 Maximo 对象配置（新接口 `SKS_MIGRATEAPI_CONFIGUR`，返回响应对象） |
 | importMaxObjectV1 | 导入 Maximo 对象配置（旧版接口，返回 true/false） |
+| importMaxMessage | 导入 Maximo 消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`，返回响应对象） |
+| importMaxWorkflow | 导入 Maximo 工作流（`SKS.AUTOSCRIPT.WORKFLOW`，默认 `_type=workflows&_action=import&_impMode=add&_enable=true`，返回响应对象） |
 | importMaxPresentation | 导入应用 XML 配置 |
 | importMaxDomain | 导入域配置 |
 | importMaxAutoKey | 导入 AutoKey 配置 |

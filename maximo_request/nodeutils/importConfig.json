@@ -13,6 +13,32 @@
       { "name": "_debug", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "返回 debugMsg 调试信息" }
     ]
   },
+  "importMaxMessage": {
+    "command": "import-message",
+    "title": "消息配置导入（新模式）",
+    "interface": "SKS_MIGRATEAPI_MAXMESSAGES",
+    "remark": "remarks/importMaxMessage.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式，按目标环境重建消息配置" },
+      { "name": "_allLangcode", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "为 true 时同时处理所有语言的消息文本" }
+    ]
+  },
+  "importMaxWorkflow": {
+    "command": "import-workflow",
+    "title": "工作流导入",
+    "interface": "SKS.AUTOSCRIPT.WORKFLOW",
+    "remark": "remarks/importMaxWorkflow.md",
+    "params": [
+      { "name": "_type", "type": "string", "default": "workflows", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "workflows", "dictLabel": "工作流" }, { "dictValue": "actions", "dictLabel": "操作（ACTION）" }, { "dictValue": "maxroles", "dictLabel": "角色（MAXROLE）" } ], "description": "导入对象类型，缺省 workflows（传递包可一并导入 actions/maxroles）" },
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_impMode", "type": "string", "default": "add", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "add", "dictLabel": "add（不存在则新增）" }, { "dictValue": "migration", "dictLabel": "migration（存在则修改）" } ], "description": "导入模式：add 仅新增不覆盖；migration 按 PROCESSNAME+PROCESSREV 存在则修改" },
+      { "name": "_enable", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "导入后按源定义调用框架 activate/enable，false 时只写入不激活" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码" },
+      { "name": "_ignoreResultSuccess", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "为 true 时导入结果只返回失败明细，减少响应体积" }
+    ]
+  },
   "importMaxObjectV1": {
     "command": "import-object",
     "title": "对象配置导入（旧版接口）",
