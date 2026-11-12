@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Maximo 字段帮助禁用助手",
+  "version": "1.0.0",
+  "description": "一键关闭 Maximo 中点击字段标签（label）弹出“内部字段帮助”窗口的行为，可随时开关，不影响查询、保存等其它操作。",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_title": "Maximo 字段帮助禁用助手",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/maximo/*"],
+      "js": ["page-guard.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["*://*/maximo/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Maximo 字段帮助禁用助手">
+  <rect x="0" y="0" width="512" height="512" rx="113" fill="#0f62fe"/>
+  <rect x="113" y="154" width="287" height="61" rx="31" fill="#ffffff"/>
+  <rect x="113" y="256" width="195" height="61" rx="31" fill="#ffffff"/>
+  <line x1="133" y1="399" x2="379" y2="133" stroke="#ff8389" stroke-width="44" stroke-linecap="round"/>
+</svg>

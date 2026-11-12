@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximo 字段帮助禁用助手</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <div class="app-title">
+                <span class="tag">Maximo</span>
+                <h1>字段帮助禁用</h1>
+            </div>
+            <label class="switch" title="启用/关闭拦截">
+                <input type="checkbox" id="toggle">
+                <span class="track"><span class="thumb"></span></span>
+            </label>
+        </header>
+
+        <p class="switch-hint" id="switch-hint">关闭点击字段标签时弹出的“内部字段帮助”窗口</p>
+
+        <div class="status" id="status">
+            <span class="dot" id="status-dot"></span>
+            <span class="status-text" id="status-text">正在检测当前页面…</span>
+        </div>
+
+        <ul class="tips">
+            <li>只拦截 <code>internalhelp</code> 事件（标签点击、内部帮助），查询、保存、流水号等操作不受影响。</li>
+            <li>开关改动会即时同步到所有已打开的 Maximo 页面，无需刷新。</li>
+            <li>如需恢复默认行为，关闭上方开关即可。</li>
+        </ul>
+
+        <footer class="app-footer">
+            <span>v1.0.0</span>
+            <span>Maximo 7.x / 9.x 经典界面</span>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
