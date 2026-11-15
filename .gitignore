@@ -16,8 +16,10 @@ tests/**/coverage/
 *.sln
 
 .soloncode/
-
-
+chrome_label_help
+chrome_label_help/
+edge_maximo_label_help.zip
+edge_maximo_label_help.7z
 chrome_securgroup_all.7z
 chrome_securgroup_all.zip
 chrome_label_help.7z

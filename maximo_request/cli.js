@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import { exec } from 'child_process';
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync, rmSync, existsSync, statSync } from 'fs';
+import path from 'path';
 import { fileURLToPath, URL } from 'url';
 import { checkAndCreateConfig, getConfigDir, loadConfig } from './nodeutils/config.js';
 import { loadImportConfig, getImportConfigItem } from './nodeutils/importConfig.js';
-import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxMessage, importMaxWorkflow, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
+import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxMessage, importMaxWorkflow, importMaxSecurGroup, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = new URL('.', import.meta.url).pathname;
@@ -84,7 +85,7 @@ function printImportResult(result, unit) {
 
 
 // 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
-const importCommands = ['import-object', 'import-object-v2', 'import-message', 'import-workflow', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
+const importCommands = ['import-object', 'import-object-v2', 'import-message', 'import-workflow', 'import-securgroup', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
 if (!envSpecified && importCommands.includes(cmd)) {
   const positionalEnv = filteredArgs[2];
   if (positionalEnv && !positionalEnv.startsWith('-')) {
@@ -104,6 +105,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo import-object-v2 <fileName> # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
   console.log('  sks-maximo import-message <fileName>   # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
   console.log('  sks-maximo import-workflow <fileName>  # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
+  console.log('  sks-maximo import-securgroup <fileName> # 导入安全组(SKS_MIGRATEAPI_SECURGROUP)');
   console.log('  sks-maximo import-appinfo <fileName>   # 导入应用信息配置(新接口)');
   console.log('  sks-maximo import-appinfo-v1 <fileName> # 导入应用信息配置(旧版接口)');
   console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
@@ -112,6 +114,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo import-maxintobject <fileName> # 导入对象结构(Integration Object)配置');
   console.log('  sks-maximo import-autokey <fileName>   # 导入自动编码(AutoKey)配置');
   console.log('  sks-maximo import-params [命令/方法名]    # 查看导入接口参数说明');
+  console.log('  sks-maximo clean-logs            # 清除 ~/.sks/nodeutils/logs 下的请求/响应日志');
   console.log('');
   console.log('环境:');
   console.log('  local                   # 使用本地环境配置');
@@ -124,6 +127,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  import-object-v2        # 导入 Maximo 对象配置(新模式 SKS_MIGRATEAPI_CONFIGUR)');
   console.log('  import-message          # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
   console.log('  import-workflow         # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
+  console.log('  import-securgroup       # 导入安全组(SKS_MIGRATEAPI_SECURGROUP)');
   console.log('  import-appinfo          # 导入应用信息配置(新接口 importMaxAppInfo)');
   console.log('  import-appinfo-v1       # 导入应用信息配置(旧版接口 importMaxAppInfoV1)');
   console.log('  import-presentation     # 导入应用XML配置');
@@ -132,6 +136,7 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  import-maxintobject     # 导入对象结构(Integration Object)配置');
   console.log('  import-autokey          # 导入自动编码(AutoKey)配置');
   console.log('  import-params           # 查看导入接口参数说明');
+  console.log('  clean-logs              # 清除 ~/.sks/nodeutils/logs 下的请求/响应日志');
   console.log('');
   console.log('选项:');
   console.log('  -h, --help              # 显示帮助信息');
@@ -339,6 +344,63 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
           const name = r.processName || r.action || r.maxrole || r.id || '未知';
           console.error(`  - ${name}${r.processRev !== undefined ? `(${r.processRev})` : ''}: ${r.message || '失败'}`);
         });
+      } else {
+        console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-securgroup') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log('用法: sks-maximo import-securgroup <fileName> [-e env] [-l logname] [--batch-size <n>] [--with-conditions] [--ignore-list <a,b>] [--delete-not-exists <path,...>] [--dm-deploy-set]');
+    process.exit(1);
+  }
+  let logname = null;
+  let batchSize = 0;
+  let dmDeploySet = false;
+  // 默认与 Web UI 一致: 不导入关联条件 conditionList
+  let ignoreList = ['conditionList'];
+  let deleteNotExistsList = [];
+  for (let i = 2; i < filteredArgs.length; i++) {
+    const arg = filteredArgs[i];
+    if (arg === '--logname' || arg === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    } else if (arg === '--batch-size') {
+      batchSize = parseInt(filteredArgs[i + 1], 10) || 0;
+      i++;
+    } else if (arg === '--dm-deploy-set') {
+      dmDeploySet = true;
+    } else if (arg === '--with-conditions') {
+      ignoreList = [];
+    } else if (arg === '--ignore-list') {
+      ignoreList = String(filteredArgs[i + 1] || '').split(',').map(s => s.trim()).filter(Boolean);
+      i++;
+    } else if (arg === '--delete-not-exists') {
+      deleteNotExistsList = String(filteredArgs[i + 1] || '').split(',').map(s => s.trim()).filter(Boolean);
+      i++;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxSecurGroup({ fileName, logname: logname || fileName, dmDeploySet, batchSize, ignoreList, deleteNotExistsList, urlParams });
+      if (result && result.status !== 'error') {
+        console.log(result.message || '导入成功');
+        printImportResult(result, '个安全组');
+        const rows = (result.data && result.data.results) || [];
+        rows.filter(r => r && r._status && r._status !== 'success').forEach(r => {
+          console.error(`  - ${r['sks:objectName'] || ''} ${r['sks:ref'] || ''}: ${r._message || '失败'}`);
+        });
+        const cond = result.data && result.data.conditions;
+        if (cond && Number(cond.failed) > 0) {
+          console.error(`  关联条件导入失败 ${cond.failed} 条`);
+        }
       } else {
         console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
         process.exit(1);
@@ -616,6 +678,34 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
     console.log('详细说明:');
     console.log(item.remarkContent);
   }
+} else if (cmd === 'clean-logs' || cmd === 'clear-logs') {
+  const logDir = path.join(getConfigDir(), 'logs');
+  if (!existsSync(logDir)) {
+    console.log(`日志目录不存在: ${logDir}`);
+    process.exit(0);
+  }
+
+  let count = 0;
+  let totalSize = 0;
+  for (const f of readdirSync(logDir)) {
+    const full = path.join(logDir, f);
+    try {
+      const st = statSync(full);
+      if (st.isFile()) {
+        totalSize += st.size;
+        rmSync(full, { force: true });
+        count++;
+      }
+    } catch (e) {
+      console.error(`删除失败 ${f}: ${e.message}`);
+    }
+  }
+
+  const sizeText = totalSize >= 1024 * 1024
+    ? `${(totalSize / 1024 / 1024).toFixed(2)} MB`
+    : `${(totalSize / 1024).toFixed(2)} KB`;
+  console.log(`已清理 ${count} 个日志文件，释放 ${sizeText}`);
+  console.log(`日志目录: ${logDir}`);
 } else {
   console.error(`不支持的命令: ${cmd}`);
   console.log('使用 sks-maximo --help 查看帮助信息');

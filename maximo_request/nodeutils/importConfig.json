@@ -39,6 +39,19 @@
       { "name": "_ignoreResultSuccess", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "为 true 时导入结果只返回失败明细，减少响应体积" }
     ]
   },
+  "importMaxSecurGroup": {
+    "command": "import-securgroup",
+    "title": "安全组导入（新模式）",
+    "interface": "SKS_MIGRATEAPI_SECURGROUP",
+    "remark": "remarks/importMaxSecurGroup.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" },
+      { "name": "_ignoreList", "type": "string", "default": "conditionList", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "conditionList", "dictLabel": "忽略关联条件（conditionList）" }, { "dictValue": "", "dictLabel": "不忽略（导入关联条件）" } ], "description": "根节点忽略清单，多个用逗号分隔；默认跳过 conditionList" },
+      { "name": "_deleteNotExists", "type": "string", "default": "", "description": "不存在则删除的路径清单，多个用逗号分隔，如 maxgroupList:_skschild_APPLICATIONAUTH" }
+    ]
+  },
   "importMaxObjectV1": {
     "command": "import-object",
     "title": "对象配置导入（旧版接口）",

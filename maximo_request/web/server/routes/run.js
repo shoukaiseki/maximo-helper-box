@@ -12,6 +12,7 @@ import {
   importMaxIntObject,
   importMaxMessage,
   importMaxWorkflow,
+  importMaxSecurGroup,
   batchImport
 } from '../../../nodeutils/maximoTools.js';
 
@@ -27,7 +28,8 @@ const IMPORT_TYPE_MAP = {
   appinfo: { fn: importMaxAppInfo, ext: '.json' },
   intobject: { fn: importMaxIntObject, ext: '.json' },
   message: { fn: importMaxMessage, ext: '.json' },
-  workflow: { fn: importMaxWorkflow, ext: '.json' }
+  workflow: { fn: importMaxWorkflow, ext: '.json' },
+  securgroup: { fn: importMaxSecurGroup, ext: '.json' }
 };
 
 // 当前运行状态

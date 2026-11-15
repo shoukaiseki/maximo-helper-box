@@ -11,6 +11,7 @@
 | `sks-maximo import-object-v2 <fileName>` | 导入 Maximo 对象配置（新模式 `SKS_MIGRATEAPI_CONFIGUR`） |
 | `sks-maximo import-message <fileName>` | 导入消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`） |
 | `sks-maximo import-workflow <fileName>` | 导入工作流（`SKS.AUTOSCRIPT.WORKFLOW`） |
+| `sks-maximo import-securgroup <fileName>` | 导入安全组（新模式 `SKS_MIGRATEAPI_SECURGROUP`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用XML配置 |
@@ -220,6 +221,38 @@ sks-maximo import-workflow <fileName> [-e env] [-l logname] [--imp-mode add|migr
 ```
 
 失败行会追加打印，形如 `  - WFNAME(1): <失败原因>`；`status === "error"` 时退出码为 `1`。
+
+---
+
+### 3.10 导入安全组
+
+```bash
+sks-maximo import-securgroup <fileName> [-e env] [-l logname] [--batch-size <n>] [--with-conditions] [--ignore-list <a,b>] [--delete-not-exists <path,...>] [--dm-deploy-set]
+```
+
+**说明：** 导入 Maximo 安全组，走新模式 `SKS_MIGRATEAPI_SECURGROUP`。默认参数为 `_langcode=<环境值>&_action=import&_ignoreList=conditionList`。请求体支持导出结果原样回导（`{conditionList,maxgroupList}`）、`{groups:[...]}`、裸数组或单个安全组对象。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 安全组 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--batch-size` | 分批提交的安全组数量，默认不分批 | 否 |
+| `--with-conditions` | 一并导入关联条件（清空默认的 `_ignoreList`） | 否 |
+| `--ignore-list` | 自定义忽略的根节点，逗号分隔，如 `conditionList` | 否 |
+| `--delete-not-exists` | 不存在则删除的路径，逗号分隔，如 `maxgroupList:_skschild_APPLICATIONAUTH` | 否 |
+| `--dm-deploy-set` | 迁移模式（`setDMDeploySet(true)`） | 否 |
+| `--params` | URL 参数覆盖（JSON），优先级最高 | 否 |
+
+输出示例：
+
+```text
+导入完成 共2个安全组：新增1 更新1 删除0 失败0
+共 2 个安全组，新增 1，更新 1，删除 0，失败 0
+总计 成功 24，忽略 0，失败 0
+```
+
+失败行会追加打印，形如 `  - MAXGROUP SKS_GROUP1: <失败原因>`；`status === "error"` 时退出码为 `1`。
 
 ---
 

@@ -99,6 +99,7 @@ URL 参数合并优先级（从低到高）：代码默认 → `_langcode` → �
 | `import-object-v2` | `importMaxObject` | `SKS_MIGRATEAPI_CONFIGUR` |
 | `import-message` | `importMaxMessage` | `SKS_MIGRATEAPI_MAXMESSAGES` |
 | `import-workflow` | `importMaxWorkflow` | `SKS.AUTOSCRIPT.WORKFLOW`（`_type=workflows&_impMode=add&_enable=true`，返回 `summary:{total,success,failed}`） |
+| `import-securgroup` | `importMaxSecurGroup` | `SKS_MIGRATEAPI_SECURGROUP`（`{conditionList,maxgroupList}` / `{groups}` / 裸数组，默认 `_ignoreList=conditionList`） |
 | `import-appinfo` | `importMaxAppInfo` | `SKS.AUTOSCRIPT.SCREENS`（`_action=importAppInfo`） |
 | `import-appinfo-v1` | `importMaxAppInfoV1` | `SKS_IMP_MAXAPPINFO` |
 | `import-presentation` | `importMaxPresentation` | `SKS.AUTOSCRIPT.SCREENS`（XML） |
@@ -150,7 +151,7 @@ web/
 
 | 字段 | 说明 |
 |------|------|
-| `importType` | `object` / `presentation` / `domain` / `autokey` / `script` / `appinfo` / `intobject` / `message` / `workflow` |
+| `importType` | `object` / `presentation` / `domain` / `autokey` / `script` / `appinfo` / `intobject` / `message` / `workflow` / `securgroup` |
 | `path` | 目录或文件路径 |
 | `extFilter` | 扩展名过滤，如 `.json` |
 | `recursive` | 是否递归扫描 |

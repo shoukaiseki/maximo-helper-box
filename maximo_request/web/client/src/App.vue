@@ -129,6 +129,7 @@
                     <el-option label="对象结构" value="intobject" />
                     <el-option label="消息配置" value="message" />
                     <el-option label="工作流" value="workflow" />
+                    <el-option label="安全组" value="securgroup" />
                   </el-select>
                   <el-tooltip content="查看接口说明" placement="top">
                     <el-icon class="help-icon" @click="showRemark(row.importType)"><QuestionFilled /></el-icon>
@@ -481,7 +482,8 @@ export default {
         script: 'importMaxScript',
         intobject: 'importMaxIntObject',
         message: 'importMaxMessage',
-        workflow: 'importMaxWorkflow'
+        workflow: 'importMaxWorkflow',
+        securgroup: 'importMaxSecurGroup'
       },
       paramDialogVisible: false,
       paramTaskIndex: -1,

@@ -338,6 +338,183 @@ export async function importMaxWorkflow({fileName, logname, type = 'workflows', 
 }
 
 /**
+ * 导入Maximo安全组（SKS_MIGRATEAPI_SECURGROUP）
+ * 请求体支持导出结果原样回导（{conditionList,maxgroupList}）、{groups:[...]}、裸数组或单个安全组。
+ * 返回 { status, data:{ total, added, updated, deleted, failed, results, sks:*SumTotal, conditions? }, message }
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 安全组配置文件（JSON）
+ * @param {string} options.logname - 日志打印名称
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式，MboSet 调用 setDMDeploySet(true)
+ * @param {number} [options.batchSize=0] - 分批大小，0 表示不分批
+ * @param {string[]} [options.ignoreList=['conditionList']] - 忽略的根节点列表（默认不导入关联条件）
+ * @param {string[]} [options.deleteNotExistsList=[]] - 不存在则删除的路径列表（_deleteNotExists）
+ * @param {Object} [options.urlParams={}] - 覆盖/追加接口 URL 参数，优先级最高
+ * @returns {Promise<Object|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxSecurGroup({fileName, logname, dmDeploySet = false, batchSize = 0, ignoreList = ['conditionList'], deleteNotExistsList = [], urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        // 兼容导出格式 {conditionList,maxgroupList} / {groups:[...]} / 裸数组 / 单个安全组
+        const parsed = body.data;
+        let groups = [];
+        let conditions = [];
+        if (Array.isArray(parsed)) {
+            groups = parsed;
+        } else if (parsed && typeof parsed === 'object') {
+            if (Array.isArray(parsed.maxgroupList)) {
+                groups = parsed.maxgroupList;
+            } else if (Array.isArray(parsed.groups)) {
+                groups = parsed.groups;
+            } else if (parsed.GROUPNAME) {
+                groups = [parsed];
+            }
+            if (Array.isArray(parsed.conditionList)) {
+                conditions = parsed.conditionList;
+            }
+        }
+        if (groups.length === 0) {
+            logger.error(`[${logname}]未找到可导入的安全组数据（需要 maxgroupList 数组）`);
+            return null;
+        }
+
+        // _ignoreList 中的根节点不参与导入
+        const ignore = Array.isArray(ignoreList) ? ignoreList : [];
+        if (ignore.includes('conditionList')) {
+            conditions = [];
+        }
+
+        const params = {
+            _action: 'import',
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        };
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true';
+        }
+        // _ignoreList / _deleteNotExists 走 URL 参数, 逗号分隔
+        if (ignore.length) {
+            params._ignoreList = ignore.join(',');
+        }
+        const deleteNotExists = Array.isArray(deleteNotExistsList) ? deleteNotExistsList : [];
+        if (deleteNotExists.length) {
+            params._deleteNotExists = deleteNotExists.join(',');
+        }
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        const size = Number(batchSize) > 0 ? Number(batchSize) : groups.length;
+        const merged = {
+            total: 0,
+            added: 0,
+            updated: 0,
+            deleted: 0,
+            failed: 0,
+            results: [],
+            'sks:successSumTotal': 0,
+            'sks:failSumTotal': 0
+        };
+        let status = 'success';
+        let message = '';
+
+        for (let offset = 0; offset < groups.length; offset += size) {
+            const batch = groups.slice(offset, offset + size);
+            const data = { maxgroupList: batch };
+            // 条件只在首批导入, 避免重复 upsert
+            if (offset === 0 && conditions.length) {
+                data.conditionList = conditions;
+            }
+
+            logger.info(`[${logname}]开始发送请求... ${offset + batch.length}/${groups.length} 组`);
+            const response = await request({
+                url: '/api/script/SKS_MIGRATEAPI_SECURGROUP',
+                method: 'post',
+                params,
+                data
+            });
+
+            let res = response;
+            if (typeof res === 'string') {
+                const text = res.replace(/^\uFEFF/, '').trim();
+                try {
+                    res = JSON.parse(text);
+                } catch (e) {
+                    logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                    return response;
+                }
+            }
+
+            if (res && res.status === 'error') {
+                status = 'error';
+                message = res.message || '接口返回错误';
+                logger.error(`[${logname}]导入失败: ${message}`);
+                break;
+            }
+
+            const payload = (res && res.status === 'success' && res.data !== undefined) ? res.data : (res || {});
+            merged.total += Number(payload.total !== undefined ? payload.total : batch.length);
+            merged.added += Number(payload.added || 0);
+            merged.updated += Number(payload.updated || 0);
+            merged.deleted += Number(payload.deleted || 0);
+            merged.failed += Number(payload.failed || 0);
+            merged['sks:successSumTotal'] += Number(payload['sks:successSumTotal'] || 0);
+            merged['sks:failSumTotal'] += Number(payload['sks:failSumTotal'] || 0);
+            if (Array.isArray(payload.results)) {
+                merged.results = merged.results.concat(payload.results);
+            }
+            if (offset === 0 && payload.conditions) {
+                merged.conditions = payload.conditions;
+            }
+            if (!message && res && res.message) {
+                message = res.message;
+            }
+        }
+
+        if (status !== 'error') {
+            const cond = merged.conditions;
+            message = message || `导入完成 共${merged.total} 个安全组：新增${merged.added} 更新${merged.updated} 删除${merged.deleted} 失败${merged.failed}`;
+            logger.warn(`[${logname}]${message}`);
+            const failedRows = merged.results.filter(row => row && row._status && row._status !== 'success');
+            if (failedRows.length) {
+                failedRows.forEach(row => {
+                    logger.error(`[${logname}]  - ${row['sks:objectName'] || ''} ${row['sks:ref'] || ''}: ${row._message || '失败'}`);
+                });
+            }
+            if (cond && Number(cond.failed) > 0) {
+                logger.error(`[${logname}]关联条件导入失败 ${cond.failed} 条`);
+            }
+        }
+
+        return { status, message, data: merged };
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
  * 导入Maximo对象配置（旧版接口 SKS.AUTOSCRIPT.LIBRARY）
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）
@@ -1115,6 +1292,11 @@ export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, 
             return null
         }
 
+        // 兼容「完整json」格式 {"maxapps":[单个应用信息]}：与 Web UI 一致，取数组首个元素作为请求体
+        const data = (body.data && Array.isArray(body.data.maxapps))
+            ? (body.data.maxapps[0] || body.data)
+            : body.data;
+
         const params = {
             _action: 'importAppInfo',
             _langcode: String(getConfig().langcode || 'zh').toUpperCase()
@@ -1133,7 +1315,7 @@ export async function importMaxAppInfo({fileName, logname, dmDeploySet = false, 
             url: '/api/script/SKS.AUTOSCRIPT.SCREENS',
             method: 'post',
             params,
-            data: body.data
+            data
         })
 
         logger.info(`[${logname}]收到响应`)
