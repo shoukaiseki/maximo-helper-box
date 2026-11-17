@@ -52,6 +52,110 @@
       { "name": "_deleteNotExists", "type": "string", "default": "", "description": "不存在则删除的路径清单，多个用逗号分隔，如 maxgroupList:_skschild_APPLICATIONAUTH" }
     ]
   },
+  "importMaxMlMaxapps": {
+    "command": "import-ml-maxapps",
+    "title": "应用描述多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxapps", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxapps", "dictLabel": "仅应用描述（mlmaxapps）" } ], "description": "仅执行应用描述多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlMaxlabels": {
+    "command": "import-ml-maxlabels",
+    "title": "应用 XML 标签多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxlabels", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxlabels", "dictLabel": "仅 XML 标签（mlmaxlabels）" } ], "description": "仅执行 XML 标签多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlMaxmodules": {
+    "command": "import-ml-maxmodules",
+    "title": "模块描述多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxmodules", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxmodules", "dictLabel": "仅模块描述（mlmaxmodules）" } ], "description": "仅执行模块描述多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlMaxmenu": {
+    "command": "import-ml-maxmenu",
+    "title": "菜单标题多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxmenu", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxmenu", "dictLabel": "仅菜单标题（mlmaxmenu）" } ], "description": "仅执行菜单标题多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlSigoption": {
+    "command": "import-ml-sigoption",
+    "title": "应用选项描述多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlsigoption", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlsigoption", "dictLabel": "仅应用选项（mlsigoption）" } ], "description": "仅执行应用选项描述多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlMaxobjectcfg": {
+    "command": "import-ml-maxobjectcfg",
+    "title": "对象描述多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxobjectcfg", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxobjectcfg", "dictLabel": "仅对象描述（mlmaxobjectcfg）" } ], "description": "仅执行对象描述多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxMlMaxattributecfg": {
+    "command": "import-ml-maxattributecfg",
+    "title": "属性 TITLE/REMARKS 多语言导入",
+    "interface": "SKS_MIGRATEAPI_CONFIGUR",
+    "remark": "remarks/importMaxMl.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_onlyFunctions", "type": "string", "default": "mlmaxattributecfg", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "mlmaxattributecfg", "dictLabel": "仅属性配置（mlmaxattributecfg）" } ], "description": "仅执行属性 TITLE/REMARKS 多语言功能" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "_allLangcode", "type": "boolean", "default": true, "htmlType": "boolSelect", "description": "按 sks:langdata 设置各语言值" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" }
+    ]
+  },
+  "importMaxCondition": {
+    "command": "import-condition",
+    "title": "条件表达式导入（新模式）",
+    "interface": "SKS_MIGRATEAPI_CONDITION",
+    "remark": "remarks/importMaxCondition.md",
+    "params": [
+      { "name": "_action", "type": "string", "default": "import", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "import", "dictLabel": "导入" } ], "description": "接口功能分发，固定为 import" },
+      { "name": "_langcode", "type": "string", "default": "", "htmlType": "select", "htmlTypeOptions": [ { "dictValue": "ZH", "dictLabel": "中文（ZH）" }, { "dictValue": "EN", "dictLabel": "英文（EN）" } ], "description": "会话语言代码，脚本会转大写" },
+      { "name": "dmDeploySet", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "迁移模式：MboSet 调用 setDMDeploySet(true)" },
+      { "name": "_errorAssert", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "任一行失败即抛异常中止；默认 false 累加继续" },
+      { "name": "_debug", "type": "boolean", "default": false, "htmlType": "boolSelect", "description": "返回 debugMsg 调试信息" }
+    ]
+  },
   "importMaxObjectV1": {
     "command": "import-object",
     "title": "对象配置导入（旧版接口）",

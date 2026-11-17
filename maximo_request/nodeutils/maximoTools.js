@@ -515,6 +515,227 @@ export async function importMaxSecurGroup({fileName, logname, dmDeploySet = fals
 }
 
 /**
+ * 多语言导入类型映射：命令后缀 → 统一入口 SKS_MIGRATEAPI_CONFIGUR 的 _onlyFunctions 与根级列表名
+ */
+export const ML_IMPORT_TYPES = {
+    maxapps: { fn: 'mlmaxapps', list: 'maxappsList', title: '应用描述' },
+    maxlabels: { fn: 'mlmaxlabels', list: 'maxlabelsList', title: '应用 XML 标签' },
+    maxmodules: { fn: 'mlmaxmodules', list: 'maxmodulesList', title: '模块描述' },
+    maxmenu: { fn: 'mlmaxmenu', list: 'maxmenuList', title: '菜单标题' },
+    sigoption: { fn: 'mlsigoption', list: 'sigoptionList', title: '应用选项描述' },
+    maxobjectcfg: { fn: 'mlmaxobjectcfg', list: 'maxobjectcfgList', title: '对象描述' },
+    maxattributecfg: { fn: 'mlmaxattributecfg', list: 'maxattributecfgList', title: '属性 TITLE/REMARKS' }
+};
+
+/**
+ * 多语言配置导入（统一调用 SKS_MIGRATEAPI_CONFIGUR，带 _onlyFunctions=ml*）
+ * 对应命令：import-ml-maxapps / import-ml-maxlabels / import-ml-maxmodules / import-ml-maxmenu
+ *          / import-ml-sigoption / import-ml-maxobjectcfg / import-ml-maxattributecfg
+ * 请求体支持导出结果原样回导（{<列表>:[...]}）、裸数组或单个行对象。
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 多语言配置文件（JSON）
+ * @param {string} options.logname - 日志打印名称
+ * @param {string} options.type - 类型后缀：maxapps / maxlabels / maxmodules / maxmenu / sigoption / maxobjectcfg / maxattributecfg
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式
+ * @param {boolean} [options.allLangcode=true] - 按 sks:langdata 设置各语言值（_allLangcode）
+ * @param {Object} [options.urlParams={}] - 覆盖/追加接口 URL 参数，优先级最高
+ * @returns {Promise<Object|string|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxMl({fileName, logname, type, dmDeploySet = false, allLangcode = true, urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    const typeConfig = ML_IMPORT_TYPES[String(type || '').toLowerCase()];
+    if (!typeConfig) {
+        logger.error(`[${logname}]不支持的多语言类型: ${type}，可选: ${Object.keys(ML_IMPORT_TYPES).join(' / ')}`);
+        return null;
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        // 裸数组或单行对象统一包装为 {<根级列表>:[...]}，已是标准结构则原样使用
+        const rootKey = typeConfig.list;
+        let data = body.data;
+        if (Array.isArray(data)) {
+            data = { [rootKey]: data };
+        } else if (data && typeof data === 'object') {
+            if (!Array.isArray(data[rootKey])) {
+                data = { [rootKey]: [data] };
+            }
+        } else {
+            logger.error(`[${logname}]请求体格式不支持，需要 {${rootKey}:[...]}、数组或单行对象`);
+            return null;
+        }
+
+        const params = {
+            _action: 'import',
+            _onlyFunctions: typeConfig.fn,
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        };
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true';
+        }
+        if (allLangcode) {
+            params._allLangcode = 'true';
+        }
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        logger.info(`[${logname}]开始发送请求... 功能=${typeConfig.fn}，根级列表=${rootKey}`);
+        const response = await request({
+            url: '/api/script/SKS_MIGRATEAPI_CONFIGUR',
+            method: 'post',
+            params,
+            data
+        });
+
+        let result = response;
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                return response;
+            }
+        }
+
+        if (result && typeof result === 'object') {
+            if (result.status === 'error') {
+                logger.error(`[${logname}]导入失败: ${result.message || '未知错误'}`);
+            } else {
+                logger.warn(`[${logname}]${result.message || '导入完成'}`);
+                const failSum = Number(result.data && result.data['sks:failSumTotal']) || 0;
+                if (failSum > 0) {
+                    const failedRows = (result.data.results || [])
+                        .filter(row => row && row._status === 'failed')
+                        .map(row => `${row['sks:objectName'] || ''}(${row['sks:ref'] || ''}) ${row._message || ''}`);
+                    logger.warn(`[${logname}]失败行数: ${failSum}，明细: ${failedRows.join('、')}`);
+                }
+            }
+        }
+        return result;
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
+ * 导入Maximo条件表达式（SKS_MIGRATEAPI_CONDITION）
+ * 请求体支持 {conditionList:[...]} 或裸数组（自动包装）。
+ * @param {Object} options - 配置选项
+ * @param {string} options.fileName - 条件配置文件（JSON）
+ * @param {string} options.logname - 日志打印名称
+ * @param {boolean} [options.dmDeploySet=false] - 迁移模式
+ * @param {boolean} [options.errorAssert=false] - 任一行失败即抛异常中止（_errorAssert）
+ * @param {Object} [options.urlParams={}] - 覆盖/追加接口 URL 参数，优先级最高
+ * @returns {Promise<Object|string|null>} 接口响应对象；请求失败返回 null
+ */
+export async function importMaxCondition({fileName, logname, dmDeploySet = false, errorAssert = false, urlParams = {}}) {
+    if(!logname||logname===""||logname===null){
+        logname = fileName
+    }
+    try {
+        const fileContent = readFileContent(fileName);
+        if (!fileContent) {
+            logger.error(`[${logname}]文件读取失败: ${fileName}`);
+            return null;
+        }
+
+        logger.info(`[${logname}]成功读取文件: ${fileName}`);
+        logger.info(`[${logname}]文件大小: ${fileContent.length} 字节`);
+
+        const body = parseRequestBody(fileName, fileContent, logname);
+        if (!body.ok) {
+            return null;
+        }
+
+        // 裸数组时自动包装为 {conditionList:[...]}
+        const data = Array.isArray(body.data) ? { conditionList: body.data } : body.data;
+
+        const params = {
+            _action: 'import',
+            _langcode: String(getConfig().langcode || 'zh').toUpperCase()
+        };
+        if (dmDeploySet) {
+            params.dmDeploySet = 'true';
+        }
+        if (errorAssert) {
+            params._errorAssert = 'true';
+        }
+
+        // urlParams 最后合并，允许覆盖以上默认参数
+        Object.assign(params, urlParams);
+
+        logger.info(`[${logname}]开始发送请求...`);
+        const response = await request({
+            url: '/api/script/SKS_MIGRATEAPI_CONDITION',
+            method: 'post',
+            params,
+            data
+        });
+
+        let result = response;
+        if (typeof response === 'string') {
+            const text = response.replace(/^\uFEFF/, '').trim();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                logger.warn(`[${logname}]响应不是合法 JSON，按原始字符串返回`);
+                return response;
+            }
+        }
+
+        if (result && typeof result === 'object') {
+            if (result.status === 'error') {
+                logger.error(`[${logname}]导入失败: ${result.message || '未知错误'}`);
+            } else {
+                logger.warn(`[${logname}]${result.message || '导入完成'}`);
+                const failSum = Number(result.data && result.data['sks:failSumTotal']) || 0;
+                if (failSum > 0) {
+                    const failedRows = (result.data.results || [])
+                        .filter(row => row && row._status === 'failed')
+                        .map(row => `${row['sks:ref'] || ''} ${row._message || ''}`);
+                    logger.warn(`[${logname}]失败行数: ${failSum}，明细: ${failedRows.join('、')}`);
+                }
+            }
+        }
+        return result;
+    } catch (error) {
+        logger.error(`[${logname}]请求出错:`, error.message)
+        if (error.response) {
+            logger.error(`[${logname}]服务器返回错误:`, error.response.data)
+        } else if (error.request) {
+            logger.error(`[${logname}]请求已发出但无响应`)
+        } else {
+            logger.error(`[${logname}]错误详情:`, error)
+        }
+        return null
+    }
+}
+
+/**
  * 导入Maximo对象配置（旧版接口 SKS.AUTOSCRIPT.LIBRARY）
  * @param {Object} options - 配置选项
  * @param {string} options.fileName - 配置文件名（JSON或XML）

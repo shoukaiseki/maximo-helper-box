@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath, URL } from 'url';
 import { checkAndCreateConfig, getConfigDir, loadConfig } from './nodeutils/config.js';
 import { loadImportConfig, getImportConfigItem } from './nodeutils/importConfig.js';
-import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxMessage, importMaxWorkflow, importMaxSecurGroup, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
+import { callMaxScript, importMaxObject, importMaxObjectV1, importMaxMessage, importMaxWorkflow, importMaxSecurGroup, importMaxMl, importMaxCondition, ML_IMPORT_TYPES, importMaxPresentation, importMaxDomain, importMaxAutoKey, importMaxScript, importMaxAppInfo, importMaxAppInfoV1, importMaxIntObject } from './nodeutils/maximoTools.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = new URL('.', import.meta.url).pathname;
@@ -85,7 +85,7 @@ function printImportResult(result, unit) {
 
 
 // 兼容位置参数写法：sks-maximo import-xxx <fileName> <env>
-const importCommands = ['import-object', 'import-object-v2', 'import-message', 'import-workflow', 'import-securgroup', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
+const importCommands = ['import-object', 'import-object-v2', 'import-message', 'import-workflow', 'import-securgroup', 'import-condition', 'import-ml-maxapps', 'import-ml-maxlabels', 'import-ml-maxmodules', 'import-ml-maxmenu', 'import-ml-sigoption', 'import-ml-maxobjectcfg', 'import-ml-maxattributecfg', 'import-appinfo', 'import-appinfo-v1', 'import-presentation', 'import-script', 'import-domain', 'import-maxintobject', 'import-autokey'];
 if (!envSpecified && importCommands.includes(cmd)) {
   const positionalEnv = filteredArgs[2];
   if (positionalEnv && !positionalEnv.startsWith('-')) {
@@ -106,6 +106,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  sks-maximo import-message <fileName>   # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
   console.log('  sks-maximo import-workflow <fileName>  # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
   console.log('  sks-maximo import-securgroup <fileName> # 导入安全组(SKS_MIGRATEAPI_SECURGROUP)');
+  console.log('  sks-maximo import-ml-<type> <fileName> # 导入多语言(统一走 SKS_MIGRATEAPI_CONFIGUR)');
+  console.log('  sks-maximo import-condition <fileName> # 导入条件表达式(SKS_MIGRATEAPI_CONDITION)');
   console.log('  sks-maximo import-appinfo <fileName>   # 导入应用信息配置(新接口)');
   console.log('  sks-maximo import-appinfo-v1 <fileName> # 导入应用信息配置(旧版接口)');
   console.log('  sks-maximo import-presentation <fileName> # 导入应用XML配置');
@@ -128,6 +130,8 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
   console.log('  import-message          # 导入消息配置(新模式 SKS_MIGRATEAPI_MAXMESSAGES)');
   console.log('  import-workflow         # 导入工作流(SKS.AUTOSCRIPT.WORKFLOW)');
   console.log('  import-securgroup       # 导入安全组(SKS_MIGRATEAPI_SECURGROUP)');
+  console.log('  import-ml-<type>        # 导入多语言: maxapps|maxlabels|maxmodules|maxmenu|sigoption|maxobjectcfg|maxattributecfg');
+  console.log('  import-condition        # 导入条件表达式(SKS_MIGRATEAPI_CONDITION)');
   console.log('  import-appinfo          # 导入应用信息配置(新接口 importMaxAppInfo)');
   console.log('  import-appinfo-v1       # 导入应用信息配置(旧版接口 importMaxAppInfoV1)');
   console.log('  import-presentation     # 导入应用XML配置');
@@ -401,6 +405,94 @@ if (!cmd && !webMode || ['-h', '--help', '-?', '--version', '-v'].includes(cmd))
         if (cond && Number(cond.failed) > 0) {
           console.error(`  关联条件导入失败 ${cond.failed} 条`);
         }
+      } else {
+        console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd.startsWith('import-ml-')) {
+  const mlType = cmd.slice('import-ml-'.length);
+  if (!ML_IMPORT_TYPES[mlType]) {
+    console.error(`错误: 不支持的多语言类型: ${mlType || '(空)'}`);
+    console.log(`可选类型: ${Object.keys(ML_IMPORT_TYPES).join(' / ')}`);
+    process.exit(1);
+  }
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log(`用法: sks-maximo ${cmd} <fileName> [-e env] [-l logname] [--dm-deploy-set] [--no-all-langcode]`);
+    process.exit(1);
+  }
+  let logname = null;
+  let dmDeploySet = false;
+  let allLangcode = true;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    const arg = filteredArgs[i];
+    if (arg === '--logname' || arg === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    } else if (arg === '--dm-deploy-set') {
+      dmDeploySet = true;
+    } else if (arg === '--no-all-langcode') {
+      allLangcode = false;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxMl({ fileName, logname: logname || fileName, type: mlType, dmDeploySet, allLangcode, urlParams });
+      if (result && result.status !== 'error') {
+        console.log(result.message || '导入成功');
+        printImportResult(result, '行');
+        const rows = (result.data && result.data.results) || [];
+        rows.filter(r => r && r._status && r._status !== 'success').forEach(r => {
+          console.error(`  - ${r['sks:objectName'] || ''} ${r['sks:ref'] || ''}: ${r._message || '失败'}`);
+        });
+      } else {
+        console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error('导入出错:', error.message);
+      process.exit(1);
+    }
+  })();
+} else if (cmd === 'import-condition') {
+  const fileName = filteredArgs[1];
+  if (!fileName) {
+    console.error('错误: 请指定 JSON 文件路径');
+    console.log('用法: sks-maximo import-condition <fileName> [-e env] [-l logname] [--dm-deploy-set] [--error-assert]');
+    process.exit(1);
+  }
+  let logname = null;
+  let dmDeploySet = false;
+  let errorAssert = false;
+  for (let i = 2; i < filteredArgs.length; i++) {
+    const arg = filteredArgs[i];
+    if (arg === '--logname' || arg === '-l') {
+      logname = filteredArgs[i + 1];
+      i++;
+    } else if (arg === '--dm-deploy-set') {
+      dmDeploySet = true;
+    } else if (arg === '--error-assert') {
+      errorAssert = true;
+    }
+  }
+  loadConfig(globalEnv);
+  (async () => {
+    try {
+      const result = await importMaxCondition({ fileName, logname: logname || fileName, dmDeploySet, errorAssert, urlParams });
+      if (result && result.status !== 'error') {
+        console.log(result.message || '导入成功');
+        printImportResult(result, '条条件');
+        const rows = (result.data && result.data.results) || [];
+        rows.filter(r => r && r._status && r._status !== 'success').forEach(r => {
+          console.error(`  - ${r['sks:ref'] || ''}: ${r._message || '失败'}`);
+        });
       } else {
         console.error(result && result.message ? `导入失败: ${result.message}` : '导入失败');
         process.exit(1);

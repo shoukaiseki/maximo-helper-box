@@ -12,6 +12,8 @@
 | `sks-maximo import-message <fileName>` | 导入消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`） |
 | `sks-maximo import-workflow <fileName>` | 导入工作流（`SKS.AUTOSCRIPT.WORKFLOW`） |
 | `sks-maximo import-securgroup <fileName>` | 导入安全组（新模式 `SKS_MIGRATEAPI_SECURGROUP`） |
+| `sks-maximo import-ml-<type> <fileName>` | 导入多语言配置（统一走 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-condition <fileName>` | 导入条件表达式（`SKS_MIGRATEAPI_CONDITION`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用XML配置 |
@@ -253,6 +255,63 @@ sks-maximo import-securgroup <fileName> [-e env] [-l logname] [--batch-size <n>]
 ```
 
 失败行会追加打印，形如 `  - MAXGROUP SKS_GROUP1: <失败原因>`；`status === "error"` 时退出码为 `1`。
+
+---
+
+### 3.11 导入多语言配置
+
+```bash
+sks-maximo import-ml-<type> <fileName> [-e env] [-l logname] [--dm-deploy-set] [--no-all-langcode]
+```
+
+**说明：** 七种多语言配置统一调用 `SKS_MIGRATEAPI_CONFIGUR`，通过 `_onlyFunctions` 只执行对应功能。默认参数为 `_action=import&_onlyFunctions=<type>&_langcode=<环境值>&_allLangcode=true`。
+
+| type | `_onlyFunctions` | 根级列表 | 多语言字段 |
+|------|------------------|----------|-----------|
+| `maxapps` | `mlmaxapps` | `maxappsList` | MAXAPPS.`DESCRIPTION` |
+| `maxlabels` | `mlmaxlabels` | `maxlabelsList` | MAXLABELS.`VALUE` |
+| `maxmodules` | `mlmaxmodules` | `maxmodulesList` | MAXMODULES.`DESCRIPTION` |
+| `maxmenu` | `mlmaxmenu` | `maxmenuList` | MAXMENU.`HEADERDESCRIPTION` |
+| `sigoption` | `mlsigoption` | `sigoptionList` | SIGOPTION.`DESCRIPTION` |
+| `maxobjectcfg` | `mlmaxobjectcfg` | `maxobjectcfgList` | MAXOBJECTCFG.`DESCRIPTION` |
+| `maxattributecfg` | `mlmaxattributecfg` | `maxattributecfgList` | MAXATTRIBUTECFG.`TITLE`/`REMARKS` |
+
+请求体支持导出结果原样回导（`{<根级列表>:[...]}`）、裸数组或单行对象（自动包装）。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 多语言 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--dm-deploy-set` | 迁移模式（`setDMDeploySet(true)`） | 否 |
+| `--no-all-langcode` | 关闭 `_allLangcode` | 否 |
+| `--params` | URL 参数覆盖（JSON），优先级最高 | 否 |
+
+示例：
+
+```bash
+sks-maximo import-ml-maxlabels labels.json -e loc
+sks-maximo import-ml-maxattributecfg attributecfg.json -e loc --dm-deploy-set
+```
+
+---
+
+### 3.12 导入条件表达式
+
+```bash
+sks-maximo import-condition <fileName> [-e env] [-l logname] [--dm-deploy-set] [--error-assert]
+```
+
+**说明：** 导入 `CONDITION`，走新模式 `SKS_MIGRATEAPI_CONDITION`。默认参数 `_action=import&_langcode=<环境值>`。请求体支持 `{conditionList:[...]}` 或裸数组，唯一键 `CONDITIONNUM`。
+
+| 参数 | 说明 | 必填 |
+|------|------|------|
+| `<fileName>` | 条件 JSON 文件路径 | 是 |
+| `-e` / `--env` | 指定环境（默认 local） | 否 |
+| `-l` / `--logname` | 日志打印名称 | 否 |
+| `--dm-deploy-set` | 迁移模式（`setDMDeploySet(true)`） | 否 |
+| `--error-assert` | 任一行失败即中止（`_errorAssert`） | 否 |
+| `--params` | URL 参数覆盖（JSON），优先级最高 | 否 |
 
 ---
 

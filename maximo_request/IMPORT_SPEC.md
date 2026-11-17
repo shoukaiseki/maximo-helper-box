@@ -100,6 +100,8 @@ URL 参数合并优先级（从低到高）：代码默认 → `_langcode` → �
 | `import-message` | `importMaxMessage` | `SKS_MIGRATEAPI_MAXMESSAGES` |
 | `import-workflow` | `importMaxWorkflow` | `SKS.AUTOSCRIPT.WORKFLOW`（`_type=workflows&_impMode=add&_enable=true`，返回 `summary:{total,success,failed}`） |
 | `import-securgroup` | `importMaxSecurGroup` | `SKS_MIGRATEAPI_SECURGROUP`（`{conditionList,maxgroupList}` / `{groups}` / 裸数组，默认 `_ignoreList=conditionList`） |
+| `import-ml-<type>` | `importMaxMl` | `SKS_MIGRATEAPI_CONFIGUR`（`_onlyFunctions=ml*`，`_allLangcode=true`；type: maxapps/maxlabels/maxmodules/maxmenu/sigoption/maxobjectcfg/maxattributecfg） |
+| `import-condition` | `importMaxCondition` | `SKS_MIGRATEAPI_CONDITION`（`{conditionList}` / 裸数组） |
 | `import-appinfo` | `importMaxAppInfo` | `SKS.AUTOSCRIPT.SCREENS`（`_action=importAppInfo`） |
 | `import-appinfo-v1` | `importMaxAppInfoV1` | `SKS_IMP_MAXAPPINFO` |
 | `import-presentation` | `importMaxPresentation` | `SKS.AUTOSCRIPT.SCREENS`（XML） |

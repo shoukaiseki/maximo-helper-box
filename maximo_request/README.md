@@ -53,6 +53,8 @@ sks-maximo import-presentation LIBRARY_EN.xml -e prod_en
 | `sks-maximo import-message <fileName>` | 导入消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`） |
 | `sks-maximo import-workflow <fileName>` | 导入工作流（`SKS.AUTOSCRIPT.WORKFLOW`） |
 | `sks-maximo import-securgroup <fileName>` | 导入安全组（新模式 `SKS_MIGRATEAPI_SECURGROUP`） |
+| `sks-maximo import-ml-<type> <fileName>` | 导入多语言配置（统一走 `SKS_MIGRATEAPI_CONFIGUR`） |
+| `sks-maximo import-condition <fileName>` | 导入条件表达式（`SKS_MIGRATEAPI_CONDITION`） |
 | `sks-maximo import-appinfo <fileName>` | 导入应用信息配置（新接口） |
 | `sks-maximo import-appinfo-v1 <fileName>` | 导入应用信息配置（旧版接口） |
 | `sks-maximo import-presentation <fileName>` | 导入应用 XML 配置 |
@@ -222,6 +224,8 @@ fileUtils.readFileContent('test.txt');
 | importMaxMessage | 导入 Maximo 消息配置（新模式 `SKS_MIGRATEAPI_MAXMESSAGES`，返回响应对象） |
 | importMaxWorkflow | 导入 Maximo 工作流（`SKS.AUTOSCRIPT.WORKFLOW`，默认 `_type=workflows&_action=import&_impMode=add&_enable=true`，返回响应对象） |
 | importMaxSecurGroup | 导入 Maximo 安全组（新模式 `SKS_MIGRATEAPI_SECURGROUP`，支持 `{conditionList,maxgroupList}` / `{groups}` / 裸数组，返回响应对象） |
+| importMaxMl | 导入多语言配置（统一走 `SKS_MIGRATEAPI_CONFIGUR` + `_onlyFunctions=ml*`，type 支持 maxapps/maxlabels/maxmodules/maxmenu/sigoption/maxobjectcfg/maxattributecfg） |
+| importMaxCondition | 导入条件表达式（新模式 `SKS_MIGRATEAPI_CONDITION`，支持 `{conditionList}` / 裸数组） |
 | importMaxPresentation | 导入应用 XML 配置 |
 | importMaxDomain | 导入域配置 |
 | importMaxAutoKey | 导入 AutoKey 配置 |
